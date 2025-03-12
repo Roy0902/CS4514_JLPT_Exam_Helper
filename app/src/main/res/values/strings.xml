@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">CS4514_JLPT_Exam_Helper</string>
+
+    <!-- Onboarding Activity-->
+    <string name="skip">Skip</string>
+    <string name="login_register">Login / Register</string>
+
+    <!-- Onboarding Title -->
+    <string name = "onboarding_title_1">Master Japanese with JLPT Success</string>
+    <string name = "onboarding_title_2">Login for a World of Features</string>
+    <string name = "onboarding_title_3">Welcome to Your Japanese Learning Journey</string>
+
+    <!-- Onboarding Description -->
+    <string name = "onboarding_desc_1">Unlock your potential to learn Japanese effectively and achieve your JLPT goals.</string>
+    <string name = "onboarding_desc_2">By logging in, you gain access to a variety of exclusive features that enhance your learning experience.</string>
+    <string name = "onboarding_desc_3">Time to learn Japanese! Keep it fun and stay motivated. Have a great experience!</string>
+
+    <!-- Home -->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="guest">Continues as guest</string>
+    <string name="home_description">Master Japanese with JLPT Focus!</string>
+
+    <!-- Sign In -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up_message">Don\'t have an account? Sign up now!</string>
+    <string name="required">*Required</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="back">Back</string>
+    <string name="or">or</string>
+
+    <!-- OTP -->
+    <string name="enter_email_description">Enter your email to receive vertification code</string>
+    <string name="send_code">Send code</string>
+    <string name="enter_otp_description">Enter the OTP sent to</string>
+
+    <!-- Sign Up -->
+    <string name="step_counter_1_3">Step 1 of 3</string>
+    <string name="step_counter_2_3">Step 2 of 3</string>
+    <string name="step_counter_3_3">Step 3 of 3</string>
+    <string name="user_name">User Name</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="edit_profile_description">Provide the required information to complete the registration.</string>
+    <string name="start">Start</string>
+    <string name="sign_up_successfully_title">Sign Up Successfully!</string>
+    <string name="sign_up_successfully_description">It is time to learn Japanese and master JLPT exam!</string>
+
+    <!-- Reset Password -->
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="password_changed_title">Password changed!</string>
+    <string name="password_changed_body">Your password has been changed successfully!</string>
+    <string name="resend_otp">Did not receive the OTP? Resend OTP</string>
+    <string name="reset_password_description">Enter the new password below to change your password</string>
+    <string name="reset_password_successfully_title">Password Changed!</string>
+    <string name="reset_password_successfully_description">Your password has been changed successfully.</string>
+
+    <!-- Dashboard -->
+    <string name="home">Home</string>
+
+    <!-- Home -->
+    <string name="beginner">Beginner</string>
+
+    <!-- Beginner -->
+    <string name="learning"><u>Learning</u></string>
+    <string name="hiragana_katakana"><![CDATA[Hiragana & Katakana]]></string>
+    <string name="vocabulary">Vocabulary</string>
+    <string name="grammar">Grammar</string>
+
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment">
+        <action
+            android:id="@+id/action_home_to_beginner"
+            app:destination="@id/beginnerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/beginnerFragment"
+        android:name="com.example.cs4514_jlpt_exam_helper.learning.fragment.BeginnerLevelFragment">
+        <argument
+            android:name="level"
+            app:argType="string"
+            android:defaultValue="Beginner"/>
+    </fragment>
+
+</navigation>

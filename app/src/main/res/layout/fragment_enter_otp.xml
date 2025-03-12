@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_enterOtpDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:gravity="center"
+                android:text=""
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.mukeshsolanki.OtpView
+                android:id="@+id/et_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:inputType="number"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:OtpLineColor="@color/black"
+                app:OtpHideLineWhenFilled="true"
+                app:OtpItemCount="6"
+                app:OtpItemSpacing="6dp"
+                app:OtpViewType="rectangle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_enterOtpDescription"
+                app:layout_constraintBottom_toTopOf="@id/error_otp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/red_1"
+                android:text=""
+                app:layout_constraintStart_toStartOf="@id/et_otp"
+                app:layout_constraintTop_toBottomOf="@id/et_otp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_verify_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/gradient_sign_up"
+                android:text = "@string/verify_email"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/et_otp"
+                app:layout_constraintTop_toBottomOf="@id/et_otp"/>
+
+            <TextView
+                android:id="@+id/btn_resend_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/resend_otp"
+                android:textColor="@color/blue_1"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/btn_verify_email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

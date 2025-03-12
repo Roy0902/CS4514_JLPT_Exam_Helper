@@ -1,0 +1,49 @@
+[versions]
+agp = "8.3.0"
+coreSplashscreen = "1.0.1"
+dotsindicator = "5.1.0"
+extensions = "1.1.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+loopingviewpager = "1.0.0"
+lottie = "6.4.0"
+material = "1.12.0"
+materialVersion = "1.11.0"
+navigationFragment = "2.7.7"
+navigationUi = "2.7.7"
+otpviewCompose = "3.1.0"
+retrofit = "2.11.0"
+rxandroid = "2.1.1"
+rxjava = "2.2.21"
+viewpager2 = "1.1.0"
+viewpagerdotsindicator = "4.1.2"
+
+[libraries]
+adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "retrofit" }
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+loopingviewpager = { module = "io.github.kenilt:loopingviewpager", version.ref = "loopingviewpager" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+material-v1110 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationFragment" }
+otpview = { module = "com.github.mukeshsolanki.android-otpview-pinview:otpview", version.ref = "otpviewCompose" }
+otpview-compose = { module = "com.github.mukeshsolanki.android-otpview-pinview:otpview-compose", version.ref = "otpviewCompose" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+viewmodel = { module = "android.arch.lifecycle:viewmodel", version.ref = "extensions" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+viewpagerdotsindicator = { module = "com.tbuonomo.andrui:viewpagerdotsindicator", version.ref = "viewpagerdotsindicator" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+

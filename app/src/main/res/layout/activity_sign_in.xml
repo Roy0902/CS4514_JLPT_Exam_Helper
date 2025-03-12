@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image_background_1">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:drawableStart="@drawable/ic_left"
+        android:textColor="@color/black"
+        android:text="@string/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/img_appLogo"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_appLogo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/image_app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_signIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/sign_in"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/blue_1"
+        app:layout_constraintStart_toStartOf="@id/img_appLogo"
+        app:layout_constraintEnd_toEndOf="@id/img_appLogo"
+        app:layout_constraintTop_toBottomOf="@id/img_appLogo"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/welcome_back"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/img_appLogo"
+        app:layout_constraintEnd_toEndOf="@id/img_appLogo"
+        app:layout_constraintTop_toBottomOf="@id/text_signIn"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/error_signInFail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="15dp"
+        android:drawablePadding="5dp"
+        android:background="@drawable/background_error_message"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:drawableStartCompat="@drawable/ic_error"
+        app:layout_constraintStart_toStartOf="@id/et_email"
+        app:layout_constraintTop_toBottomOf="@id/text_welcome"
+        app:layout_constraintBottom_toTopOf="@id/et_email"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:hint="@string/email"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/black"
+        android:background="@drawable/background_input"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/custom_ic_email"
+        android:drawablePadding="10dp"
+        app:layout_constraintStart_toStartOf="@id/img_appLogo"
+        app:layout_constraintEnd_toEndOf="@id/img_appLogo"
+        app:layout_constraintTop_toBottomOf="@id/error_signInFail"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/error_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/required"
+        android:textColor="@color/red_2"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/et_email"
+        app:layout_constraintTop_toBottomOf="@id/et_email"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_ic_lock"
+        android:drawablePadding="10dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@id/img_appLogo"
+        app:layout_constraintStart_toStartOf="@id/img_appLogo"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/error_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/required"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:textColor="@color/red_1"
+        app:layout_constraintStart_toStartOf="@id/et_password"
+        app:layout_constraintTop_toBottomOf="@id/et_password"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_forgotPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/forgot_password"
+        android:textStyle="bold"
+        android:textColor="@color/blue_1"
+        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_signIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/gradient_sign_in"
+        android:text="@string/sign_in"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/img_appLogo"
+        app:layout_constraintEnd_toEndOf="@id/img_appLogo"
+        app:layout_constraintTop_toBottomOf="@id/et_password"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_break"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/or"
+        android:textColor="@color/gray"
+        android:gravity="center"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_signIn" />
+
+    <View
+        android:layout_width="170dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toEndOf="@id/text_break"
+        app:layout_constraintTop_toTopOf="@id/text_break"
+        app:layout_constraintBottom_toBottomOf="@id/text_break"/>
+
+    <View
+        android:layout_width="170dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/text_break"
+        app:layout_constraintTop_toTopOf="@id/text_break"
+        app:layout_constraintBottom_toBottomOf="@id/text_break"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_signUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/gradient_sign_up"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/text_break"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_animation"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_animation"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
