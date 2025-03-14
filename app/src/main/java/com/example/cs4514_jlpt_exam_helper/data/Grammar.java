@@ -1,0 +1,27 @@
+package com.example.cs4514_jlpt_exam_helper.data;
+
+public class Grammar {
+    private String rule;
+    private String explanation;
+
+    public Grammar(String grammar, String explanation){
+        this.rule = grammar;
+        this.explanation = explanation;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+}

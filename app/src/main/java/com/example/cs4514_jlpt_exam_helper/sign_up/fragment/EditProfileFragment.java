@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.api.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentEditProfileBinding;
 import com.example.cs4514_jlpt_exam_helper.sign_up.viewmodel.SignUpViewModel;
 

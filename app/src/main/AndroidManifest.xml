@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/image_app_logo"
         android:networkSecurityConfig="@xml/network_security_config"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -60,6 +60,30 @@
 
         <activity
             android:name=".dashboard.activity.DashboardActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".learning.activity.SubtopicActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".learning.activity.HiraganaActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".learning.activity.GrammarActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".dictionary.activity.DictionaryActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false">
         </activity>

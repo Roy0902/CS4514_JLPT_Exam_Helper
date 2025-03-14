@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.api.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityOnboardingBinding;
 import com.example.cs4514_jlpt_exam_helper.onboarding.adapter.OnboardingViewPagerAdapter;
 
@@ -51,12 +51,12 @@ public class OnboardingActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_start) {
-            goHomePage();
+            goUserEntryPage();
         }
     }
 
-    public void goHomePage(){
-        SharedPreferences pref = getSharedPreferences("Session", MODE_PRIVATE);
+    public void goUserEntryPage(){
+        SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(Constant.key_is_first_time_used, false);
         editor.apply();

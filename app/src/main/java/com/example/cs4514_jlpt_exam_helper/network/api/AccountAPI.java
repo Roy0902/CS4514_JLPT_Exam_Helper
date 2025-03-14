@@ -1,0 +1,24 @@
+package com.example.cs4514_jlpt_exam_helper.network.api;
+
+import com.example.cs4514_jlpt_exam_helper.data.Account;
+import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
+
+import io.reactivex.Single;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+public interface AccountAPI {
+
+    @POST("/account/sign-up")
+    Single<ResponseBean<String>> signUp(@Body Account request);
+
+    @POST("/account/reset-password")
+    Single<ResponseBean<String>> resetPassword(@Body Account request);
+
+    @POST("/account/sign-in")
+    Single<ResponseBean<SessionToken>> signIn(@Body Account request);
+
+    @POST("/account/verify-session-token")
+    Single<ResponseBean<SessionToken>> verifySessionToken(@Body SessionToken request);
+}

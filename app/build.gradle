@@ -59,4 +59,9 @@ dependencies {
     implementation libs.lottie
     implementation libs.navigation.fragment
     implementation libs.androidx.navigation.ui
+    implementation libs.androidx.fragment
+
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.10.1'
 }

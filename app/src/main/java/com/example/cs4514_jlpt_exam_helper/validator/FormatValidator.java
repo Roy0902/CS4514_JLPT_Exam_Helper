@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.validator;
 
-import com.example.cs4514_jlpt_exam_helper.api.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

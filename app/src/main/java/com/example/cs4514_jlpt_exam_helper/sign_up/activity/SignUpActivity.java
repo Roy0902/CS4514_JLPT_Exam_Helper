@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
+        binding.viewPager.setUserInputEnabled(false);
     }
 
     public void setUpViewAdapter(){

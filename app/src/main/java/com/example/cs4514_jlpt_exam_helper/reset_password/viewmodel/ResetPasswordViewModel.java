@@ -3,11 +3,11 @@ package com.example.cs4514_jlpt_exam_helper.reset_password.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.api.data.Account;
-import com.example.cs4514_jlpt_exam_helper.api.data.Otp;
-import com.example.cs4514_jlpt_exam_helper.api.bean.ResponseBean;
-import com.example.cs4514_jlpt_exam_helper.api.repository.AccountRepository;
-import com.example.cs4514_jlpt_exam_helper.api.repository.OtpRepository;
+import com.example.cs4514_jlpt_exam_helper.data.Account;
+import com.example.cs4514_jlpt_exam_helper.data.Otp;
+import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
+import com.example.cs4514_jlpt_exam_helper.network.repository.OtpRepository;
 import com.example.cs4514_jlpt_exam_helper.validator.EmailValidator;
 import com.example.cs4514_jlpt_exam_helper.validator.PasswordValidator;
 import com.example.cs4514_jlpt_exam_helper.validator.ValidationResult;

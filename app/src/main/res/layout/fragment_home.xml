@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,12 +39,92 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <FrameLayout
-        android:id="@+id/level_content_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/top_navigation_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/home_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_navigation_bar"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_dictionary"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:src="@drawable/image_dictionary"
+        android:background="@drawable/background_image"
+        app:layout_constraintBottom_toTopOf="@id/dictionary_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/image_forum" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dictionary_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dictionary"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/image_dictionary"
+        app:layout_constraintEnd_toEndOf="@id/image_dictionary" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_forum"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:src="@drawable/image_forum"
+        android:background="@drawable/background_image"
+        app:layout_constraintBottom_toTopOf="@id/text_forum"
+        app:layout_constraintStart_toEndOf="@id/image_dictionary"
+        app:layout_constraintEnd_toStartOf="@id/image_web_article"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_forum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/forum"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/image_forum"
+        app:layout_constraintEnd_toEndOf="@id/image_forum" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_web_article"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@drawable/background_image"
+        android:src="@drawable/image_article"
+        app:layout_constraintBottom_toTopOf="@id/text_web_article"
+        app:layout_constraintStart_toEndOf="@id/image_forum"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_web_article"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/web_articles"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/image_web_article"
+        app:layout_constraintEnd_toEndOf="@id/image_web_article" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

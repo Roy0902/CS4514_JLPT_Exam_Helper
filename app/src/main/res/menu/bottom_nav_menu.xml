@@ -2,6 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/custom_ic_home"
-        android:title="@string/home"/>
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/nav_practice"
+        android:icon="@drawable/image_timer"
+        android:title="@string/practice" />
+    <item
+        android:id="@+id/nav_plans"
+        android:icon="@drawable/image_plan"
+        android:title="@string/plans" />
+    <item
+        android:id="@+id/nav_notes"
+        android:icon="@drawable/image_bookmark"
+        android:title="@string/notes" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/image_setting"
+        android:title="@string/settings" />
 </menu>

@@ -5,10 +5,10 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.api.bean.ResponseBean;
-import com.example.cs4514_jlpt_exam_helper.api.data.Account;
-import com.example.cs4514_jlpt_exam_helper.api.data.SessionToken;
-import com.example.cs4514_jlpt_exam_helper.api.repository.AccountRepository;
+import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.data.Account;
+import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
+import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
 import com.example.cs4514_jlpt_exam_helper.validator.ValidationResult;
 
 import io.reactivex.Single;

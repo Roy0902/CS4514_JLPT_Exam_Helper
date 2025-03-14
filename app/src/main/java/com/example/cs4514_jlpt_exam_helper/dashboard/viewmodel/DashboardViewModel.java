@@ -1,17 +1,14 @@
 package com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.api.bean.ResponseBean;
-import com.example.cs4514_jlpt_exam_helper.api.data.Account;
-import com.example.cs4514_jlpt_exam_helper.api.data.Constant;
-import com.example.cs4514_jlpt_exam_helper.api.data.SessionToken;
-import com.example.cs4514_jlpt_exam_helper.api.repository.AccountRepository;
-import com.example.cs4514_jlpt_exam_helper.validator.ValidationResult;
+import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
+import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -36,8 +33,11 @@ public class DashboardViewModel extends ViewModel {
         this.validToken = validToken;
     }
 
-    public void verifySessionToken(String token, Context context){
-        if(token == null || token.isEmpty()){
+    public void verifySessionToken(Context context){
+        String token = context.getSharedPreferences(Constant.key_session_pref, Context.MODE_PRIVATE)
+                .getString(Constant.key_session_token, Constant.error_not_found);
+
+        if(token.equals(Constant.error_not_found)){
             validToken.setValue(false);
             return;
         }
