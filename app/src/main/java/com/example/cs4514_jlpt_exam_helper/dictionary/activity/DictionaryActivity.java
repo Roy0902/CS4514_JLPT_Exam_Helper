@@ -4,7 +4,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,9 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.cs4514_jlpt_exam_helper.GoogleTTSManager;
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityDictionaryBinding;
-import com.example.cs4514_jlpt_exam_helper.dictionary.DictionaryAdapter;
-import com.example.cs4514_jlpt_exam_helper.dictionary.DictionaryViewModel;
-import com.example.cs4514_jlpt_exam_helper.network.repository.GoogleTTSRepository;
+import com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter;
+import com.example.cs4514_jlpt_exam_helper.dictionary.viewmodel.DictionaryViewModel;
 
 public class DictionaryActivity extends AppCompatActivity implements View.OnClickListener, DictionaryAdapter.OnPlayClickListener {
     private DictionaryViewModel viewModel;

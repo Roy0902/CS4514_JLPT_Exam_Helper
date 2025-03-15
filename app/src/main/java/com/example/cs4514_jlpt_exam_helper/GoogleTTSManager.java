@@ -4,9 +4,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModel;
-
-import com.example.cs4514_jlpt_exam_helper.dictionary.JishoResponse;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.GoogleTTSRepository;
 
@@ -14,7 +11,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;

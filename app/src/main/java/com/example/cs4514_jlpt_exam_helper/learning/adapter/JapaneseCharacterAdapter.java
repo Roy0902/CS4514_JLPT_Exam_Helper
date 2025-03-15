@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.data.Category;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 
 import java.util.List;
@@ -36,8 +35,8 @@ public class JapaneseCharacterAdapter extends RecyclerView.Adapter<JapaneseChara
     @Override
     public void onBindViewHolder(JapaneseViewHolder holder, int position) {
         JapaneseCharacter japaneseCharacter = japaneseCharacterList.get(position);
-        holder.hiraganaTextView.setText(japaneseCharacter.getJapanese_character());
-        holder.pronunicationTextView.setText(japaneseCharacter.getPronunciation());
+        holder.textHiragana.setText(japaneseCharacter.getJapanese_character());
+        holder.textPronunciation.setText(japaneseCharacter.getPronunciation());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +55,13 @@ public class JapaneseCharacterAdapter extends RecyclerView.Adapter<JapaneseChara
     }
 
     public static class JapaneseViewHolder extends RecyclerView.ViewHolder {
-        public TextView hiraganaTextView;
-        public TextView pronunicationTextView;
+        public TextView textHiragana;
+        public TextView textPronunciation;
 
         public JapaneseViewHolder(View itemView) {
             super(itemView);
-            hiraganaTextView = itemView.findViewById(R.id.text_hiragana);
-            pronunicationTextView = itemView.findViewById(R.id.text_pronunciation);
+            textHiragana = itemView.findViewById(R.id.text_hiragana);
+            textPronunciation = itemView.findViewById(R.id.text_pronunciation);
         }
     }
 }

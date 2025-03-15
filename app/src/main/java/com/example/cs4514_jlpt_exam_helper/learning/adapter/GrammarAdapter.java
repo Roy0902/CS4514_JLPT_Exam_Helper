@@ -28,8 +28,8 @@ public class GrammarAdapter extends RecyclerView.Adapter<GrammarAdapter.GrammarV
     @Override
     public void onBindViewHolder(GrammarViewHolder holder, int position) {
         Grammar grammar = grammarList.get(position);
-        holder.ruleTextView.setText(grammar.getRule());
-        holder.explationTextView.setText(grammar.getExplanation());
+        holder.textRule.setText(grammar.getRule());
+        holder.textExplanation.setText(grammar.getExplanation());
 
     }
 
@@ -39,13 +39,13 @@ public class GrammarAdapter extends RecyclerView.Adapter<GrammarAdapter.GrammarV
     }
 
     public static class GrammarViewHolder extends RecyclerView.ViewHolder {
-        public TextView ruleTextView;
-        public TextView explationTextView;
+        public TextView textRule;
+        public TextView textExplanation;
 
         public GrammarViewHolder(View itemView) {
             super(itemView);
-            ruleTextView = itemView.findViewById(R.id.text_rule);
-            explationTextView = itemView.findViewById(R.id.text_explanation);
+            textRule = itemView.findViewById(R.id.text_rule);
+            textExplanation = itemView.findViewById(R.id.text_explanation);
         }
     }
 }

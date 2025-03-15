@@ -1,16 +1,16 @@
-package com.example.cs4514_jlpt_exam_helper.dictionary;
+package com.example.cs4514_jlpt_exam_helper.dictionary.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.network.response.JishoResponse;
 
 import java.util.List;
 
@@ -38,12 +38,12 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     @Override
     public void onBindViewHolder(DictionaryViewHolder holder, int position) {
         JishoResponse result = resultList.get(position);
-        holder.wordText.setText(result.getWord());
-        holder.readingText.setText("(" + result.getReading() + ")");
-        holder.meaningText.setText(String.join(", ", result.getEnglish_definition()));
-        holder.partOfSpeechText.setText(String.join(", ", result.getPart_of_speech()));
+        holder.textWord.setText(result.getWord());
+        holder.textReading.setText("(" + result.getReading() + ")");
+        holder.textMeaning.setText(String.join(", ", result.getEnglish_definition()));
+        holder.textPartOfSpeech.setText(String.join(", ", result.getPart_of_speech()));
 
-        holder.playButton.setOnClickListener(v -> {
+        holder.btnPlay.setOnClickListener(v -> {
             if (playClickListener != null) {
                 playClickListener.onPlayClick(result.getReading());
             }
@@ -56,19 +56,19 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     }
 
     public static class DictionaryViewHolder extends RecyclerView.ViewHolder {
-        public TextView wordText;
-        public TextView readingText;
-        public TextView meaningText;
-        public TextView partOfSpeechText;
-        public ImageView playButton;
+        public TextView textWord;
+        public TextView textReading;
+        public TextView textMeaning;
+        public TextView textPartOfSpeech;
+        public ImageView btnPlay;
 
         public DictionaryViewHolder(View itemView) {
             super(itemView);
-            wordText = itemView.findViewById(R.id.word_text);
-            readingText = itemView.findViewById(R.id.reading_text);
-            meaningText = itemView.findViewById(R.id.meaning_text);
-            partOfSpeechText = itemView.findViewById(R.id.part_of_speech_text);
-            playButton = itemView.findViewById(R.id.play_button);
+            textWord = itemView.findViewById(R.id.text_word);
+            textReading = itemView.findViewById(R.id.text_reading);
+            textMeaning = itemView.findViewById(R.id.text_meaning);
+            textPartOfSpeech = itemView.findViewById(R.id.text_part_of_speech);
+            btnPlay = itemView.findViewById(R.id.btn_play);
         }
     }
 

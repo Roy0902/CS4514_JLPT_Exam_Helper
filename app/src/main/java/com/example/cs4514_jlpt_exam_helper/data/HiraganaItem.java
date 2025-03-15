@@ -2,8 +2,8 @@ package com.example.cs4514_jlpt_exam_helper.data;
 
 public class HiraganaItem {
     private int itemId;
-    private String japaneseCharacter;
-    private String romaji;
+    private String japanese_character;
+    private String pronunciation;
 
     public int getItemId() {
         return itemId;
@@ -13,19 +13,19 @@ public class HiraganaItem {
         this.itemId = itemId;
     }
 
-    public String getJapaneseCharacter() {
-        return japaneseCharacter;
+    public String getJapanese_character() {
+        return japanese_character;
     }
 
-    public void setJapaneseCharacter(String japaneseCharacter) {
-        this.japaneseCharacter = japaneseCharacter;
+    public void setJapanese_character(String japanese_character) {
+        this.japanese_character = japanese_character;
     }
 
-    public String getRomaji() {
-        return romaji;
+    public String getPronunciation() {
+        return pronunciation;
     }
 
-    public void setRomaji(String romaji) {
-        this.romaji = romaji;
+    public void setPronunciation(String pronunciation) {
+        this.pronunciation = pronunciation;
     }
 }

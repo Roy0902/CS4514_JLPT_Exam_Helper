@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/top_navigation_bar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/green_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="start"
+            android:src="@drawable/image_back" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:text="@string/ask_question"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_send"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="end"
+            android:src="@drawable/image_send"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:hint="@string/title"
+        android:background="#44FFFFFF"
+        android:textColorHint="@color/gray"
+        android:textColor="@color/white"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_navigation_bar"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_description"
+        android:layout_width="match_parent"
+        android:hint="@string/type_your_question_here"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:background="@null"
+        android:textColorHint="@color/gray"
+        android:gravity="top|start"
+        android:textColor="@color/white"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_title"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

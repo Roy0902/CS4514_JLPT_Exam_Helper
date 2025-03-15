@@ -1,7 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.learning.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +44,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categories.get(position);
 
-        holder.titleTextView.setText(category.getCategory_name());
-        holder.imageView.setImageResource(category.getImageResId());
-        holder.progressBar.setProgress(category.getProgress());
+        holder.textCategory.setText(category.getCategory_name());
+        holder.imageCategory.setImageResource(category.getImageResId());
+        holder.progressCategory.setProgress(category.getProgress());
         holder.itemView.setBackgroundResource(category.getColorResId());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,16 +66,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView titleTextView;
-        ProgressBar progressBar;
+        ImageView imageCategory;
+        TextView textCategory;
+        ProgressBar progressCategory;
         ConstraintLayout parent;
 
         CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_category);
-            titleTextView = itemView.findViewById(R.id.text_category);
-            progressBar = itemView.findViewById(R.id.progress_category);
+            imageCategory = itemView.findViewById(R.id.image_category);
+            textCategory = itemView.findViewById(R.id.text_category);
+            progressCategory = itemView.findViewById(R.id.progress_category);
             parent = itemView.findViewById(R.id.parent);
         }
     }

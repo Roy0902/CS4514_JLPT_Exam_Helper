@@ -39,12 +39,18 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
+    implementation libs.androidx.appcompat.v161
+    implementation libs.androidx.core
+    implementation libs.androidx.swiperefreshlayout
+    implementation libs.androidx.navigation.ui
+    implementation libs.androidx.fragment
+
     implementation libs.viewpager2
-    implementation libs.core.splashscreen
-    implementation libs.dotsindicator
+
     implementation libs.retrofit
     implementation libs.converter.gson
     implementation libs.adapter.rxjava2
+
     implementation libs.rxjava
     implementation libs.rxandroid
 
@@ -54,14 +60,12 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
+    //third party library
+    implementation libs.core.splashscreen
+    implementation libs.dotsindicator
     implementation libs.otpview
-
     implementation libs.lottie
     implementation libs.navigation.fragment
-    implementation libs.androidx.navigation.ui
-    implementation libs.androidx.fragment
 
-    implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core:1.10.1'
+
 }

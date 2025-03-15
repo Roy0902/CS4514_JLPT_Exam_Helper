@@ -6,6 +6,7 @@ import com.example.cs4514_jlpt_exam_helper.network.api.GoogleTTSAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.JishoAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.LearningItemAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.OtpAPI;
+import com.example.cs4514_jlpt_exam_helper.network.api.QuestionAPI;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -19,6 +20,7 @@ public class RetrofitManager {
     private static LearningItemAPI learningItemAPI;
     private static JishoAPI jishoAPI;
     private static GoogleTTSAPI googleTTSAPI;
+    private static QuestionAPI questionAPI;
 
     private RetrofitManager() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -32,6 +34,7 @@ public class RetrofitManager {
         learningItemAPI =retrofit.create(LearningItemAPI.class);
         jishoAPI =retrofit.create(JishoAPI.class);
         googleTTSAPI = retrofit.create(GoogleTTSAPI.class);
+        questionAPI = retrofit.create(QuestionAPI.class);
     }
 
     public static RetrofitManager getInstance() {
@@ -56,5 +59,9 @@ public class RetrofitManager {
 
     public GoogleTTSAPI getGoogleTTSAPI() {
         return googleTTSAPI;
+    }
+
+    public QuestionAPI getQuestionAPI() {
+        return questionAPI;
     }
 }

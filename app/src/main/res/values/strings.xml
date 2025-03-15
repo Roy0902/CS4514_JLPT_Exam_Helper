@@ -62,7 +62,6 @@
     <!-- Dashboard -->
     <string name="home">Home</string>
 
-
     <!-- Home -->
     <string name="beginner">Beginner</string>
 
@@ -80,6 +79,12 @@
     <string name="dictionary">Dictionary</string>
     <string name="completed">Completed</string>
     <string name="dictionary_hint">Search word (e.g., house, いえ)</string>
+    <string name="question">Question</string>
+    <string name="ask">Ask</string>
+    <string name="ask_question">Ask question</string>
+    <string name="title">Title</string>
+    <string name="type_your_question_here">Type your question here...</string>
+    <string name="end">End</string>
 
 
 </resources>

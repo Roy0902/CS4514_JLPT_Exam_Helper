@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.network.repository;
 
-import com.example.cs4514_jlpt_exam_helper.dictionary.JishoResponse;
+import com.example.cs4514_jlpt_exam_helper.network.response.JishoResponse;
 import com.example.cs4514_jlpt_exam_helper.network.api.JishoAPI;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;

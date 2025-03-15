@@ -52,7 +52,7 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
     public void setupViewModelObserver(){
         viewModel.getcharacterList().observe(this, characterList -> {
             if(characterList != null && !characterList.isEmpty()){
-                binding.hiraganaRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                binding.hiraganaRecyclerView.setLayoutManager(new GridLayoutManager(this, 5));
                 binding.hiraganaRecyclerView.setAdapter(new JapaneseCharacterAdapter(characterList, this));
             }
         });

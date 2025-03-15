@@ -1,14 +1,12 @@
-package com.example.cs4514_jlpt_exam_helper.dictionary;
+package com.example.cs4514_jlpt_exam_helper.dictionary.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.JishoRepository;
-import com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository;
+import com.example.cs4514_jlpt_exam_helper.network.response.JishoResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;

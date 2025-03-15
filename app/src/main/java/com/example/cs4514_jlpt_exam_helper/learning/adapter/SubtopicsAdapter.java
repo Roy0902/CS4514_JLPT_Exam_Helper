@@ -1,20 +1,16 @@
 package com.example.cs4514_jlpt_exam_helper.learning.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.data.Category;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
 
 import java.util.List;
@@ -47,9 +43,8 @@ public class SubtopicsAdapter extends RecyclerView.Adapter<SubtopicsAdapter.Subt
         Subtopic subtopic = subtopics.get(position);
 
 
-
-        holder.subtopicNumberTextView.setText("Lesson ");
-        holder.subtopicNanmeTextView.setText(subtopic.getName());
+        holder.textSubtopicNumber.setText("Lesson " + position);
+        holder.textSubtopicName.setText(subtopic.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,15 +63,15 @@ public class SubtopicsAdapter extends RecyclerView.Adapter<SubtopicsAdapter.Subt
     }
 
     public static class SubtopicViewHolder extends RecyclerView.ViewHolder {
-        ImageView iconStatusImageView;
-        TextView subtopicNumberTextView;
-        TextView subtopicNanmeTextView;
+        ImageView iconStatus;
+        TextView textSubtopicNumber;
+        TextView textSubtopicName;
 
         SubtopicViewHolder(@NonNull View itemView) {
             super(itemView);
-            iconStatusImageView = itemView.findViewById(R.id.icon_status);
-            subtopicNumberTextView = itemView.findViewById(R.id.text_subtopic_number);
-            subtopicNanmeTextView = itemView.findViewById(R.id.text_subtopic_name);
+            iconStatus = itemView.findViewById(R.id.icon_status);
+            textSubtopicNumber = itemView.findViewById(R.id.text_subtopic_number);
+            textSubtopicName = itemView.findViewById(R.id.text_subtopic_name);
         }
     }
 }

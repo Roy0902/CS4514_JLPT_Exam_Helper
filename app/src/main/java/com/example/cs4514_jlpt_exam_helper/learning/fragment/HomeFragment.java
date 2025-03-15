@@ -18,6 +18,7 @@ import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentHomeBinding;
 import com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity;
+import com.example.cs4514_jlpt_exam_helper.question.activity.QuestionActivity;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private FragmentHomeBinding binding;
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void setUpEventListener(){
         binding.btnChangeLevel.setOnClickListener(this);
         binding.imageDictionary.setOnClickListener(this);
+        binding.imageForum.setOnClickListener(this);
     }
 
     @Override
@@ -67,6 +69,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             goChangeLevelPage();
         }else if(id == R.id.image_dictionary){
             goDictionaryPage();
+        }else if(id == R.id.image_forum){
+            goQuestionPage();
         }
     }
 
@@ -77,6 +81,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public void goDictionaryPage(){
         Intent intent = new Intent(requireActivity(), DictionaryActivity.class);
+        startActivity(intent);
+    }
+
+    public void goQuestionPage(){
+        Intent intent = new Intent(requireActivity(), QuestionActivity.class);
         startActivity(intent);
     }
 

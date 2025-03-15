@@ -4,65 +4,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background_item_subtopic"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@drawable/background_item_subtopic">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/word_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/reading_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="18sp"
-                android:textColor="@android:color/darker_gray"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/image_speaker"
-                android:background="@drawable/background_item_subtopic"
-                android:textSize="14sp" />
-
-        </LinearLayout>
+        android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/meaning_text"
-            android:layout_width="match_parent"
+            android:id="@+id/text_word"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:textColor="@color/light_gray"
+            app:layout_constraintStart_toEndOf="@id/text_word"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/text_word"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_meaning"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_word"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/part_of_speech_text"
-            android:layout_width="match_parent"
+            android:id="@+id/text_part_of_speech"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="@color/light_gray"
+            app:layout_constraintStart_toEndOf="@id/text_reading"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/text_word"/>
 
-    </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/image_speaker"
+            android:background="@drawable/background_item_subtopic"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

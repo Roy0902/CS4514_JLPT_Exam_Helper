@@ -1,4 +1,4 @@
-package com.example.cs4514_jlpt_exam_helper.dictionary;
+package com.example.cs4514_jlpt_exam_helper.network.response;
 
 import java.util.List;
 
