@@ -5,6 +5,7 @@ import com.example.cs4514_jlpt_exam_helper.data.Question;
 import com.example.cs4514_jlpt_exam_helper.data.Reply;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.request.PostQuestionRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.PostReplyRequest;
 
 import java.util.List;
 
@@ -17,12 +18,15 @@ import retrofit2.http.Query;
 
 public interface QuestionAPI {
 
-    @POST("/question/post-question")
+    @POST("/forum/post-question")
     Single<ResponseBean<String>> postQuestion(@Body PostQuestionRequest request);
 
-    @GET("/question/get-question")
+    @POST("/forum/post-reply")
+    Single<ResponseBean<String>> postReply(@Body PostReplyRequest request);
+
+    @GET("/forum/get-question")
     Single<ResponseBean<List<Question>>> getQuestion(@Query("page") int page, @Query("limit") int limit);
 
-    @GET("/question/get-reply")
-    Single<ResponseBean<List<Reply>>> getReply(@Query("question_id") int questionId);
+    @GET("/forum/get-reply")
+    Single<ResponseBean<List<Reply>>> getReply(@Query("page") int page, @Query("limit") int limit, @Query("question_id") int questionId);
 }

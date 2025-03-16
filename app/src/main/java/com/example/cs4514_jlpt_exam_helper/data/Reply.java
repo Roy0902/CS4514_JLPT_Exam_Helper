@@ -1,17 +1,21 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
-public class Reply {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+public class Reply implements Serializable {
     private int question_id;
     private int reply_id;
     private String reply;
     private String user_name;
+    private Timestamp reply_at;
 
-
-    public Reply(int question_id, int reply_id, String reply, String user_name) {
+    public Reply(int question_id, int reply_id, String reply, String user_name, Timestamp reply_at) {
         this.question_id = question_id;
         this.reply_id = reply_id;
         this.reply = reply;
         this.user_name = user_name;
+        this.reply_at = reply_at;
     }
 
     public Reply(String reply, String user_name) {
@@ -51,4 +55,11 @@ public class Reply {
         this.user_name = user_name;
     }
 
+    public Timestamp getReply_at() {
+        return reply_at;
+    }
+
+    public void setReply_at(Timestamp reply_at) {
+        this.reply_at = reply_at;
+    }
 }

@@ -15,24 +15,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.data.Question;
-import com.example.cs4514_jlpt_exam_helper.databinding.FragmentReplyBinding;
-import com.example.cs4514_jlpt_exam_helper.question.adapter.ReplyAdapter;
+import com.example.cs4514_jlpt_exam_helper.databinding.FragmentQuestionBinding;
+import com.example.cs4514_jlpt_exam_helper.question.adapter.QuestionAdapter;
 import com.example.cs4514_jlpt_exam_helper.question.viewmodel.ForumViewModel;
 
 import java.util.ArrayList;
 
-public class ReplyFragment extends Fragment implements View.OnClickListener{
-    private ReplyAdapter adapter;
+public class QuestionFragment extends Fragment implements View.OnClickListener, QuestionAdapter.OnItemClickListener{
+    private QuestionAdapter adapter;
     private ForumViewModel viewModel;
-    private FragmentReplyBinding binding;
-    private Question question;
+    private FragmentQuestionBinding binding;
     private boolean isEnd = false;
     private boolean isLoading = false;
     private boolean isFirstLoad = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentReplyBinding.inflate(inflater, container, false);
+        binding = FragmentQuestionBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(ForumViewModel.class);
         return binding.getRoot();
     }
@@ -41,23 +40,27 @@ public class ReplyFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(ForumViewModel.class);
-        adapter = new ReplyAdapter(new ArrayList<>());
-
         setUpEventListener();
         setupViewModelObserver();
+        adapter = new QuestionAdapter(new ArrayList<>(), this);
+
+        binding.questionContainer.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.questionContainer.setAdapter(adapter);
+
+        viewModel.getQuestion();
     }
 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
-        binding.btnReply.setOnClickListener(this);
+        binding.btnCreateQuestion.setOnClickListener(this);
 
-        binding.replyContainer.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.questionContainer.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (!recyclerView.canScrollVertically(1) && !isLoading && !isEnd && !isFirstLoad) {
+
+                if (!recyclerView.canScrollVertically(1) && !isLoading && !isEnd) {
                     isLoading = true;
-                    viewModel.getReply(question.getQuestion_id());
+                    viewModel.getQuestion();
                 }else if(recyclerView.canScrollVertically(-1) && isEnd){
                     binding.textEnd.setVisibility(View.GONE);
                     binding.lineBreak.setVisibility(View.GONE);
@@ -71,12 +74,12 @@ public class ReplyFragment extends Fragment implements View.OnClickListener{
         binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.resetReplyList(question);
-                viewModel.resetReplyPage();
-                viewModel.getReply(question.getQuestion_id());
+                adapter.resetQuestionList();
+                viewModel.resetQuestionPage();
+                viewModel.getQuestion();
                 binding.swipeRefresh.setRefreshing(false);
 
-                isEnd = true;
+                isEnd = false;
                 binding.textEnd.setVisibility(View.GONE);
                 binding.lineBreak.setVisibility(View.GONE);
             }
@@ -84,41 +87,17 @@ public class ReplyFragment extends Fragment implements View.OnClickListener{
     }
 
     public void setupViewModelObserver(){
-        viewModel.getReplyList().observe(getViewLifecycleOwner() ,replyList -> {
-            if(replyList.isEmpty() && !isFirstLoad){
+        viewModel.getQuestionList().observe(getViewLifecycleOwner(), questionList ->{
+            if(questionList.isEmpty() && !isFirstLoad){
                 isEnd = true;
                 binding.textEnd.setVisibility(View.VISIBLE);
                 binding.lineBreak.setVisibility(View.VISIBLE);
+            }else{
+                isFirstLoad = false;
             }
 
             isLoading = false;
-            isFirstLoad = false;
-            adapter.updateReplyList(replyList);
-        });
-
-        viewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), selectedQuestion ->{
-            question = selectedQuestion;
-
-            if(question == null){
-                Toast.makeText(requireActivity(), "Question not found.", Toast.LENGTH_SHORT).show();
-                viewModel.showForum();
-                return;
-            }
-
-            binding.textQuestionTitle.setText(question.getQuestion_title());
-
-            binding.replyContainer.setLayoutManager(new LinearLayoutManager(requireActivity()));
-            binding.replyContainer.setAdapter(adapter);
-            adapter.resetReplyList(question);
-
-            isLoading = true;
-            viewModel.getReply(question.getQuestion_id());
-        });
-
-        viewModel.getPostReplyResult().observe(getViewLifecycleOwner(), result ->{
-            if(result){
-                viewModel.getReply(question.getQuestion_id());
-            }
+            adapter.updateQuestionList(questionList);
         });
     }
 
@@ -126,15 +105,20 @@ public class ReplyFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v){
         int id = v.getId();
         if(id == R.id.btn_back){
-            viewModel.showForum();
-        }else if(id == R.id.btn_reply){
-            switchToPostReplyFragment();
+            requireActivity().finish();
+        }else if(id == R.id.btn_create_question){
+            switchToAskQuestionFragment();
         }
     }
 
-    public void switchToPostReplyFragment(){
-        viewModel.showPostReply();
+    public void switchToAskQuestionFragment(){
+        viewModel.showPostQuestion();
     }
 
+    @Override
+    public void onItemClick(Question question) {
+        viewModel.getSelectedQuestion().setValue(question);
+        viewModel.showReply();
+    }
 }
 

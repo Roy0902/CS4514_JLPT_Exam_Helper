@@ -2,11 +2,10 @@ package com.example.cs4514_jlpt_exam_helper.network.repository;
 
 import com.example.cs4514_jlpt_exam_helper.data.Question;
 import com.example.cs4514_jlpt_exam_helper.data.Reply;
-import com.example.cs4514_jlpt_exam_helper.network.api.JishoAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.QuestionAPI;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.request.PostQuestionRequest;
-import com.example.cs4514_jlpt_exam_helper.network.response.JishoResponse;
+import com.example.cs4514_jlpt_exam_helper.network.request.PostReplyRequest;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 
 import java.util.List;
@@ -15,16 +14,16 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class QuestionRepository {
-    private static QuestionRepository repository;
+public class ForumRepository {
+    private static ForumRepository repository;
 
-    public QuestionRepository(){
+    public ForumRepository(){
 
     }
 
-    public static QuestionRepository getInstance(){
+    public static ForumRepository getInstance(){
         if(repository == null){
-            repository = new QuestionRepository();
+            repository = new ForumRepository();
         }
 
         return repository;
@@ -44,9 +43,16 @@ public class QuestionRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<List<Reply>>> getReply(int question_id){
+    public Single<ResponseBean<List<Reply>>> getReply(int page, int question_id){
         QuestionAPI questionAPI = RetrofitManager.getInstance().getQuestionAPI();
-        return questionAPI.getReply(question_id)
+        return questionAPI.getReply(page, 10, question_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<String>> postReply(String session_token, String reply, int question_id){
+        QuestionAPI questionAPI = RetrofitManager.getInstance().getQuestionAPI();
+        return questionAPI.postReply(new PostReplyRequest(session_token, reply, question_id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

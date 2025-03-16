@@ -18,7 +18,7 @@ import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentHomeBinding;
 import com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity;
-import com.example.cs4514_jlpt_exam_helper.question.activity.QuestionActivity;
+import com.example.cs4514_jlpt_exam_helper.question.activity.ForumActivity;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private FragmentHomeBinding binding;
@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
 
     public void goQuestionPage(){
-        Intent intent = new Intent(requireActivity(), QuestionActivity.class);
+        Intent intent = new Intent(requireActivity(), ForumActivity.class);
         startActivity(intent);
     }
 

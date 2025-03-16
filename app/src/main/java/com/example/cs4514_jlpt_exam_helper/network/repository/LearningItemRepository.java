@@ -6,6 +6,7 @@ import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
 import com.example.cs4514_jlpt_exam_helper.data.Category;
 import com.example.cs4514_jlpt_exam_helper.network.request.UserProgressRequest;
+import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 import com.example.cs4514_jlpt_exam_helper.network.api.LearningItemAPI;
 
@@ -54,6 +55,13 @@ public class LearningItemRepository {
     public Single<ResponseBean<ArrayList<Grammar>>> getGrammarList(String subtopic_name){
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
         return learningItemAPI.getGrammarList(subtopic_name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<LearningItemResponse>> getLearningItemByLevel(String level){
+        LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
+        return learningItemAPI.getLearningItemList(level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

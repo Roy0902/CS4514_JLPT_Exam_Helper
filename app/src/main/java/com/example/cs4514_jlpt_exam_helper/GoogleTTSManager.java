@@ -56,7 +56,6 @@ public class GoogleTTSManager {
 
                 if (code >= 200 && code <=299) {
                     String base64Audio = bean.getData();
-                    Toast.makeText(context,base64Audio, Toast.LENGTH_SHORT).show();
                     byte[] audioBytes = Base64.getDecoder().decode(base64Audio);
                     player.reset();
                     try {

@@ -85,6 +85,11 @@
     <string name="title">Title</string>
     <string name="type_your_question_here">Type your question here...</string>
     <string name="end">End</string>
+    <string name="reply">Reply</string>
+    <string name="type_your_reply_here">Type your reply here...</string>
+    <string name="next">Next</string>
+    <string name="n5">N5</string>
+    <string name="quiz">Quiz</string>
 
 
 </resources>

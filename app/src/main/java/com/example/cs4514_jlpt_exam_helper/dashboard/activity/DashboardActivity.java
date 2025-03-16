@@ -89,7 +89,7 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.dashboard_fragment_container, fragment)
