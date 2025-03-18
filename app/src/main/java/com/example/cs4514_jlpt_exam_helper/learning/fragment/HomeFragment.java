@@ -2,6 +2,7 @@ package com.example.cs4514_jlpt_exam_helper.learning.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentHomeBinding;
 import com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity;
 import com.example.cs4514_jlpt_exam_helper.question.activity.ForumActivity;
+import com.example.cs4514_jlpt_exam_helper.quiz.activity.QuizActivity;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private FragmentHomeBinding binding;
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         binding.btnChangeLevel.setOnClickListener(this);
         binding.imageDictionary.setOnClickListener(this);
         binding.imageForum.setOnClickListener(this);
+        binding.imagePractice.setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +74,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             goDictionaryPage();
         }else if(id == R.id.image_forum){
             goQuestionPage();
+        }else if(id == R.id.image_practice){
+            goPracticePage();
         }
     }
 
@@ -86,6 +91,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public void goQuestionPage(){
         Intent intent = new Intent(requireActivity(), ForumActivity.class);
+        startActivity(intent);
+    }
+
+    public void goPracticePage(){
+        Intent intent = new Intent(requireActivity(), QuizActivity.class);
         startActivity(intent);
     }
 

@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
-public class Grammar {
+public class Grammar extends BaseLearningItem{
     private String rule;
     private String explanation;
 
@@ -23,5 +23,15 @@ public class Grammar {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    @Override
+    public String getQuestion(){
+        return rule;
+    }
+
+    @Override
+    public String getAnswer(){
+        return explanation;
     }
 }

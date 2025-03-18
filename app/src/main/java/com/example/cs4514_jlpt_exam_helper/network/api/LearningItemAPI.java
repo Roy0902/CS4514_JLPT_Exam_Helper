@@ -33,6 +33,6 @@ public interface LearningItemAPI {
     Single<ResponseBean<ArrayList<Grammar>>> getGrammarList(@Query("subtopic_name") String subtopic_name);
 
     @GET("/learning-item/get-learning-item-by-level")
-    Single<ResponseBean<LearningItemResponse>> getLearningItemList(@Query("level") String level);
+    Single<ResponseBean<LearningItemResponse>> getLearningItemList(@Query("level_name") String level_name);
 
 }

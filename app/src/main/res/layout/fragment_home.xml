@@ -82,7 +82,7 @@
         android:background="@drawable/background_image"
         app:layout_constraintBottom_toTopOf="@id/text_forum"
         app:layout_constraintStart_toEndOf="@id/image_dictionary"
-        app:layout_constraintEnd_toStartOf="@id/image_web_article"/>
+        app:layout_constraintEnd_toStartOf="@id/image_practice"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_forum"
@@ -101,21 +101,21 @@
         app:layout_constraintEnd_toEndOf="@id/image_forum" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_web_article"
+        android:id="@+id/image_practice"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="10dp"
         android:background="@drawable/background_image"
-        android:src="@drawable/image_article"
-        app:layout_constraintBottom_toTopOf="@id/text_web_article"
+        android:src="@drawable/image_timer"
+        app:layout_constraintBottom_toTopOf="@id/text_practice"
         app:layout_constraintStart_toEndOf="@id/image_forum"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_web_article"
+        android:id="@+id/text_practice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/web_articles"
+        android:text="@string/practice"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -124,7 +124,7 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintWidth_percent="0.25"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/image_web_article"
-        app:layout_constraintEnd_toEndOf="@id/image_web_article" />
+        app:layout_constraintStart_toStartOf="@id/image_practice"
+        app:layout_constraintEnd_toEndOf="@id/image_practice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

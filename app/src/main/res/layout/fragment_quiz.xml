@@ -7,13 +7,12 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_question"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
             android:gravity="center"
             android:textColor="#363A43"
             android:textSize="22sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/progressBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -27,10 +26,10 @@
             android:max="10"
             android:minHeight="50dp"
             android:progress="0"
-            app:layout_constraintTop_toBottomOf="@id/text_question"
+            app:layout_constraintTop_toBottomOf="@id/text_progress"
             app:layout_constraintBottom_toTopOf="@id/option_one"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/text_progress" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_progress"
@@ -41,9 +40,9 @@
             android:textColorHint="#7A8089"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/text_question"
-            app:layout_constraintBottom_toTopOf="@id/option_one"
-            app:layout_constraintStart_toEndOf="@id/progressBar"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="@id/progressBar"
+            app:layout_constraintEnd_toEndOf="@id/progressBar"/>
 
 
         <androidx.appcompat.widget.AppCompatTextView

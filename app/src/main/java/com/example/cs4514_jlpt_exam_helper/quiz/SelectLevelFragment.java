@@ -29,7 +29,6 @@ public class SelectLevelFragment extends Fragment implements View.OnClickListene
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-
         setUpEventListener();
     }
 
@@ -43,6 +42,7 @@ public class SelectLevelFragment extends Fragment implements View.OnClickListene
         int id = v.getId();
         if(id == R.id.option_beginner){
             viewModel.setSelectedLevel(Constant.level_beginner);
+
         }else if(id == R.id.option_N5){
             viewModel.setSelectedLevel(Constant.level_n5);
         }

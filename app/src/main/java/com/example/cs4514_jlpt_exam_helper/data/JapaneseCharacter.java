@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
-public class JapaneseCharacter {
+public class JapaneseCharacter extends BaseLearningItem{
 
     private String japanese_character;
     private String pronunciation;
@@ -24,5 +24,15 @@ public class JapaneseCharacter {
 
     public void setPronunciation(String pronunciation) {
         this.pronunciation = pronunciation;
+    }
+
+    @Override
+    public String getQuestion(){
+        return japanese_character;
+    }
+
+    @Override
+    public String getAnswer(){
+        return pronunciation;
     }
 }

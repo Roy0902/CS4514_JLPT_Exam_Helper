@@ -8,10 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.data.Grammar;
+import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityQuizBinding;
 import com.example.cs4514_jlpt_exam_helper.quiz.QuizFragment;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion;
 import com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel;
 import com.example.cs4514_jlpt_exam_helper.quiz.SelectLevelFragment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
@@ -31,7 +40,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         setUpEventListener();
         setupViewModelObserver();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_quiz, new SelectLevelFragment());
+                .replace(R.id.fragment_quiz, new SelectLevelFragment()).commit();
 
     }
 
@@ -41,8 +50,14 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setupViewModelObserver(){
         viewModel.getSelectedLevel().observe(this, selectedLevel ->{
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_quiz, new QuizFragment());
+            viewModel.getLearningItem();
+        });
+
+        viewModel.getIsQuestionReady().observe(this, isReady->{
+            if(isReady){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_quiz, new QuizFragment()).commit();
+            }
         });
 
     }
