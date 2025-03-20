@@ -47,6 +47,7 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
+        binding.btnStartTest.setOnClickListener(this);
     }
 
     public void setupViewModelObserver(){
@@ -63,11 +64,19 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
         int id = v.getId();
         if(id == R.id.btn_back){
             goBackDashboardPage();
+        }else if(id == R.id.btn_start_test){
+            goSubtopicQuizPage();
         }
     }
 
     public void goBackDashboardPage(){
         finish();
+    }
+
+    public void goSubtopicQuizPage(){
+        Intent intent = new Intent(this, SubtopicQuizActivity.class);
+        intent.putExtra("SUBTOPIC_NAME", subtopicName);
+        startActivity(intent);
     }
 
     @Override

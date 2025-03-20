@@ -1,4 +1,4 @@
-package com.example.cs4514_jlpt_exam_helper.question.adapter;
+package com.example.cs4514_jlpt_exam_helper.forum.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

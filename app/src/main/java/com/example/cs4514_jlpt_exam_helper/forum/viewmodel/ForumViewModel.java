@@ -1,4 +1,4 @@
-package com.example.cs4514_jlpt_exam_helper.question.viewmodel;
+package com.example.cs4514_jlpt_exam_helper.forum.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

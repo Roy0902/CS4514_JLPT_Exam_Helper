@@ -1,5 +1,6 @@
-package com.example.cs4514_jlpt_exam_helper.quiz;
+package com.example.cs4514_jlpt_exam_helper.quiz.fragment;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,33 +9,35 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.airbnb.lottie.L;
+import com.example.cs4514_jlpt_exam_helper.GoogleTTSManager;
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentQuizBinding;
-import com.example.cs4514_jlpt_exam_helper.databinding.FragmentSelectLevelBinding;
+import com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion;
-import com.example.cs4514_jlpt_exam_helper.quiz.data.Question;
 import com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-public class QuizFragment extends Fragment implements View.OnClickListener{
+public class QuizFragment extends Fragment implements View.OnClickListener,
+        QuizQuestionAdapter.OnPlayClickListener{
     private QuizViewModel viewModel;
     private FragmentQuizBinding binding;
     private List<CharacterQuestion> characterQuestionList;
     private List<GrammarQuestion> grammarQuestionList;
     private int progress;
     private int questionNumber;
+    private int score;
+    private QuizQuestionAdapter adapter;
 
-    private int questionListNumber;
+    private MediaPlayer player;
+    private GoogleTTSManager manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,13 +50,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel.getLearningItem();
-        setUpEventListener();
-        initViewModelObserver();
         characterQuestionList = new ArrayList<>();
         grammarQuestionList = new ArrayList<>();
+        player = new MediaPlayer();
+        manager = GoogleTTSManager.getInstance();
 
-        progress = 1;
+        progress = 0;
+        score = 0;
 
         if(viewModel.getCharacterQuestionList().getValue() != null){
             characterQuestionList = viewModel.getCharacterQuestionList().getValue();
@@ -63,24 +66,26 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
             grammarQuestionList = viewModel.getGrammarQuestionList().getValue();
         }
 
-        binding.btnSubmit.setOnClickListener(this);
+        adapter = new QuizQuestionAdapter(this);
+        binding.optionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.optionRecyclerView.setAdapter(adapter);
+
         questionNumber = characterQuestionList.size() + grammarQuestionList.size();
+        binding.progressBar.setMax(questionNumber);
 
         setQuestion();
+        setUpEventListener();
 
     }
 
     public void setUpEventListener(){
-
-    }
-
-    public void initViewModelObserver() {
-
-
+        binding.btnSpeaker.setOnClickListener(this);
+        binding.btnNext.setOnClickListener(this);
+        binding.btnCheck.setOnClickListener(this);
     }
 
     public void setCharacterQuestion(CharacterQuestion question){
-        ArrayList<String> tempOptionList = new ArrayList<String>();
+        ArrayList<String> tempOptionList = new ArrayList<>();
         tempOptionList.add(question.getCorrectAnswer());
         binding.textQuestion.setText(question.getQuestion());
 
@@ -89,7 +94,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         }
 
         Collections.shuffle(tempOptionList);
-        setQuizFragment(tempOptionList);
+        adapter.changeQuestion(question.getCorrectAnswer(), tempOptionList);
+        setQuizFragment();
     }
 
     public void setGrammarQuestion(GrammarQuestion question){
@@ -102,32 +108,46 @@ public class QuizFragment extends Fragment implements View.OnClickListener{
         }
 
         Collections.shuffle(tempOptionList);
-        setQuizFragment(tempOptionList);
+        setQuizFragment();
     }
 
-    public void setQuizFragment(List<String> tempOptionList){
+    public void setQuizFragment(){
+        progress++;
         binding.progressBar.setProgress(progress);
-        binding.textProgress.setText(progress + " / " + questionNumber);
-        binding.optionOne.setText(tempOptionList.get(0));
-        binding.optionTwo.setText(tempOptionList.get(1));
-        binding.optionThree.setText(tempOptionList.get(2));
-        binding.optionFour.setText(tempOptionList.get(3));
+        binding.textProgress.setText((progress) + " / " + questionNumber);
     }
 
     public void setQuestion(){
-        if(progress < characterQuestionList.size()){
+        if(progress == questionNumber - 1){
+            viewModel.setIsQuizCompleted(true);
+            viewModel.setScore(score);
+        }else if(progress < characterQuestionList.size()){
             setCharacterQuestion(characterQuestionList.get(progress));
         }else{
-
+            setGrammarQuestion(grammarQuestionList.get(questionNumber-progress));
         }
     }
 
     @Override
     public void onClick(View v){
         int id = v.getId();
-        if(id == R.id.btn_submit){
-            progress++;
+        if(id == R.id.btn_speaker){
+            manager.getTTSService(binding.textQuestion.getText().toString().trim(), player, requireActivity());
+        }else if(id == R.id.btn_check){
+            checkAnswer();
+        }else if(id == R.id.btn_next){
             setQuestion();
         }
+    }
+
+    public void checkAnswer(){
+        if(adapter.checkAnswer()){
+            score++;
+        }
+    }
+
+    @Override
+    public void onPlayClick(String reading){
+        manager.getTTSService(reading, player, requireActivity());
     }
 }

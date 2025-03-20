@@ -91,6 +91,10 @@
     <string name="n5">N5</string>
     <string name="quiz">Quiz</string>
     <string name="choose_a_level_to_begin">Choose a level to begin.</string>
+    <string name="select_the_correct_answer">Select the correct answer.</string>
+    <string name="check">Check</string>
+    <string name="you_can_press_the_character_to_hear_its_pronunciation">You can press the character to hear its pronunciation.</string>
+    <string name="start_quiz">Start quiz</string>
 
 
 </resources>

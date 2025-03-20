@@ -1,4 +1,4 @@
-package com.example.cs4514_jlpt_exam_helper.question.fragment;
+package com.example.cs4514_jlpt_exam_helper.forum.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -12,23 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
-import com.example.cs4514_jlpt_exam_helper.data.Question;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentAskQuestionBinding;
-import com.example.cs4514_jlpt_exam_helper.databinding.FragmentSendReplyBinding;
-import com.example.cs4514_jlpt_exam_helper.question.viewmodel.ForumViewModel;
+import com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel;
 
-public class SendReplyFragment extends Fragment implements View.OnClickListener{
-    private FragmentSendReplyBinding binding;
+public class AskQuestionFragment extends Fragment implements View.OnClickListener{
+    private FragmentAskQuestionBinding binding;
     private ForumViewModel viewModel;
-    private Question question;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSendReplyBinding.inflate(inflater, container, false);
+        binding = FragmentAskQuestionBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(ForumViewModel.class);
         return binding.getRoot();
     }
@@ -46,27 +42,15 @@ public class SendReplyFragment extends Fragment implements View.OnClickListener{
     }
 
     public void setupViewModelObserver(){
-        viewModel.getPostReplyResult().observe(getViewLifecycleOwner(), result -> {
+        viewModel.getPostQuestionResult().observe(getViewLifecycleOwner(), result -> {
             if(result){
                 showToast("Post Question Successfully!");
-                binding.etReply.setText("");
-                binding.textTitle.setText("");
-                viewModel.showReply();
+                binding.etDescription.setText("");
+                binding.etTitle.setText("");
+                viewModel.showForum();
             }else{
                 showToast("Failed to post question.");
             }
-        });
-
-        viewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), selectedQuestion ->{
-            question = selectedQuestion;
-
-            if(question == null){
-                Toast.makeText(requireActivity(), "Unknown.", Toast.LENGTH_SHORT).show();
-                viewModel.showReply();
-                return;
-            }
-
-            binding.textTitle.setText(question.getQuestion_title());
         });
     }
 
@@ -74,31 +58,33 @@ public class SendReplyFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v){
         int id = v.getId();
         if(id == R.id.btn_back){
-            viewModel.showReply();
+            viewModel.showForum();
         }else if(id == R.id.btn_send){
             showConfirmDialog();
         }
     }
 
     public void showConfirmDialog() {
-        String reply = binding.etReply.getText().toString().trim();
+        String question_title = binding.etTitle.getText().toString().trim();
+        String question_description = binding.etDescription.getText().toString().trim();
+        if (question_title.isEmpty()) {
+            showToast("*Title required.");
+            return;
+        }
 
-        if(reply.isEmpty()){
-            showToast("*Reply required.");
+        if(question_description.isEmpty()){
+            showToast("*Body required.");
             return;
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Confirm Post");
-        builder.setMessage("Are you sure you want to post this reply?\n\n");
+        builder.setMessage("Are you sure you want to submit this question?\n\n");
 
         builder.setPositiveButton("Yes", (dialog, which) -> {
             String session_token = requireActivity().getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE)
                     .getString(Constant.key_session_token, Constant.error_not_found);
-            showToast(session_token);
-            showToast(reply);
-            showToast(Integer.toString(question.getQuestion_id()));
-            viewModel.postReply(session_token, reply, question.getQuestion_id());
+            viewModel.postQuestion(session_token, question_title, question_description);
 
         });
 

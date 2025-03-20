@@ -82,4 +82,11 @@ public class GoogleTTSManager {
         });
     }
 
+    public void stopPlayer(MediaPlayer player) {
+        if (player != null && player.isPlaying()) {
+            player.stop();
+            player.reset();
+        }
+    }
+
 }

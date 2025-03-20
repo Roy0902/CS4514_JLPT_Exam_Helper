@@ -1,4 +1,4 @@
-package com.example.cs4514_jlpt_exam_helper.question.adapter;
+package com.example.cs4514_jlpt_exam_helper.forum.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +61,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
             super(itemView);
             textNumber = itemView.findViewById(R.id.text_number);
             textUserName = itemView.findViewById(R.id.text_user_name);
-            textReply = itemView.findViewById(R.id.text_reply);
+            textReply = itemView.findViewById(R.id.text_quiz);
         }
     }
 }

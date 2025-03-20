@@ -2,7 +2,6 @@ package com.example.cs4514_jlpt_exam_helper.learning.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentHomeBinding;
 import com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity;
-import com.example.cs4514_jlpt_exam_helper.question.activity.ForumActivity;
+import com.example.cs4514_jlpt_exam_helper.forum.activity.ForumActivity;
 import com.example.cs4514_jlpt_exam_helper.quiz.activity.QuizActivity;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{

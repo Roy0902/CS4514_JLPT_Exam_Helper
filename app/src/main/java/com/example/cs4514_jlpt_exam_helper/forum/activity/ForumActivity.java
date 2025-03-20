@@ -1,9 +1,7 @@
-package com.example.cs4514_jlpt_exam_helper.question.activity;
+package com.example.cs4514_jlpt_exam_helper.forum.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import androidx.fragment.app.FragmentActivity;
@@ -12,11 +10,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityForumBinding;
-import com.example.cs4514_jlpt_exam_helper.question.fragment.AskQuestionFragment;
-import com.example.cs4514_jlpt_exam_helper.question.fragment.QuestionFragment;
-import com.example.cs4514_jlpt_exam_helper.question.fragment.ReplyFragment;
-import com.example.cs4514_jlpt_exam_helper.question.fragment.SendReplyFragment;
-import com.example.cs4514_jlpt_exam_helper.question.viewmodel.ForumViewModel;
+import com.example.cs4514_jlpt_exam_helper.forum.fragment.AskQuestionFragment;
+import com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment;
+import com.example.cs4514_jlpt_exam_helper.forum.fragment.ReplyFragment;
+import com.example.cs4514_jlpt_exam_helper.forum.fragment.SendReplyFragment;
+import com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel;
 
 
 public class ForumActivity extends FragmentActivity {

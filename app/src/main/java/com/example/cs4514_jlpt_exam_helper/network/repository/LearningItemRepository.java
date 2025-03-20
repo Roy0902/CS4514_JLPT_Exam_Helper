@@ -61,7 +61,14 @@ public class LearningItemRepository {
 
     public Single<ResponseBean<LearningItemResponse>> getLearningItemByLevel(String level){
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
-        return learningItemAPI.getLearningItemList(level)
+        return learningItemAPI.getLearningItemListByLevel(level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<LearningItemResponse>> getLearningItemBySubtopic(String subtopic_name){
+        LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
+        return learningItemAPI.getLearningItemListBySubtopic(subtopic_name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

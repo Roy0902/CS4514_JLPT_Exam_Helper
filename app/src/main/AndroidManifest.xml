@@ -89,7 +89,7 @@
         </activity>
 
         <activity
-            android:name=".question.activity.ForumActivity"
+            android:name=".forum.activity.ForumActivity"
             android:theme="@style/AppTheme.Question"
             android:configChanges="orientation|screenSize"
             android:exported="false">
@@ -97,7 +97,12 @@
 
         <activity
             android:name=".quiz.activity.QuizActivity"
-            android:theme="@style/AppTheme.Question"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".learning.activity.SubtopicQuizActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false">
         </activity>

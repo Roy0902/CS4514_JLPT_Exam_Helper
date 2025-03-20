@@ -30,6 +30,11 @@ public class QuizViewModel extends ViewModel {
     private MutableLiveData<List<GrammarQuestion>> grammarQuestionList = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> isQuestionReady = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> isQuizCompleted = new MutableLiveData<>(false);
+    private boolean isLoading = false;
+    private int score = 0;
+    private int totalQuestions = 0;
+
 
     public QuizViewModel(){
         if(repository == null){
@@ -43,6 +48,9 @@ public class QuizViewModel extends ViewModel {
 
     public void setSelectedLevel(String level){
         selectedLevel.setValue(level);
+        if(!isLoading && !isQuestionReady.getValue()){
+            getLearningItem();
+        }
     }
 
     public MutableLiveData<List<CharacterQuestion>> getCharacterQuestionList() {
@@ -69,10 +77,36 @@ public class QuizViewModel extends ViewModel {
         this.isQuestionReady = isQuestionReady;
     }
 
+    public MutableLiveData<Boolean> getIsQuizCompleted() {
+        return isQuizCompleted;
+    }
+
+    public void setIsQuizCompleted(boolean isQuizCompleted) {
+        this.isQuizCompleted.setValue(isQuizCompleted);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getTotalScore(){
+        return totalQuestions;
+    }
+
+    public boolean isPass(){
+        return score > (totalQuestions / 2);
+    }
+
     public void getLearningItem(){
         if(selectedLevel == null){
             return;
         }
+
+        isLoading = true;
 
         Single<ResponseBean<LearningItemResponse>> response = repository.getLearningItemByLevel(selectedLevel.getValue());
         response.subscribe(new SingleObserver<ResponseBean<LearningItemResponse>>() {
@@ -90,11 +124,14 @@ public class QuizViewModel extends ViewModel {
                     if(bean.getData().getCharacterList() != null){
                         characterQuestionList.setValue(generateCharacterQuestion(
                                 bean.getData().getCharacterList()));
+                        totalQuestions += characterQuestionList.getValue().size();
                     }
 
                     if(bean.getData().getGrammarList() != null){
                         grammarQuestionList.setValue(generateGrammarQuestion(
                                 bean.getData().getGrammarList()));
+
+                        totalQuestions += grammarQuestionList.getValue().size();
                     }
 
                     isQuestionReady.setValue(true);
@@ -112,6 +149,54 @@ public class QuizViewModel extends ViewModel {
 
     }
 
+    public void getLearningItem(String subtopic){
+        if(subtopic == null){
+            return;
+        }
+
+        isLoading = true;
+
+        Single<ResponseBean<LearningItemResponse>> response = repository.
+                getLearningItemBySubtopic(subtopic);
+        response.subscribe(new SingleObserver<ResponseBean<LearningItemResponse>>() {
+            private Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<LearningItemResponse> bean) {
+                int code = bean.getCode();
+                if (code >= 200 && code <= 299) {
+                    if(bean.getData().getCharacterList() != null){
+                        characterQuestionList.setValue(generateCharacterQuestion(
+                                bean.getData().getCharacterList()));
+                        totalQuestions += characterQuestionList.getValue().size();
+                    }
+
+                    if(bean.getData().getGrammarList() != null){
+                        grammarQuestionList.setValue(generateGrammarQuestion(
+                                bean.getData().getGrammarList()));
+
+                        totalQuestions += grammarQuestionList.getValue().size();
+                    }
+
+                    isQuestionReady.setValue(true);
+                }
+
+                d.dispose();
+            }
+
+            @Override
+
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
+
+    }
 
     public List<CharacterQuestion> generateCharacterQuestion(
             List<JapaneseCharacter> learningItemList) {
@@ -130,8 +215,8 @@ public class QuizViewModel extends ViewModel {
                 }
             }
 
-            CharacterQuestion question = new CharacterQuestion(correctAnswer.getQuestion(),
-                    correctAnswer.getAnswer(), questionChoice);
+            CharacterQuestion question = new CharacterQuestion(correctAnswer.getJapanese_character(),
+                    correctAnswer.getPronunciation(), questionChoice);
             questionList.add(question);
         }
 

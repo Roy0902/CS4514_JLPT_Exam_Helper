@@ -1,9 +1,10 @@
-package com.example.cs4514_jlpt_exam_helper.quiz;
+package com.example.cs4514_jlpt_exam_helper.quiz.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,7 +43,6 @@ public class SelectLevelFragment extends Fragment implements View.OnClickListene
         int id = v.getId();
         if(id == R.id.option_beginner){
             viewModel.setSelectedLevel(Constant.level_beginner);
-
         }else if(id == R.id.option_N5){
             viewModel.setSelectedLevel(Constant.level_n5);
         }

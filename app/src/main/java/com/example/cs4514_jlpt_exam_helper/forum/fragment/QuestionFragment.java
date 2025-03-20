@@ -1,10 +1,9 @@
-package com.example.cs4514_jlpt_exam_helper.question.fragment;
+package com.example.cs4514_jlpt_exam_helper.forum.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,8 +15,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.data.Question;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentQuestionBinding;
-import com.example.cs4514_jlpt_exam_helper.question.adapter.QuestionAdapter;
-import com.example.cs4514_jlpt_exam_helper.question.viewmodel.ForumViewModel;
+import com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter;
+import com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel;
 
 import java.util.ArrayList;
 
