@@ -17,6 +17,15 @@ public class SubtopicViewModel extends ViewModel {
     private LearningItemRepository repository;
 
     private MutableLiveData<ArrayList<Subtopic>> subtopics = new  MutableLiveData<ArrayList<Subtopic>>();
+    private MutableLiveData<String> test = new  MutableLiveData<>();
+
+    public MutableLiveData<String> getTest() {
+        return test;
+    }
+
+    public void setTest(MutableLiveData<String> test) {
+        this.test = test;
+    }
 
     public SubtopicViewModel(){
         if(repository == null){
@@ -32,13 +41,13 @@ public class SubtopicViewModel extends ViewModel {
         this.subtopics = subtopics;
     }
 
-    public void getSubtopicItemList(String categoryName, String levelName){
-        if(categoryName == null || levelName == null){
+    public void getSubtopicItemList(String categoryName, String levelName, String sessionToken){
+        if(categoryName == null || levelName == null || sessionToken == null){
             return;
         }
 
         Single<ResponseBean<ArrayList<Subtopic>>> response = repository.
-                getSubtopicList(categoryName, levelName);
+                getSubtopicList(categoryName, levelName, sessionToken);
         response.subscribe(new SingleObserver<ResponseBean<ArrayList<Subtopic>>>() {
             Disposable d;
 
@@ -60,6 +69,8 @@ public class SubtopicViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
+                System.out.println("Failed");
+                test.setValue(e.getMessage());
                 d.dispose();
             }
         });

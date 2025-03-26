@@ -5,7 +5,10 @@ import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
 import com.example.cs4514_jlpt_exam_helper.data.Category;
+import com.example.cs4514_jlpt_exam_helper.network.request.CategoryProgressRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.SubtopicRequest;
 import com.example.cs4514_jlpt_exam_helper.network.request.UserProgressRequest;
+import com.example.cs4514_jlpt_exam_helper.network.response.CategoryProgressResponse;
 import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 import com.example.cs4514_jlpt_exam_helper.network.api.LearningItemAPI;
@@ -38,9 +41,9 @@ public class LearningItemRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(String category_name, String level_name){
+    public Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(String category_name, String level_name, String session_token){
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
-        return learningItemAPI.getSubtopicList(category_name, level_name)
+        return learningItemAPI.getSubtopicList(new SubtopicRequest(category_name, level_name, session_token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -66,9 +69,23 @@ public class LearningItemRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<LearningItemResponse>> getLearningItemBySubtopic(String subtopic_name){
+    public Single<ResponseBean<LearningItemResponse>> getLearningItemBySubtopic(String subtopic_name) {
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
         return learningItemAPI.getLearningItemListBySubtopic(subtopic_name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<String>> updateUserProgress(String subtopic_name, String session_token){
+        LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
+        return learningItemAPI.updateUserProgress(new UserProgressRequest(subtopic_name, session_token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<ArrayList<CategoryProgressResponse>>> getCategoryProgress(String level_name, String session_token){
+        LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
+        return learningItemAPI.getCategoryProgress(new CategoryProgressRequest(level_name, session_token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

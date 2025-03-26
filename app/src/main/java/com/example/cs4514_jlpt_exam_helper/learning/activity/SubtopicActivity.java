@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,9 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(SubtopicViewModel.class);
 
+        SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
+        String sessionToken = pref.getString(Constant.key_session_token, Constant.error_not_found);
+
         Intent intent = getIntent();
         categoryName = intent.getStringExtra("CATEGORY_NAME");
         levelName = intent.getStringExtra("LEVEL_NAME");
@@ -41,7 +45,7 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
 
         setUpEventListener();
         setupViewModelObserver();
-        viewModel.getSubtopicItemList(categoryName, levelName);
+        viewModel.getSubtopicItemList(categoryName, levelName, sessionToken);
     }
 
     public void setUpEventListener(){

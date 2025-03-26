@@ -46,7 +46,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         holder.textCategory.setText(category.getCategory_name());
         holder.imageCategory.setImageResource(category.getImageResId());
-        holder.progressCategory.setProgress(category.getProgress());
+        holder.progressCategory.setMax(category.getTotal_subtopics());
+        holder.progressCategory.setProgress(category.getCompleted_subtopics());
         holder.itemView.setBackgroundResource(category.getColorResId());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

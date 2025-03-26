@@ -45,6 +45,9 @@ public class SubtopicsAdapter extends RecyclerView.Adapter<SubtopicsAdapter.Subt
 
         holder.textSubtopicNumber.setText("Lesson " + position);
         holder.textSubtopicName.setText(subtopic.getName());
+        if(subtopic.isIs_completed()){
+            holder.iconCompleted.setVisibility(View.VISIBLE);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +67,14 @@ public class SubtopicsAdapter extends RecyclerView.Adapter<SubtopicsAdapter.Subt
 
     public static class SubtopicViewHolder extends RecyclerView.ViewHolder {
         ImageView iconStatus;
+        ImageView iconCompleted;
         TextView textSubtopicNumber;
         TextView textSubtopicName;
 
         SubtopicViewHolder(@NonNull View itemView) {
             super(itemView);
             iconStatus = itemView.findViewById(R.id.icon_status);
+            iconCompleted = itemView.findViewById(R.id.icon_completed);
             textSubtopicNumber = itemView.findViewById(R.id.text_subtopic_number);
             textSubtopicName = itemView.findViewById(R.id.text_subtopic_name);
         }

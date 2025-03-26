@@ -3,12 +3,14 @@ package com.example.cs4514_jlpt_exam_helper.learning.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivitySubtopicBinding;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivitySubtopicQuizBinding;
 import com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment;
@@ -53,16 +55,17 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        viewModel.getIsQuizCompleted().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
+        viewModel.getIsQuizCompleted().observe(this, isQuizCompleted -> {
+            if(isQuizCompleted){
+                if(viewModel.isPass()) {
+                    viewModel.updateUserProgress(
+                            subtopicName, SessionManager.getSessionToken(this));
+                }
+
                 getSupportFragmentManager().beginTransaction()
                         .replace(binding.fragmentQuiz.getId(), new QuizResultFragment()).commit();
-
-                if(viewModel.isPass()){
-
-                }
             }
+
         });
     }
 

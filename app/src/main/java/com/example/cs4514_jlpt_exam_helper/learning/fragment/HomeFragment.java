@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
+import com.example.cs4514_jlpt_exam_helper.dashboard.activity.SelectLevelActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentHomeBinding;
 import com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity;
@@ -37,7 +38,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         Thread thread = new Thread(() -> {
             try {
                 SharedPreferences pref = requireActivity().getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
-                pref.edit().remove(Constant.key_selected_current_level).apply();
                 String currentLevel = pref.getString(Constant.key_selected_current_level, Constant.level_beginner);
                 binding.textLevel.setText(currentLevel);
                 setUpFragment(currentLevel);
@@ -52,7 +52,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void setUpFragment(String currentLevel){
         if(currentLevel.equals(Constant.level_beginner)){
             loadFragment(new BeginnerFragment());
-
+        }else if(currentLevel.equals(Constant.level_n5)){
+            loadFragment(new JLPTLevelFragment());
         }
 
     }
@@ -79,7 +80,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
 
     public void goChangeLevelPage(){
-        Intent intent = new Intent(requireActivity(), UserEntryActivity.class);
+        Intent intent = new Intent(requireActivity(), SelectLevelActivity.class);
         startActivity(intent);
     }
 

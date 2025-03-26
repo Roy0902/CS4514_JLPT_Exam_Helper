@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentBeginnerBinding;
+import com.example.cs4514_jlpt_exam_helper.databinding.FragmentJlptLevelBinding;
 import com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicActivity;
 import com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter;
 import com.example.cs4514_jlpt_exam_helper.data.Category;
@@ -22,13 +23,22 @@ import com.example.cs4514_jlpt_exam_helper.learning.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
 
-public class BeginnerFragment extends Fragment implements View.OnClickListener, CategoriesAdapter.OnItemClickListener{
-    private FragmentBeginnerBinding binding;
+public class JLPTLevelFragment extends Fragment implements View.OnClickListener, CategoriesAdapter.OnItemClickListener{
+    private FragmentJlptLevelBinding binding;
     private CategoryViewModel viewModel;
+    private String levelName;
+
+    public static JLPTLevelFragment newInstance(String level_name) {
+        JLPTLevelFragment fragment = new JLPTLevelFragment();
+        Bundle args = new Bundle();
+        args.putString("LEVEL_NAME", level_name);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentBeginnerBinding.inflate(inflater, container, false);
+        binding = FragmentJlptLevelBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
 
         return binding.getRoot();
@@ -37,6 +47,9 @@ public class BeginnerFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            levelName = getArguments().getString("LEVEL_NAME");
+        }
 
 
         Thread thread = new Thread(() -> {
@@ -50,7 +63,7 @@ public class BeginnerFragment extends Fragment implements View.OnClickListener, 
 
         setupViewModelObserver();
         String session_token = SessionManager.getSessionToken(requireActivity());
-        viewModel.getUserProgress("Beginner", session_token);
+        viewModel.getUserProgress(levelName, session_token);
     }
 
     public void setUpEventListener(){

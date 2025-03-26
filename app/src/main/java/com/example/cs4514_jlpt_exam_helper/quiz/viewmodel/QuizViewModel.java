@@ -98,7 +98,10 @@ public class QuizViewModel extends ViewModel {
     }
 
     public boolean isPass(){
-        return score > (totalQuestions / 2);
+        if (totalQuestions <= 0) {
+            return false;
+        }
+        return score >= totalQuestions / 2;
     }
 
     public void getLearningItem(){
@@ -245,5 +248,38 @@ public class QuizViewModel extends ViewModel {
         }
 
         return questionList;
+    }
+
+    public void updateUserProgress(String subtopicName, String sessionToken){
+        if(sessionToken == null || subtopicName == null){
+            return;
+        }
+
+        Single<ResponseBean<String>> response = repository.
+                updateUserProgress(subtopicName, sessionToken);
+        response.subscribe(new SingleObserver<ResponseBean<String>>() {
+            private Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<String> bean) {
+                int code = bean.getCode();
+                if (code >= 200 && code <= 299) {
+
+                }
+
+                d.dispose();
+            }
+
+            @Override
+
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
     }
 }

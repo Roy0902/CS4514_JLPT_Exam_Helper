@@ -118,9 +118,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
     }
 
     public void setQuestion(){
-        if(progress == questionNumber - 1){
-            viewModel.setIsQuizCompleted(true);
+        if(progress == questionNumber){
             viewModel.setScore(score);
+            viewModel.setIsQuizCompleted(true);
         }else if(progress < characterQuestionList.size()){
             setCharacterQuestion(characterQuestionList.get(progress));
         }else{

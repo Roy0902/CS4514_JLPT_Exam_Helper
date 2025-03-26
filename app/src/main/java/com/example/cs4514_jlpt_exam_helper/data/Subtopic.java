@@ -4,6 +4,7 @@ public class Subtopic {
     private int category_id;
     private int level_id;
     private String name;
+    private int is_completed;
 
     public Subtopic(){}
 
@@ -29,5 +30,13 @@ public class Subtopic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isIs_completed() {
+        return is_completed > 0;
+    }
+
+    public void setIs_completed(int is_completed) {
+        this.is_completed = is_completed;
     }
 }
