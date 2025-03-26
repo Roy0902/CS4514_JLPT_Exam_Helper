@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         if(currentLevel.equals(Constant.level_beginner)){
             loadFragment(new BeginnerFragment());
         }else if(currentLevel.equals(Constant.level_n5)){
-            loadFragment(new JLPTLevelFragment());
+            loadFragment(JLPTLevelFragment.newInstance(Constant.level_n5));
         }
 
     }

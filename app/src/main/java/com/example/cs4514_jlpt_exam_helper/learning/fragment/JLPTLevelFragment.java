@@ -89,7 +89,7 @@ public class JLPTLevelFragment extends Fragment implements View.OnClickListener,
     public void onItemClick(Category category) {
         Intent intent = new Intent(getActivity(), SubtopicActivity.class);
         intent.putExtra("CATEGORY_NAME", category.getCategory_name());
-        intent.putExtra("LEVEL_NAME", Constant.level_beginner);
+        intent.putExtra("LEVEL_NAME", levelName);
         startActivity(intent);
     }
 

@@ -97,6 +97,9 @@
     <string name="start_quiz">Start quiz</string>
     <string name="choose_the_jlpt_level">Choose the JLPT Level</string>
     <string name="change_level">Change Level</string>
+    <string name="n4">N4</string>
+    <string name="n3">N3</string>
+    <string name="n2">N2</string>
 
 
 </resources>
