@@ -34,14 +34,14 @@ public class VocabularyViewModel extends ViewModel {
         this.vocabularyList = vocabularyList;
     }
 
-    public void getCharacterItemList(String subtopicName){
+    public void getVocabularyItemList(String subtopicName){
         if(subtopicName == null){
             return;
         }
 
-        /*Single<ResponseBean<ArrayList<Vocabulary>>> response = repository.
+        Single<ResponseBean<ArrayList<Vocabulary>>> response = repository.
                 getVocabularyList(subtopicName);
-        response.subscribe(new SingleObserver<ResponseBean<ArrayList<JapaneseCharacter>>>() {
+        response.subscribe(new SingleObserver<ResponseBean<ArrayList<Vocabulary>>>() {
             Disposable d;
 
             @Override
@@ -50,11 +50,11 @@ public class VocabularyViewModel extends ViewModel {
             }
 
             @Override
-            public void onSuccess(ResponseBean<ArrayList<JapaneseCharacter>> bean) {
+            public void onSuccess(ResponseBean<ArrayList<Vocabulary>> bean) {
                 int code = bean.getCode();
 
                 if (code >= 200 && code <=299) {
-                    characterList.setValue(bean.getData());
+                    vocabularyList.setValue(bean.getData());
                 }
 
                 d.dispose();
@@ -64,6 +64,6 @@ public class VocabularyViewModel extends ViewModel {
             public void onError(Throwable e) {
                 d.dispose();
             }
-        });*/
+        });
     }
 }

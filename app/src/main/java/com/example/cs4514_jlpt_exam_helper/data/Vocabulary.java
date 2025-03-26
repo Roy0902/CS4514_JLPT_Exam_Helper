@@ -1,30 +1,30 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
 public class Vocabulary {
-    private String kanji;
-    private String hiragana;
+    private String word;
+    private String reading;
     private String meaning;
 
-    public Vocabulary(String kanji, String hiragana, String meaning) {
-        this.kanji = kanji;
-        this.hiragana = hiragana;
+    public Vocabulary(String word, String reading, String meaning) {
+        this.word = word;
+        this.reading = reading;
         this.meaning = meaning;
     }
 
-    public String getKanji() {
-        return kanji;
+    public String getWord() {
+        return word;
     }
 
-    public void setKanji(String kanji) {
-        this.kanji = kanji;
+    public void setWord(String word) {
+        this.word = word;
     }
 
-    public String getHiragana() {
-        return hiragana;
+    public String getReading() {
+        return reading;
     }
 
-    public void setHiragana(String hiragana) {
-        this.hiragana = hiragana;
+    public void setReading(String reading) {
+        this.reading = reading;
     }
 
     public String getMeaning() {

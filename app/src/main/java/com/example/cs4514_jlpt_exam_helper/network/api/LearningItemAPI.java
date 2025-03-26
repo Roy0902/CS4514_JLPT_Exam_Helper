@@ -1,6 +1,7 @@
 package com.example.cs4514_jlpt_exam_helper.network.api;
 
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
+import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
@@ -39,6 +40,9 @@ public interface LearningItemAPI {
 
     @GET("/learning-item/get-grammar-item-list")
     Single<ResponseBean<ArrayList<Grammar>>> getGrammarList(@Query("subtopic_name") String subtopic_name);
+
+    @GET("/learning-item/get-vocabulary-item-list")
+    Single<ResponseBean<ArrayList<Vocabulary>>> getVocabularyList(@Query("subtopic_name") String subtopic_name);
 
     @GET("/learning-item/get-learning-item-by-level")
     Single<ResponseBean<LearningItemResponse>> getLearningItemListByLevel(@Query("level_name") String level_name);
