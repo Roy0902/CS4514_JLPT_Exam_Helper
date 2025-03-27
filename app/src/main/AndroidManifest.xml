@@ -113,6 +113,12 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".learning.activity.VocabularyActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
     </application>
 
 </manifest>

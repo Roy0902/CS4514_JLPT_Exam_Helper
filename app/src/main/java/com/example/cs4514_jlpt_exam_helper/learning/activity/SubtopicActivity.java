@@ -80,6 +80,8 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
             goItemPage(HiraganaActivity.class, subtopic.getName());
         }else if(categoryName.equals(Constant.category_grammar)){
             goItemPage(GrammarActivity.class, subtopic.getName());
+        }else if(categoryName.equals(Constant.category_vocabulary)){
+            goItemPage(VocabularyActivity.class, subtopic.getName());
         }
 
     }

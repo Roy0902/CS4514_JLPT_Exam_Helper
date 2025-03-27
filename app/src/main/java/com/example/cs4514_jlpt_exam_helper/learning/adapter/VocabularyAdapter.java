@@ -24,7 +24,9 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
         void onPlayClick(String reading);
     }
 
-    public VocabularyAdapter(Context context, List<Vocabulary> vocabularyList, OnPlayClickListener listener) {
+    public VocabularyAdapter(Context context,
+                             List<Vocabulary> vocabularyList,
+                             OnPlayClickListener listener) {
         this.context = context;
         this.vocabularyList = vocabularyList;
         this.playClickListener = listener;
@@ -48,6 +50,12 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
                 playClickListener.onPlayClick(result.getReading());
             }
         });
+
+        holder.btnBookmark.setOnClickListener(v -> {
+            if (playClickListener != null) {
+                playClickListener.onPlayClick(result.getReading());
+            }
+        });
     }
 
     @Override
@@ -60,6 +68,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
         public TextView textReading;
         public TextView textMeaning;
         public ImageView btnPlay;
+        public ImageView btnBookmark;
 
         public VocabualryViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +76,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
             textReading = itemView.findViewById(R.id.text_reading);
             textMeaning = itemView.findViewById(R.id.text_meaning);
             btnPlay = itemView.findViewById(R.id.btn_play);
+            btnBookmark = itemView.findViewById(R.id.btn_bookmark);
         }
     }
 
