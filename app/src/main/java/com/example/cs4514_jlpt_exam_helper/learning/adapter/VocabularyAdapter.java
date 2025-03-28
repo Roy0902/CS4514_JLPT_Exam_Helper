@@ -41,9 +41,9 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
     @Override
     public void onBindViewHolder(VocabualryViewHolder holder, int position) {
         Vocabulary result = vocabularyList.get(position);
-        holder.textWord.setText(result.getWord());
-        holder.textReading.setText("(" + result.getReading() + ")");
-        holder.textMeaning.setText(String.join(", ", result.getMeaning()));
+        holder.textWord.setText(result.getWord().trim());
+        holder.textReading.setText("(" + result.getReading().trim() + ")");
+        holder.textMeaning.setText(String.join(", ", result.getMeaning().trim()));
 
         holder.btnPlay.setOnClickListener(v -> {
             if (playClickListener != null) {

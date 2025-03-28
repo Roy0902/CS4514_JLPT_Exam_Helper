@@ -8,5 +8,7 @@ public abstract class Question {
 
     public abstract String getQuestion();
 
+    public abstract String getAnswer();
+
     public abstract List<?> getOptionList();
 }

@@ -119,6 +119,12 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".study_plan.activity.GenerateStudyPlanActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
+
     </application>
 
 </manifest>

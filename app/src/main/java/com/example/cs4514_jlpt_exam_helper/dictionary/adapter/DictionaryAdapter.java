@@ -38,10 +38,10 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
     @Override
     public void onBindViewHolder(DictionaryViewHolder holder, int position) {
         JishoResponse result = resultList.get(position);
-        holder.textWord.setText(result.getWord());
-        holder.textReading.setText("(" + result.getReading() + ")");
-        holder.textMeaning.setText(String.join(", ", result.getEnglish_definition()));
-        holder.textPartOfSpeech.setText(String.join(", ", result.getPart_of_speech()));
+        holder.textWord.setText(result.getWord().trim());
+        holder.textReading.setText("(" + result.getReading().trim() + ")");
+        holder.textMeaning.setText(String.join(", ", result.getEnglish_definition().trim()));
+        holder.textPartOfSpeech.setText(String.join(", ", result.getPart_of_speech().trim()));
 
         holder.btnPlay.setOnClickListener(v -> {
             if (playClickListener != null) {

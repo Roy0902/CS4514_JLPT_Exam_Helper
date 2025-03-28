@@ -2,11 +2,7 @@ package com.example.cs4514_jlpt_exam_helper.dashboard.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.se.omapi.Session;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -18,6 +14,7 @@ import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.DashboardViewModel;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityDashboardBinding;
 import com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment;
+import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment;
 
 public class DashboardActivity extends AppCompatActivity {
     private ActivityDashboardBinding binding;
@@ -55,12 +52,8 @@ public class DashboardActivity extends AppCompatActivity {
 
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
-            } else if (itemId == R.id.nav_practice) {
-
             } else if (itemId == R.id.nav_plans) {
-
-            } else if (itemId == R.id.nav_notes) {
-
+                selectedFragment = new StudyPlanFragment();
             } else if (itemId == R.id.nav_settings) {
 
             }

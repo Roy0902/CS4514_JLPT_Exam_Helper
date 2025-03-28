@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
+import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository;
 import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.VocabularyQuestion;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public class QuizViewModel extends ViewModel {
 
     private MutableLiveData<List<CharacterQuestion>> characterQuestionList = new MutableLiveData<>();
     private MutableLiveData<List<GrammarQuestion>> grammarQuestionList = new MutableLiveData<>();
+    private MutableLiveData<List<VocabularyQuestion>> vocabularyQuestionList = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> isQuestionReady = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> isQuizCompleted = new MutableLiveData<>(false);
@@ -85,6 +88,14 @@ public class QuizViewModel extends ViewModel {
         this.isQuizCompleted.setValue(isQuizCompleted);
     }
 
+    public MutableLiveData<List<VocabularyQuestion>> getVocabularyQuestionList() {
+        return vocabularyQuestionList;
+    }
+
+    public void setVocabularyQuestionList(MutableLiveData<List<VocabularyQuestion>> vocabularyQuestionList) {
+        this.vocabularyQuestionList = vocabularyQuestionList;
+    }
+
     public int getScore() {
         return score;
     }
@@ -131,6 +142,13 @@ public class QuizViewModel extends ViewModel {
                     }
 
                     if(bean.getData().getGrammarList() != null){
+                        grammarQuestionList.setValue(generateGrammarQuestion(
+                                bean.getData().getGrammarList()));
+
+                        totalQuestions += grammarQuestionList.getValue().size();
+                    }
+
+                    if(bean.getData().getVocabularyList() != null){
                         grammarQuestionList.setValue(generateGrammarQuestion(
                                 bean.getData().getGrammarList()));
 
@@ -186,6 +204,13 @@ public class QuizViewModel extends ViewModel {
                         totalQuestions += grammarQuestionList.getValue().size();
                     }
 
+                    if(bean.getData().getVocabularyList() != null){
+                        vocabularyQuestionList.setValue(generateVocabularyQuestion(
+                                bean.getData().getVocabularyList()));
+
+                        totalQuestions += vocabularyQuestionList.getValue().size();
+                    }
+
                     isQuestionReady.setValue(true);
                 }
 
@@ -230,7 +255,7 @@ public class QuizViewModel extends ViewModel {
         Collections.shuffle(learningItemList);
         ArrayList<GrammarQuestion> questionList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             int correct_answer_index = new Random().nextInt(learningItemList.size());
             Grammar correctAnswer = learningItemList.get(correct_answer_index);
 
@@ -249,6 +274,31 @@ public class QuizViewModel extends ViewModel {
 
         return questionList;
     }
+
+    public List<VocabularyQuestion> generateVocabularyQuestion(List<Vocabulary> learningItemList) {
+        Collections.shuffle(learningItemList);
+        ArrayList<VocabularyQuestion> questionList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            int correct_answer_index = new Random().nextInt(learningItemList.size());
+            Vocabulary correctAnswer = learningItemList.get(correct_answer_index);
+
+            List<Vocabulary> questionChoice = new ArrayList<>();
+            while (questionChoice.size() < 3) {
+                int index = new Random().nextInt(learningItemList.size());
+                if (index != correct_answer_index) {
+                    questionChoice.add(learningItemList.get(index));
+                }
+            }
+
+            VocabularyQuestion question = new VocabularyQuestion(correctAnswer.getQuestion(),
+                    correctAnswer.getAnswer(), questionChoice);
+            questionList.add(question);
+        }
+
+        return questionList;
+    }
+
 
     public void updateUserProgress(String subtopicName, String sessionToken){
         if(sessionToken == null || subtopicName == null){

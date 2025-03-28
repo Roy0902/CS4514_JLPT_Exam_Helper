@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,10 +16,13 @@ import com.example.cs4514_jlpt_exam_helper.GoogleTTSManager;
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
+import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentQuizBinding;
 import com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.Question;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.VocabularyQuestion;
 import com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
     private FragmentQuizBinding binding;
     private List<CharacterQuestion> characterQuestionList;
     private List<GrammarQuestion> grammarQuestionList;
+    private List<VocabularyQuestion> vocabularyQuestionList;
     private int progress;
     private int questionNumber;
     private int score;
@@ -52,6 +57,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
 
         characterQuestionList = new ArrayList<>();
         grammarQuestionList = new ArrayList<>();
+        vocabularyQuestionList = new ArrayList<>();
         player = new MediaPlayer();
         manager = GoogleTTSManager.getInstance();
 
@@ -66,11 +72,18 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
             grammarQuestionList = viewModel.getGrammarQuestionList().getValue();
         }
 
+        if(viewModel.getVocabularyQuestionList().getValue() != null){
+            vocabularyQuestionList = viewModel.getVocabularyQuestionList().getValue();
+        }
+
         adapter = new QuizQuestionAdapter(this);
         binding.optionRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.optionRecyclerView.setAdapter(adapter);
 
-        questionNumber = characterQuestionList.size() + grammarQuestionList.size();
+        questionNumber = characterQuestionList.size() +
+                         grammarQuestionList.size() +
+                         vocabularyQuestionList.size();
+
         binding.progressBar.setMax(questionNumber);
 
         setQuestion();
@@ -85,12 +98,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
     }
 
     public void setCharacterQuestion(CharacterQuestion question){
-        ArrayList<String> tempOptionList = new ArrayList<>();
-        tempOptionList.add(question.getCorrectAnswer());
+        ArrayList<Question> tempOptionList = new ArrayList<>();
+        tempOptionList.add(question);
         binding.textQuestion.setText(question.getQuestion());
 
         for(JapaneseCharacter q: question.getOptionList()){
-            tempOptionList.add(q.getPronunciation());
+            tempOptionList.add(new CharacterQuestion(q.getQuestion(), q.getAnswer()));
         }
 
         Collections.shuffle(tempOptionList);
@@ -99,15 +112,29 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
     }
 
     public void setGrammarQuestion(GrammarQuestion question){
-        ArrayList<String> tempOptionList = new ArrayList<String>();
-        tempOptionList.add(question.getCorrectAnswer());
+        ArrayList<Question> tempOptionList = new ArrayList<>();
+        tempOptionList.add(question);
         binding.textQuestion.setText(question.getQuestion());
 
         for(Grammar q: question.getOptionList()){
-            tempOptionList.add(q.getExplanation());
+            tempOptionList.add(new GrammarQuestion(q.getQuestion(), q.getAnswer()));
         }
 
         Collections.shuffle(tempOptionList);
+        setQuizFragment();
+    }
+
+    public void setVocabularyQuestion(VocabularyQuestion question){
+        ArrayList<Question> tempOptionList = new ArrayList<>();
+        tempOptionList.add(question);
+        binding.textQuestion.setText(question.getQuestion());
+
+        for(Vocabulary v: question.getOptionList()){
+            tempOptionList.add(new VocabularyQuestion(v.getQuestion(), v.getAnswer()));
+        }
+
+        Collections.shuffle(tempOptionList);
+        adapter.changeQuestion(question.getCorrectAnswer(), tempOptionList);
         setQuizFragment();
     }
 
@@ -123,8 +150,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
             viewModel.setIsQuizCompleted(true);
         }else if(progress < characterQuestionList.size()){
             setCharacterQuestion(characterQuestionList.get(progress));
+        }else if(progress - characterQuestionList.size() < grammarQuestionList.size()){
+            setGrammarQuestion(grammarQuestionList.get(progress - characterQuestionList.size()));
         }else{
-            setGrammarQuestion(grammarQuestionList.get(questionNumber-progress));
+            int index = progress - characterQuestionList.size() - grammarQuestionList.size();
+            setVocabularyQuestion(vocabularyQuestionList.get(index));
         }
     }
 
@@ -147,7 +177,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onPlayClick(String reading){
-        manager.getTTSService(reading, player, requireActivity());
+    public void onPlayClick(Question question){
+        manager.getTTSService(question.getQuestion(), player, requireActivity());
     }
 }

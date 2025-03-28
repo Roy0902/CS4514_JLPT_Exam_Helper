@@ -16,7 +16,13 @@ public class GrammarQuestion extends Question{
         this.correctAnswer = correctAnswer;
     }
 
-    public String getCorrectAnswer(){
+    public GrammarQuestion(String question, String correctAnswer) {
+        this.question = question;
+        this.correctAnswer = correctAnswer;
+    }
+
+    @Override
+    public String getAnswer(){
         return correctAnswer;
     }
 

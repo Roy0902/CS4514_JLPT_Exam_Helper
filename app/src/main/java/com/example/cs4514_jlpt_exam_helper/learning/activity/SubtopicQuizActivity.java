@@ -32,6 +32,7 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
         subtopicName = intent.getStringExtra("SUBTOPIC_NAME");
         binding.textQuiz.setText(subtopicName + " - Quiz");
+        Toast.makeText(this, subtopicName, Toast.LENGTH_SHORT).show();
 
         setUpEventListener();
         setupViewModelObserver();

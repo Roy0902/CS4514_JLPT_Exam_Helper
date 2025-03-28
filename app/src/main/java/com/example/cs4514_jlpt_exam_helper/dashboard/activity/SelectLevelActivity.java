@@ -38,6 +38,7 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
         binding.optionN4.setOnClickListener(this);
         binding.optionN3.setOnClickListener(this);
         binding.optionN2.setOnClickListener(this);
+        binding.optionN1.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +54,8 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
             changeLevel(Constant.level_n3);
         }else if(id == R.id.option_N2){
             changeLevel(Constant.level_n2);
+        }else if(id == R.id.option_N1){
+            changeLevel(Constant.level_n1);
         }
     }
 

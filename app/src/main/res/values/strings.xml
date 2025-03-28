@@ -100,6 +100,19 @@
     <string name="n4">N4</string>
     <string name="n3">N3</string>
     <string name="n2">N2</string>
+    <string name="n1">N1</string>
+    <string name="generate_study_plan">Generate Study Plan</string>
+    <string name="study_plan">Study Plan</string>
+    <string name="you_have_not_generate_any_study_plan">You have not generate any study plan.</string>
+    <string name="what_is_your_current_jlpt_level">What is your current JLPT Level?</string>
+    <string name="no_result">No Result</string>
+    <string name="select_your_target_jlpt_level">Select your target JLPT level</string>
+    <string name="select_your_target_score">Select your target score.</string>
+    <string name="pass_the_jlpt_exam">Pass the JLPT exam</string>
+    <string name="pass_the_jlpt_exam_only">Pass the JLPT Exam Only</string>
+    <string name="fully_prepare_the_jlpt_exam">Fully prepare the JLPT Exam</string>
+    <string name="select_target_score_description">The amount of the study materials are adjusted based on your target score. If you only want to pass the JLPT exam, then only subset of the study materials are included in the study plan</string>
+    <string name="select_jlpt_exam_date">Select the date you will take the JLPT Exam</string>
 
 
 </resources>

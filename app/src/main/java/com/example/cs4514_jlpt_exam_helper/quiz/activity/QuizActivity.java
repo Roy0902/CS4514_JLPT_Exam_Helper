@@ -20,7 +20,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private ActivityQuizBinding binding;
     private String currentLevel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,12 +9,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.Question;
+import com.example.cs4514_jlpt_exam_helper.quiz.data.VocabularyQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapter.QuizQuestionViewHolder> {
-    private List<String> optionList;
+    private List<Question> optionList;
 
     private int selectedPosition;
     private String correctAnswer;
@@ -23,13 +25,13 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
     private OnPlayClickListener playClickListener;
 
     public interface OnPlayClickListener {
-        void onPlayClick(String reading);
+        void onPlayClick(Question reading);
     }
 
     public QuizQuestionAdapter(OnPlayClickListener listener) {
         optionList = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
-            optionList.add("");
+        for(int i = 0; i < 4;i ++){
+            optionList.add(null);
         }
 
         selectedPosition = -1;
@@ -44,11 +46,15 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
 
     @Override
     public void onBindViewHolder(QuizQuestionViewHolder holder, int position) {
-        String option = optionList.get(position);
-        holder.textOption.setText(option);
+        if(optionList.get(position) == null){
+            return;
+        }
+
+        Question option = optionList.get(position);
+        holder.textOption.setText(option.getAnswer());
 
         if(isAnswerChecked){
-            if(option.equals(correctAnswer)){
+            if(option.getAnswer().equals(correctAnswer)){
                 holder.itemView.setBackgroundResource(R.drawable.background_quiz_option_correct);
             }else if(selectedPosition == position){
                 holder.itemView.setBackgroundResource(R.drawable.background_quiz_option_wrong);
@@ -87,10 +93,10 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
         }
         isAnswerChecked = true;
         notifyDataSetChanged();
-        return optionList.get(selectedPosition).equals(correctAnswer);
+        return optionList.get(selectedPosition).getAnswer().equals(correctAnswer);
     }
 
-    public void changeQuestion(String correctAnswer, List<String> optionList){
+    public void changeQuestion(String correctAnswer, List<Question> optionList){
         this.correctAnswer = correctAnswer;
         this.optionList = optionList;
         selectedPosition = -1;

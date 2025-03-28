@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
-public class Vocabulary {
+public class Vocabulary extends BaseLearningItem {
     private String word;
     private String reading;
     private String meaning;
@@ -33,5 +33,15 @@ public class Vocabulary {
 
     public void setMeaning(String meaning) {
         this.meaning = meaning;
+    }
+
+    @Override
+    public String getQuestion(){
+        return (word + "(" + reading + ")").trim();
+    }
+
+    @Override
+    public String getAnswer(){
+        return meaning;
     }
 }

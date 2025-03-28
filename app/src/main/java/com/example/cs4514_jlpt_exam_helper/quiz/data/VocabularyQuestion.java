@@ -1,22 +1,22 @@
 package com.example.cs4514_jlpt_exam_helper.quiz.data;
 
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
-import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
+import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 
 import java.util.List;
 
-public class CharacterQuestion extends Question{
-    private List<JapaneseCharacter> optionList;
+public class VocabularyQuestion extends Question{
+    private List<Vocabulary> optionList;
     private String question;
     private String correctAnswer;
 
-    public CharacterQuestion(String question, String correctAnswer, List<JapaneseCharacter> optionList) {
+    public VocabularyQuestion(String question, String correctAnswer, List<Vocabulary> optionList) {
         this.optionList = optionList;
         this.question = question;
         this.correctAnswer = correctAnswer;
     }
 
-    public CharacterQuestion(String question, String correctAnswer) {
+    public VocabularyQuestion(String question, String correctAnswer) {
         this.question = question;
         this.correctAnswer = correctAnswer;
     }
@@ -36,7 +36,7 @@ public class CharacterQuestion extends Question{
     }
 
     @Override
-    public List<JapaneseCharacter> getOptionList(){
+    public List<Vocabulary> getOptionList(){
         return optionList;
     }
 
@@ -44,8 +44,4 @@ public class CharacterQuestion extends Question{
     public String getAnswer(){
         return correctAnswer;
     }
-
-
-
-
 }
