@@ -1,7 +1,8 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
 public class Constant {
-    public final static String baseURL = "http://192.168.50.215:8080/"; //  "https://optimum-monitor-453102-d6.de.r.appspot.com/"
+    public final static String baseURL = "http://192.168.50.146:8080/";
+    //  http://192.168.50.146:8080/"https://optimum-monitor-453102-d6.de.r.appspot.com/"
     public final static String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     public final static String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,30}$";
     public final static String userNameRegex = "^[a-zA-Z0-9]+$";

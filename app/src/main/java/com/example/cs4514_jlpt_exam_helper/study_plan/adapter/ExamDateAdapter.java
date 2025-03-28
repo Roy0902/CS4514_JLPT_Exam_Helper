@@ -13,6 +13,7 @@ import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.quiz.data.Question;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class ExamDateAdapter extends RecyclerView.Adapter<ExamDateAdapter.ExamDateViewHolder> {
@@ -37,7 +38,7 @@ public class ExamDateAdapter extends RecyclerView.Adapter<ExamDateAdapter.ExamDa
     @Override
     public void onBindViewHolder(ExamDateViewHolder holder, int position) {
         JLPTExamDate exam_date = examDateList.get(position);
-        holder.optionExamDate.setText(exam_date.getExam_date().toString().trim());
+        holder.optionExamDate.setText(exam_date.getExam_date().split("T")[0]);
 
         holder.itemView.setOnClickListener(v ->{
             if(listener != null){

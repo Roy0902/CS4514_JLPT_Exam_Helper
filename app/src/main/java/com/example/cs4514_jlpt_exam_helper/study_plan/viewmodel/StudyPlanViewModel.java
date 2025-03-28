@@ -9,10 +9,15 @@ import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
 import com.example.cs4514_jlpt_exam_helper.network.repository.OtpRepository;
 import com.example.cs4514_jlpt_exam_helper.network.repository.StudyPlanRepository;
+import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
 import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanResponse;
 import com.example.cs4514_jlpt_exam_helper.validator.ValidationResult;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +29,13 @@ public class StudyPlanViewModel extends ViewModel {
     private StudyPlanRepository studyPlanRepository;
 
     private MutableLiveData<Boolean> isPlanExisted = new MutableLiveData<>();
+    private MutableLiveData<Boolean> examDateListReady = new MutableLiveData<>();
+
     private MutableLiveData<String> currentLevel = new MutableLiveData<>();
     private MutableLiveData<String> targetLevel = new MutableLiveData<>();
     private MutableLiveData<Boolean> isJustPass = new MutableLiveData<>();
-    private MutableLiveData<Boolean> examDateListReady = new MutableLiveData<>();
+    private MutableLiveData<Integer> daysLeftUntilExam = new MutableLiveData<>();
+    private MutableLiveData<Integer> dailyStudyTime = new MutableLiveData<>();
 
     private MutableLiveData<JLPTExamDate> selectedExamDate = new MutableLiveData<>();
 
@@ -97,6 +105,15 @@ public class StudyPlanViewModel extends ViewModel {
 
     public void setSelectedExamDate(JLPTExamDate selectedExamDate) {
         this.selectedExamDate.setValue(selectedExamDate);
+        formatDate(this.selectedExamDate.getValue().getExam_date().split("T")[0]);
+    }
+
+    public MutableLiveData<Integer> getDailyStudyTime() {
+        return dailyStudyTime;
+    }
+
+    public void setDailyStudyTime(int dailyStudyTime) {
+        this.dailyStudyTime.setValue(dailyStudyTime);
     }
 
     public void setIsJustPass(Boolean isJustPass) {
@@ -105,6 +122,14 @@ public class StudyPlanViewModel extends ViewModel {
 
     public void setTargetLevel(String targetLevel) {
         this.targetLevel.setValue(targetLevel);
+    }
+
+    public MutableLiveData<Integer> getDaysLeftUntilExam() {
+        return daysLeftUntilExam;
+    }
+
+    public void setDaysLeftUntilExam(int daysLeftUntilExam) {
+        this.daysLeftUntilExam.setValue(daysLeftUntilExam);
     }
 
     public int getTotalPlan() {
@@ -183,5 +208,63 @@ public class StudyPlanViewModel extends ViewModel {
                 examDateListReady.setValue(false);
             }
         });
+    }
+
+    public void generateStudyPlan(String session_token){
+        GenerateStudyPlanRequest request = createRequest(session_token);
+
+        Single<ResponseBean<StudyPlanResponse>> response = studyPlanRepository.generateStudyPlan(request);
+        response.subscribe(new SingleObserver<ResponseBean<StudyPlanResponse>>() {
+            Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<StudyPlanResponse> bean) {
+                int code = bean.getCode();
+
+                System.out.println("Message: (S) " + bean.getMessage());
+                if (code >= 200 && code <=299) {
+
+                }
+
+                d.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("Message: " + e.getMessage());
+                d.dispose();
+
+                examDateListReady.setValue(false);
+            }
+        });
+    }
+
+    public GenerateStudyPlanRequest createRequest(String session_token){
+        String target_goal;
+
+        if(isJustPass.getValue()){
+            target_goal = "true";
+        }else{
+            target_goal = "false";
+        }
+
+        return new GenerateStudyPlanRequest(currentLevel.getValue(), targetLevel.getValue(),
+                                            dailyStudyTime.getValue(), daysLeftUntilExam.getValue(),
+                                            target_goal, session_token);
+
+    }
+
+    public void formatDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate givenDate = LocalDate.parse(date, formatter);
+        LocalDate currentDate = LocalDate.now();
+
+        long daysLeft = ChronoUnit.DAYS.between(currentDate, givenDate);
+        daysLeftUntilExam.setValue((int) daysLeft);
     }
 }

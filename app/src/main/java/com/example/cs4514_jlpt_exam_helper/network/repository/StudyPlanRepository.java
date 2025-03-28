@@ -6,6 +6,7 @@ import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.api.OtpAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.StudyPlanAPI;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
 import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanResponse;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 
@@ -40,6 +41,12 @@ public class StudyPlanRepository {
     public Single<ResponseBean<List<JLPTExamDate>>> getJLPTExamDate(){
         StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
         return studyPlanAPI.getJLPTExamDate().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<StudyPlanResponse>> generateStudyPlan(GenerateStudyPlanRequest request){
+        StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
+        return studyPlanAPI.generateStudyPlan(request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityGenerateStudyPlanBinding;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityQuizBinding;
 import com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment;
@@ -15,6 +16,7 @@ import com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizResultFragment;
 import com.example.cs4514_jlpt_exam_helper.quiz.fragment.SelectLevelFragment;
 import com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectCurrentLevelFragment;
+import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectDailyStudyTimeFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectExamDateFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetLevelFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetScoreFragment;
@@ -63,10 +65,22 @@ public class GenerateStudyPlanActivity extends AppCompatActivity implements View
             if(isReady){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_generate_study_plan, new SelectExamDateFragment()).commit();
-            }else{
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+        });
+        
+        viewModel.getDaysLeftUntilExam().observe(this, daysLeftUntilExam ->{
+            if(daysLeftUntilExam > 0){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_generate_study_plan, new SelectDailyStudyTimeFragment()).commit();
+            }
+        });
+
+        viewModel.getDailyStudyTime().observe(this, dailyStudyTime ->{
+            if(dailyStudyTime > 0){
+                String session_token = SessionManager.getSessionToken(this);
+                Toast.makeText(this, "Start.", Toast.LENGTH_SHORT).show();
+                viewModel.generateStudyPlan(session_token);
+            }
         });
     }
 

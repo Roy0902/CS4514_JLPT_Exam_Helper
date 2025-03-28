@@ -113,6 +113,11 @@
     <string name="fully_prepare_the_jlpt_exam">Fully prepare the JLPT Exam</string>
     <string name="select_target_score_description">The amount of the study materials are adjusted based on your target score. If you only want to pass the JLPT exam, then only subset of the study materials are included in the study plan</string>
     <string name="select_jlpt_exam_date">Select the date you will take the JLPT Exam</string>
+    <string name="select_daily_study_time_description">How much time you can spend on learning the study materials?</string>
+    <string name="_5_minutes">5 minutes</string>
+    <string name="_10_minutes">10 minutes</string>
+    <string name="_15_minutes">15 minutes</string>
+    <string name="_30_minutes">30 minutes</string>
 
 
 </resources>
