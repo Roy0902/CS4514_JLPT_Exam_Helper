@@ -29,6 +29,8 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(QuizViewModel.class);
 
+        showLoadingEffect();
+
         Intent intent = getIntent();
         subtopicName = intent.getStringExtra("SUBTOPIC_NAME");
         binding.textQuiz.setText(subtopicName + " - Quiz");
@@ -48,6 +50,7 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
         viewModel.getIsQuestionReady().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean b) {
+                hideLoadingEffect();
                 if (b) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(binding.fragmentQuiz.getId(), new QuizFragment()).commit();
@@ -80,5 +83,15 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
 
     public void goBackDashboardPage(){
         finish();
+    }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 }

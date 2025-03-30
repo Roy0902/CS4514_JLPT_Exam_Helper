@@ -2,6 +2,7 @@ package com.example.cs4514_jlpt_exam_helper.forum.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 
 import androidx.fragment.app.FragmentActivity;
@@ -31,6 +32,8 @@ public class ForumActivity extends FragmentActivity {
         binding = ActivityForumBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        showLoadingEffect();
+
         viewModel = new ViewModelProvider(this).get(ForumViewModel.class);
         questionFragment = new QuestionFragment();
         askQuestionFragment = new AskQuestionFragment();
@@ -57,7 +60,7 @@ public class ForumActivity extends FragmentActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (currentScreen == null || currentScreen.equals("QUESTION")) {
                 transaction.show(questionFragment).hide(askQuestionFragment).hide(replyFragment).hide(sendReplyFragment);
-            } else if (currentScreen.equals("POST_QUESTION")) {
+            }else if (currentScreen.equals("POST_QUESTION")) {
                 transaction.show(askQuestionFragment).hide(replyFragment).hide(questionFragment).hide(sendReplyFragment);
             }else if (currentScreen.equals("REPLY")) {
                 transaction.show(replyFragment).hide(askQuestionFragment).hide(questionFragment).hide(sendReplyFragment);
@@ -70,6 +73,19 @@ public class ForumActivity extends FragmentActivity {
             } catch (IllegalStateException e) {
                 Log.e("ForumActivity", "Fragment transaction failed", e);
             }
+
+            hideLoadingEffect();
         });
     }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
 }

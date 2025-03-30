@@ -36,6 +36,8 @@ public class VocabularyActivity extends AppCompatActivity implements View.OnClic
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(VocabularyViewModel.class);
 
+        showLoadingEffect();
+
         manager = GoogleTTSManager.getInstance();
         player = new MediaPlayer();
 
@@ -59,6 +61,7 @@ public class VocabularyActivity extends AppCompatActivity implements View.OnClic
                 binding.vocabularyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 binding.vocabularyRecyclerView.setAdapter(new VocabularyAdapter( this, vocabularyList,this));
             }
+            hideLoadingEffect();
         });
     }
 
@@ -94,5 +97,15 @@ public class VocabularyActivity extends AppCompatActivity implements View.OnClic
         Intent intent = new Intent(VocabularyActivity.this, SubtopicQuizActivity.class);
         intent.putExtra("SUBTOPIC_NAME", subtopicName);
         startActivity(intent);
+    }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 }

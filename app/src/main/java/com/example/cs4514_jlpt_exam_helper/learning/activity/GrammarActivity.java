@@ -28,6 +28,8 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(GrammarViewModel.class);
 
+        showLoadingEffect();
+
         Intent intent = getIntent();
         subtopicName = intent.getStringExtra("SUBTOPIC_NAME");
         binding.textCategory.setText(subtopicName);
@@ -47,6 +49,8 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
                 binding.grammarRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 binding.grammarRecyclerView.setAdapter(new GrammarAdapter(grammarList));
             }
+
+            hideLoadingEffect();
         });
     }
 
@@ -61,4 +65,15 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
     public void goBackDashboardPage(){
         finish();
     }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
 }

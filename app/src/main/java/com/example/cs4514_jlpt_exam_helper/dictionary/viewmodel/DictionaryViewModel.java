@@ -54,6 +54,8 @@ public class DictionaryViewModel extends ViewModel {
 
                 if (code >= 200 && code <=299) {
                     responseList.setValue(bean.getData());
+                }else{
+                    responseList.setValue(null);
                 }
 
                 d.dispose();

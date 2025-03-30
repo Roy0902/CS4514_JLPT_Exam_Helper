@@ -28,7 +28,9 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
         binding = ActivitySelectLevelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        showLoadingEffect();
         setUpEventListener();
+        hideLoadingEffect();
     }
 
 
@@ -69,4 +71,15 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
 
     }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
 }

@@ -28,8 +28,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
         viewModel = new ViewModelProvider(this).get(QuizViewModel.class);
 
+        showLoadingEffect();
         setUpEventListener();
         setupViewModelObserver();
+
+        hideLoadingEffect();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_quiz, new SelectLevelFragment()).commit();
 
@@ -62,6 +65,15 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         if(id == R.id.btn_back){
             finish();
         }
+    }
 
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 }

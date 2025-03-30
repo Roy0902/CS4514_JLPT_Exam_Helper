@@ -3,6 +3,7 @@ package com.example.cs4514_jlpt_exam_helper.dashboard.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
+        showLoadingEffect();
+
         setUpEventListener();
         setupViewModelObserver();
 
@@ -40,6 +43,8 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         thread.start();
+
+        hideLoadingEffect();
     }
 
 
@@ -70,6 +75,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void setupViewModelObserver(){
         viewModel.getValidToken().observe(this, validToken -> {
+            hideLoadingEffect();
             if(!validToken){
                 goUserEntryPage();
             }else{
@@ -88,6 +94,16 @@ public class DashboardActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.dashboard_fragment_container, fragment)
                 .commit();
+    }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

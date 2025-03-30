@@ -50,10 +50,17 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
         int id = v.getId();
         if(id == R.id.btn_generate_plan){
             goGenerateStudyPlanPage();
+        }else if(id == R.id.study_plan){
+            goStudyPlanPage();
         }
     }
 
     public void goGenerateStudyPlanPage(){
+        Intent intent = new Intent(requireActivity(), GenerateStudyPlanActivity.class);
+        startActivity(intent);
+    }
+
+    public void goStudyPlanPage(){
         Intent intent = new Intent(requireActivity(), GenerateStudyPlanActivity.class);
         startActivity(intent);
     }

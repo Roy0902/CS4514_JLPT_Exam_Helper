@@ -86,4 +86,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void setCurrentFragment(int position) {
         binding.viewPager.setCurrentItem(position, true);
     }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
 }

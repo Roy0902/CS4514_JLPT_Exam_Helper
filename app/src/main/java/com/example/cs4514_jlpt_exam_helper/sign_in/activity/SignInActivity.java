@@ -112,4 +112,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             goDashboardPage();
         });
     }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
 }

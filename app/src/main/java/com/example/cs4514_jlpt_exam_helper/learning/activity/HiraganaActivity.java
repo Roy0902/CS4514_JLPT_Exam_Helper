@@ -33,6 +33,9 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
         binding = ActivityHiraganaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(JapaneseCharacterViewModel.class);
+
+        showLoadingEffect();
+
         player = new MediaPlayer();
         manager = GoogleTTSManager.getInstance();
 
@@ -56,6 +59,8 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
                 binding.hiraganaRecyclerView.setLayoutManager(new GridLayoutManager(this, 5));
                 binding.hiraganaRecyclerView.setAdapter(new JapaneseCharacterAdapter(characterList, this));
             }
+
+            hideLoadingEffect();
         });
     }
 
@@ -77,6 +82,16 @@ public class HiraganaActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = new Intent(this, SubtopicQuizActivity.class);
         intent.putExtra("SUBTOPIC_NAME", subtopicName);
         startActivity(intent);
+    }
+
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

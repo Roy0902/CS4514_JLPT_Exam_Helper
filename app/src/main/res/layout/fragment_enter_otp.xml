@@ -68,7 +68,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/gradient_sign_up"
+                android:background="@drawable/gradient_3"
                 android:text = "@string/verify_email"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@id/et_otp"

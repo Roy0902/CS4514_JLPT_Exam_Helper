@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
@@ -29,7 +28,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/img_appLogo"/>
 
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_appLogo"
         android:layout_width="50dp"
@@ -42,7 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_signIn"
@@ -180,7 +177,7 @@
         android:layout_marginTop="90dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/gradient_sign_in"
+        android:background="@drawable/gradient_2"
         android:text="@string/sign_in"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@id/img_appLogo"
@@ -227,20 +224,25 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/gradient_sign_up"
+        android:background="@drawable/gradient_3"
         android:text="@string/sign_up"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/text_break"/>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_animation"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading_animation"
+    <View
+        android:id="@+id/overlay_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
+        android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -40,6 +40,7 @@ public class DictionaryActivity extends AppCompatActivity implements View.OnClic
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    showProgressBar();
                     viewModel.searchWord(binding.etKeyword.getText().toString().trim());
                     return true;
                 }
@@ -50,11 +51,17 @@ public class DictionaryActivity extends AppCompatActivity implements View.OnClic
 
     public void setupViewModelObserver(){
         viewModel.getResponseList().observe(this, responseList -> {
-            System.out.println(responseList);
             if(responseList != null && !responseList.isEmpty()){
+                binding.dictionaryRecyclerView.setVisibility(View.VISIBLE);
+                binding.textNoResult.setVisibility(View.GONE);
                 binding.dictionaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 binding.dictionaryRecyclerView.setAdapter(new DictionaryAdapter(this, responseList, this));
+            }else{
+                binding.dictionaryRecyclerView.setVisibility(View.GONE);
+                binding.textNoResult.setVisibility(View.VISIBLE);
             }
+
+           hideProgressBar();
         });
     }
 
@@ -73,6 +80,14 @@ public class DictionaryActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onPlayClick(String reading){
         manager.getTTSService(reading, player, this);
+    }
+
+    private void showProgressBar() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

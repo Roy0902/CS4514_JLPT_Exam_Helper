@@ -70,4 +70,14 @@ public class OnboardingActivity extends AppCompatActivity implements View.OnClic
         descriptionIDs = new int[]{R.string.onboarding_desc_1, R.string.onboarding_desc_2, R.string.onboarding_desc_3};
     }
 
+    private void showLoadingEffect() {
+        binding.overlayView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoadingEffect() {
+        binding.overlayView.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
+
 }

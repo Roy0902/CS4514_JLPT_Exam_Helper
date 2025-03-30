@@ -1,53 +1,47 @@
-package com.example.cs4514_jlpt_exam_helper.learning.activity;
+package com.example.cs4514_jlpt_exam_helper.study_plan.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
+import com.example.cs4514_jlpt_exam_helper.databinding.ActivityStudyPlanBinding;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivitySubtopicBinding;
+import com.example.cs4514_jlpt_exam_helper.learning.activity.GrammarActivity;
+import com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity;
+import com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity;
 import com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter;
 import com.example.cs4514_jlpt_exam_helper.learning.viewmodel.SubtopicViewModel;
+import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 
-public class SubtopicActivity extends AppCompatActivity implements View.OnClickListener, SubtopicsAdapter.OnItemClickListener{
-    private ActivitySubtopicBinding binding;
-    private SubtopicViewModel viewModel;
+public class StudyPlanActivity extends AppCompatActivity implements View.OnClickListener, SubtopicsAdapter.OnItemClickListener{
+    private ActivityStudyPlanBinding binding;
+    private StudyPlanViewModel viewModel;
     private String categoryName;
     private String levelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySubtopicBinding.inflate(getLayoutInflater());
+        binding = ActivityStudyPlanBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        viewModel = new ViewModelProvider(this).get(SubtopicViewModel.class);
+        viewModel = new ViewModelProvider(this).get(StudyPlanViewModel.class);
 
         showLoadingEffect();
 
-        SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
-        String sessionToken = pref.getString(Constant.key_session_token, Constant.error_not_found);
-
-        Intent intent = getIntent();
-        categoryName = intent.getStringExtra("CATEGORY_NAME");
-        levelName = intent.getStringExtra("LEVEL_NAME");
-        binding.textCategory.setText(categoryName);
+        String sessionToken = SessionManager.getSessionToken(this);
 
         setUpEventListener();
         setupViewModelObserver();
-        viewModel.getSubtopicItemList(categoryName, levelName, sessionToken);
     }
 
     public void setUpEventListener(){
@@ -55,7 +49,7 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void setupViewModelObserver(){
-        viewModel.getSubtopics().observe(this, subtopics -> {
+        viewModel.getStudyPlan().observe(this, subtopics -> {
             if(subtopics != null && subtopics.size() > 0){
                 binding.subtopicRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 binding.subtopicRecyclerView.setAdapter(new SubtopicsAdapter(subtopics, this, this));
@@ -73,7 +67,7 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void goBackDashboardPage(){
-        Intent intent = new Intent(SubtopicActivity.this, DashboardActivity.class);
+        Intent intent = new Intent(StudyPlanActivity.this, DashboardActivity.class);
         startActivity(intent);
     }
 
@@ -90,7 +84,7 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void goItemPage(Class<?> activity, String subtopicName) {
-        Intent intent = new Intent(SubtopicActivity.this, activity);
+        Intent intent = new Intent(StudyPlanActivity.this, activity);
         intent.putExtra("SUBTOPIC_NAME", subtopicName);
         startActivity(intent);
     }
