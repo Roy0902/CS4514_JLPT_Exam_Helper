@@ -2,10 +2,12 @@ package com.example.cs4514_jlpt_exam_helper.network.repository;
 
 import android.content.Context;
 
+import com.example.cs4514_jlpt_exam_helper.FirebaseTokenService;
 import com.example.cs4514_jlpt_exam_helper.data.Account;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.api.AccountAPI;
+import com.example.cs4514_jlpt_exam_helper.network.request.FirebaseTokenRequest;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 
@@ -50,6 +52,13 @@ public class AccountRepository {
     public Single<ResponseBean<SessionToken>> verifySessionToken(SessionToken sessionToken){
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
         return accountAPI.verifySessionToken(sessionToken).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<String>> updateFirebaseToken (String session_token, String firebase_token){
+        AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
+        return accountAPI.updateFirebaseToken(new FirebaseTokenRequest(session_token, firebase_token))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

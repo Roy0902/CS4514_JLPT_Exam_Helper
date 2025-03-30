@@ -1,6 +1,7 @@
 package com.example.cs4514_jlpt_exam_helper.dashboard.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,11 @@ import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.DashboardViewModel;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityDashboardBinding;
 import com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class DashboardActivity extends AppCompatActivity {
     private ActivityDashboardBinding binding;
@@ -38,6 +41,8 @@ public class DashboardActivity extends AppCompatActivity {
                 if (!SessionManager.isNoVerificationNeeded(DashboardActivity.this)) {
                     viewModel.verifySessionToken(DashboardActivity.this);
                 }
+
+
             }catch (Error e){
                 Log.d("ERROR", "ERROR: " + e.getMessage());
             }
@@ -80,8 +85,27 @@ public class DashboardActivity extends AppCompatActivity {
                 goUserEntryPage();
             }else{
                 SessionManager.setNoVerificationNeeded(this, true);
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                String token = task.getResult();
+                                String session_token = SessionManager.getSessionToken(this);
+                                viewModel.updateFirebaseToken(session_token, token);
+                            }
+                        });
             }
         });
+
+        viewModel.getFirebaseToken().observe(this, firebaseToken -> {
+            if(firebaseToken != null && firebaseToken.length() > 0) {
+                getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE).
+                        edit().
+                        putString(Constant.key_firebase_token, firebaseToken).
+                        apply();
+            }
+
+        });
+
     }
 
     public void goUserEntryPage(){

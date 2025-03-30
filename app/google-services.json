@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "126206133546",
+    "project_id": "cs4514-jlpt-exam-helper",
+    "storage_bucket": "cs4514-jlpt-exam-helper.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126206133546:android:4bc988cfd7fec5cb168a53",
+        "android_client_info": {
+          "package_name": "com.example.cs4514_jlpt_exam_helper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2CwZ8bjD9o1pnGpcyuQMcsRsnM5hy4cM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

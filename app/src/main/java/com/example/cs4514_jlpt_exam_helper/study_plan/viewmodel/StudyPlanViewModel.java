@@ -3,19 +3,14 @@ package com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.data.Account;
+import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
-import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
-import com.example.cs4514_jlpt_exam_helper.network.repository.OtpRepository;
 import com.example.cs4514_jlpt_exam_helper.network.repository.StudyPlanRepository;
 import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
-import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanResponse;
-import com.example.cs4514_jlpt_exam_helper.validator.ValidationResult;
+import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -30,6 +25,7 @@ public class StudyPlanViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> isPlanExisted = new MutableLiveData<>();
     private MutableLiveData<Boolean> examDateListReady = new MutableLiveData<>();
+    private MutableLiveData<Boolean> studyPlanReady = new MutableLiveData<>();
 
     private MutableLiveData<String> currentLevel = new MutableLiveData<>();
     private MutableLiveData<String> targetLevel = new MutableLiveData<>();
@@ -38,6 +34,8 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<Integer> dailyStudyTime = new MutableLiveData<>();
 
     private MutableLiveData<JLPTExamDate> selectedExamDate = new MutableLiveData<>();
+
+    private MutableLiveData<List<DailyStudyPlan>> studyPlanList = new MutableLiveData<List<DailyStudyPlan>>();
 
     private List<JLPTExamDate> examDateList = new ArrayList<>();
 
@@ -140,13 +138,21 @@ public class StudyPlanViewModel extends ViewModel {
         this.totalPlan = totalPlan;
     }
 
-    public void getStudyPlan(String sessionToken){
+    public MutableLiveData<List<DailyStudyPlan>> getStudyPlanList() {
+        return studyPlanList;
+    }
+
+    public void setStudyPlanList(MutableLiveData<List<DailyStudyPlan>> studyPlanList) {
+        this.studyPlanList = studyPlanList;
+    }
+
+    public void getStudyPlanSummary(String sessionToken){
         if(sessionToken == null){
             return;
         }
 
-        Single<ResponseBean<StudyPlanResponse>> response = studyPlanRepository.getStudyPlan(sessionToken);
-        response.subscribe(new SingleObserver<ResponseBean<StudyPlanResponse>>() {
+        Single<ResponseBean<StudyPlanSummaryResponse>> response = studyPlanRepository.getStudyPlanSummary(sessionToken);
+        response.subscribe(new SingleObserver<ResponseBean<StudyPlanSummaryResponse>>() {
             Disposable d;
 
             @Override
@@ -155,17 +161,48 @@ public class StudyPlanViewModel extends ViewModel {
             }
 
             @Override
-            public void onSuccess(ResponseBean<StudyPlanResponse> bean) {
+            public void onSuccess(ResponseBean<StudyPlanSummaryResponse> bean) {
                 int code = bean.getCode();
                 if (code >= 200 && code <=299) {
-                    StudyPlanResponse response = bean.getData();
-                    if(response.getTotalStudyPlan() <= 0){
+                    StudyPlanSummaryResponse response = bean.getData();
+                    if(response.getTotal_study_plan() <= 0){
                         isPlanExisted.setValue(false);
                     }else{
                         isPlanExisted.setValue(true);
-                        completedPlan = response.getCompletedStudyPlan();
-                        totalPlan = response.getTotalStudyPlan();
+                        completedPlan = response.getCompleted_study_plan();
+                        totalPlan = response.getTotal_study_plan();
                     }
+                }
+
+                d.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
+    }
+
+    public void getStudyPlan(String sessionToken){
+        if(sessionToken == null){
+            return;
+        }
+
+        Single<ResponseBean<List<DailyStudyPlan>>> response = studyPlanRepository.getStudyPlan(sessionToken);
+        response.subscribe(new SingleObserver<ResponseBean<List<DailyStudyPlan>>>() {
+            Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<List<DailyStudyPlan>> bean) {
+                int code = bean.getCode();
+                if (code >= 200 && code <=299) {
+                    studyPlanList.setValue(bean.getData());
                 }
 
                 d.dispose();
@@ -213,8 +250,8 @@ public class StudyPlanViewModel extends ViewModel {
     public void generateStudyPlan(String session_token){
         GenerateStudyPlanRequest request = createRequest(session_token);
 
-        Single<ResponseBean<StudyPlanResponse>> response = studyPlanRepository.generateStudyPlan(request);
-        response.subscribe(new SingleObserver<ResponseBean<StudyPlanResponse>>() {
+        Single<ResponseBean<StudyPlanSummaryResponse>> response = studyPlanRepository.generateStudyPlan(request);
+        response.subscribe(new SingleObserver<ResponseBean<StudyPlanSummaryResponse>>() {
             Disposable d;
 
             @Override
@@ -223,11 +260,12 @@ public class StudyPlanViewModel extends ViewModel {
             }
 
             @Override
-            public void onSuccess(ResponseBean<StudyPlanResponse> bean) {
+            public void onSuccess(ResponseBean<StudyPlanSummaryResponse> bean) {
                 int code = bean.getCode();
 
-                System.out.println("Message: (S) " + bean.getMessage());
                 if (code >= 200 && code <=299) {
+
+                }else if(code >= 400){
 
                 }
 
@@ -236,10 +274,7 @@ public class StudyPlanViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("Message: " + e.getMessage());
                 d.dispose();
-
-                examDateListReady.setValue(false);
             }
         });
     }

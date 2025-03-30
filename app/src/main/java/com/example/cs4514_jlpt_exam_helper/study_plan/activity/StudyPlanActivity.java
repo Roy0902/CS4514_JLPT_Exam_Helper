@@ -13,6 +13,7 @@ import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityStudyPlanBinding;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivitySubtopicBinding;
@@ -21,13 +22,12 @@ import com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity;
 import com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity;
 import com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter;
 import com.example.cs4514_jlpt_exam_helper.learning.viewmodel.SubtopicViewModel;
+import com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter;
 import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 
-public class StudyPlanActivity extends AppCompatActivity implements View.OnClickListener, SubtopicsAdapter.OnItemClickListener{
+public class StudyPlanActivity extends AppCompatActivity implements View.OnClickListener, StudyPlanAdapter.OnItemClickListener{
     private ActivityStudyPlanBinding binding;
     private StudyPlanViewModel viewModel;
-    private String categoryName;
-    private String levelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
 
         setUpEventListener();
         setupViewModelObserver();
+
+        viewModel.getStudyPlan(sessionToken);
     }
 
     public void setUpEventListener(){
@@ -49,13 +51,14 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void setupViewModelObserver(){
-        viewModel.getStudyPlan().observe(this, subtopics -> {
-            if(subtopics != null && subtopics.size() > 0){
-                binding.subtopicRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                binding.subtopicRecyclerView.setAdapter(new SubtopicsAdapter(subtopics, this, this));
+        viewModel.getStudyPlanList().observe(this, studyPlanList->{
+            if(studyPlanList != null && studyPlanList.size() > 0){
+                binding.studyPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                binding.studyPlanRecyclerView.setAdapter(new StudyPlanAdapter(studyPlanList, this, this));
             }
             hideLoadingEffect();
         });
+
     }
 
     @Override
@@ -67,19 +70,11 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void goBackDashboardPage(){
-        Intent intent = new Intent(StudyPlanActivity.this, DashboardActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     @Override
-    public void onItemClick(Subtopic subtopic) {
-        if(categoryName.equals(Constant.category_hiragana_katakana)){
-            goItemPage(HiraganaActivity.class, subtopic.getName());
-        }else if(categoryName.equals(Constant.category_grammar)){
-            goItemPage(GrammarActivity.class, subtopic.getName());
-        }else if(categoryName.equals(Constant.category_vocabulary)){
-            goItemPage(VocabularyActivity.class, subtopic.getName());
-        }
+    public void onItemClick(DailyStudyPlan dailyStudyPlan) {
 
     }
 

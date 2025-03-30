@@ -14,6 +14,7 @@ public class Constant {
     public final static String key_session_token = "SESSION_TOKEN";
     public final static String key_selected_current_level = "SELECTED_CURRENT_LEVEL";
     public final static String key_is_verified = "SELECTED_VERIFIED";
+    public final static String key_firebase_token = "FIREBASE_TOKEN";
 
     public final static String error_not_found = "*NOT FOUND";
     public final static String confirmPasswordErrorMsg = "*Passwords do not match.";

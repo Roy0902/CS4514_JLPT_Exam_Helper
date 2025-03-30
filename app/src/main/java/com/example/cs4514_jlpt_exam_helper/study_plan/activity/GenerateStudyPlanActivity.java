@@ -1,5 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.study_plan.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -101,4 +102,5 @@ public class GenerateStudyPlanActivity extends AppCompatActivity implements View
         binding.overlayView.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.GONE);
     }
+
 }

@@ -18,6 +18,7 @@ public class DashboardViewModel extends ViewModel {
     private AccountRepository accountRepository;
 
     private MutableLiveData<Boolean> validToken = new MutableLiveData<>();
+    private MutableLiveData<String> firebaseToken = new MutableLiveData<>();
 
     public DashboardViewModel(){
         if(accountRepository == null){
@@ -31,6 +32,14 @@ public class DashboardViewModel extends ViewModel {
 
     public void setValidToken(MutableLiveData<Boolean> validToken) {
         this.validToken = validToken;
+    }
+
+    public MutableLiveData<String> getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(MutableLiveData<String> firebaseToken) {
+        this.firebaseToken = firebaseToken;
     }
 
     public void verifySessionToken(Context context){
@@ -56,7 +65,7 @@ public class DashboardViewModel extends ViewModel {
             public void onSuccess(ResponseBean<SessionToken> bean) {
                 int code = bean.getCode();
 
-                if (code >= 200 && code <=299) { //otp code sent successfully
+                if (code >= 200 && code <=299) {
                     validToken.setValue(true);
                 }else{
                     validToken.setValue(false);
@@ -71,5 +80,39 @@ public class DashboardViewModel extends ViewModel {
                 d.dispose();
             }
         });
+    }
+
+    public void updateFirebaseToken(String session_token, String firebase_token){
+        if(session_token == null || firebase_token == null){
+            return;
+        }
+
+        Single<ResponseBean<String>> response = accountRepository.
+                updateFirebaseToken(session_token, firebase_token);
+        response.subscribe(new SingleObserver<ResponseBean<String>>() {
+            Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<String> bean) {
+                int code = bean.getCode();
+
+                if (code >= 200 && code <=299) {
+                    firebaseToken.setValue(bean.getData());
+                }
+
+                d.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
+
     }
 }

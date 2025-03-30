@@ -1,16 +1,14 @@
 package com.example.cs4514_jlpt_exam_helper.network.repository;
 
-import com.example.cs4514_jlpt_exam_helper.data.Account;
+import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
-import com.example.cs4514_jlpt_exam_helper.network.api.OtpAPI;
 import com.example.cs4514_jlpt_exam_helper.network.api.StudyPlanAPI;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
-import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanResponse;
+import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 
-import java.sql.Date;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -32,7 +30,13 @@ public class StudyPlanRepository {
         return repository;
     }
 
-    public Single<ResponseBean<StudyPlanResponse>> getStudyPlan(String sessionToken){
+    public Single<ResponseBean<StudyPlanSummaryResponse>> getStudyPlanSummary(String sessionToken){
+        StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
+        return studyPlanAPI.getStudyPlanSummary(new SessionToken(sessionToken)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<List<DailyStudyPlan>>> getStudyPlan(String sessionToken){
         StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
         return studyPlanAPI.getStudyPlan(new SessionToken(sessionToken)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -44,7 +48,7 @@ public class StudyPlanRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<StudyPlanResponse>> generateStudyPlan(GenerateStudyPlanRequest request){
+    public Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(GenerateStudyPlanRequest request){
         StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
         return studyPlanAPI.generateStudyPlan(request).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

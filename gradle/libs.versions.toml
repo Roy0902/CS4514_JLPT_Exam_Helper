@@ -23,6 +23,8 @@ rxjava = "2.2.21"
 swiperefreshlayout = "1.1.0"
 viewpager2 = "1.1.0"
 viewpagerdotsindicator = "4.1.2"
+googleServices = "4.4.2"
+firebaseMessaging = "24.1.1"
 
 [libraries]
 adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "retrofit" }
@@ -51,6 +53,8 @@ rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
 viewmodel = { module = "android.arch.lifecycle:viewmodel", version.ref = "extensions" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 viewpagerdotsindicator = { module = "com.tbuonomo.andrui:viewpagerdotsindicator", version.ref = "viewpagerdotsindicator" }
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

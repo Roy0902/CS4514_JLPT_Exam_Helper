@@ -12,10 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
-import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
 import com.example.cs4514_jlpt_exam_helper.databinding.FragmentStudyPlanBinding;
-import com.example.cs4514_jlpt_exam_helper.sign_in.activity.SignInActivity;
 import com.example.cs4514_jlpt_exam_helper.study_plan.activity.GenerateStudyPlanActivity;
+import com.example.cs4514_jlpt_exam_helper.study_plan.activity.StudyPlanActivity;
 import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 
 public class StudyPlanFragment extends Fragment implements View.OnClickListener{
@@ -25,7 +24,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStudyPlanBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(StudyPlanViewModel.class);
+        viewModel = new ViewModelProvider(this).get(StudyPlanViewModel.class);
 
         return binding.getRoot();
     }
@@ -35,7 +34,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
 
         String sessionToken = SessionManager.getSessionToken(requireActivity());
-        viewModel.getStudyPlan(sessionToken);
+        viewModel.getStudyPlanSummary(sessionToken);
 
         setUpEventListener();
         setupViewModelObserver();
@@ -43,6 +42,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
 
     public void setUpEventListener(){
         binding.btnGeneratePlan.setOnClickListener(this);
+        binding.studyPlan.setOnClickListener(this);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
     }
 
     public void goStudyPlanPage(){
-        Intent intent = new Intent(requireActivity(), GenerateStudyPlanActivity.class);
+        Intent intent = new Intent(requireActivity(), StudyPlanActivity.class);
         startActivity(intent);
     }
 
@@ -77,5 +77,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
                 binding.textNoStudyPlan.setVisibility(View.VISIBLE);
             }
         });
+
     }
+
 }
