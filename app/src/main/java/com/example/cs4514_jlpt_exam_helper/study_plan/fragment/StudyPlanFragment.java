@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,10 +35,11 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
 
         String sessionToken = SessionManager.getSessionToken(requireActivity());
-        viewModel.getStudyPlanSummary(sessionToken);
 
         setUpEventListener();
         setupViewModelObserver();
+
+        viewModel.getStudyPlanSummary(sessionToken);
     }
 
     public void setUpEventListener(){
@@ -72,8 +74,15 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
                 binding.textNoStudyPlan.setVisibility(View.GONE);
                 binding.progressStudyPlan.setMax(viewModel.getTotalPlan());
                 binding.progressStudyPlan.setProgress(viewModel.getCompletedPlan());
+
+                if(viewModel.isBadStudyPlan()){
+                    binding.textWarningBadStudyPlan.setVisibility(View.VISIBLE);
+                }else {
+                    binding.textWarningBadStudyPlan.setVisibility(View.GONE);
+                }
             }else{
                 binding.studyPlan.setVisibility(View.GONE);
+                binding.textWarningBadStudyPlan.setVisibility(View.GONE);
                 binding.textNoStudyPlan.setVisibility(View.VISIBLE);
             }
         });

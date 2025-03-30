@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,9 @@ public class DashboardActivity extends AppCompatActivity {
             try {
                 if (!SessionManager.isNoVerificationNeeded(DashboardActivity.this)) {
                     viewModel.verifySessionToken(DashboardActivity.this);
+                }else{
+                    updateFirebaseToken();
+                    hideLoadingEffect();
                 }
 
 
@@ -48,8 +52,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         thread.start();
-
-        hideLoadingEffect();
     }
 
 
@@ -77,22 +79,28 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+    private void updateFirebaseToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String token = task.getResult();
+                        String session_token = SessionManager.getSessionToken(this);
+                        viewModel.updateFirebaseToken(session_token, token);
+                    }else {
+                        Toast.makeText(this, "FAILED", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     public void setupViewModelObserver(){
         viewModel.getValidToken().observe(this, validToken -> {
             hideLoadingEffect();
+            Toast.makeText(this, "RETURNED", Toast.LENGTH_SHORT).show();
             if(!validToken){
                 goUserEntryPage();
             }else{
                 SessionManager.setNoVerificationNeeded(this, true);
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                String token = task.getResult();
-                                String session_token = SessionManager.getSessionToken(this);
-                                viewModel.updateFirebaseToken(session_token, token);
-                            }
-                        });
+                updateFirebaseToken();
             }
         });
 

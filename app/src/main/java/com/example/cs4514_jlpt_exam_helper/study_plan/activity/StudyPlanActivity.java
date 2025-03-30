@@ -1,9 +1,9 @@
 package com.example.cs4514_jlpt_exam_helper.study_plan.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,17 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
-import com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity;
-import com.example.cs4514_jlpt_exam_helper.data.Constant;
-import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
-import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
+import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityStudyPlanBinding;
-import com.example.cs4514_jlpt_exam_helper.databinding.ActivitySubtopicBinding;
-import com.example.cs4514_jlpt_exam_helper.learning.activity.GrammarActivity;
-import com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity;
-import com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity;
-import com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter;
-import com.example.cs4514_jlpt_exam_helper.learning.viewmodel.SubtopicViewModel;
 import com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter;
 import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 
@@ -51,10 +42,14 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void setupViewModelObserver(){
-        viewModel.getStudyPlanList().observe(this, studyPlanList->{
-            if(studyPlanList != null && studyPlanList.size() > 0){
+        viewModel.getStudyPlanReady().observe(this, isReady->{
+
+            if(isReady){
                 binding.studyPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                binding.studyPlanRecyclerView.setAdapter(new StudyPlanAdapter(studyPlanList, this, this));
+                binding.studyPlanRecyclerView.setAdapter(new StudyPlanAdapter(viewModel.getStudyPlanList().getValue(),
+                        this, this));
+            }else{
+                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
             }
             hideLoadingEffect();
         });
@@ -74,7 +69,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onItemClick(DailyStudyPlan dailyStudyPlan) {
+    public void onItemClick(StudyPlanItem dailyStudyPlan) {
 
     }
 

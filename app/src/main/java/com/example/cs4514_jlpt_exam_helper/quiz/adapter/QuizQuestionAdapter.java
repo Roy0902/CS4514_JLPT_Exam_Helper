@@ -58,6 +58,8 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
                 holder.itemView.setBackgroundResource(R.drawable.background_quiz_option_correct);
             }else if(selectedPosition == position){
                 holder.itemView.setBackgroundResource(R.drawable.background_quiz_option_wrong);
+            }else{
+                holder.itemView.setBackgroundResource(R.drawable.background_quiz_option);
             }
         }else if(selectedPosition == position){
             holder.itemView.setBackgroundResource(R.drawable.background_quiz_option_selected);

@@ -3,10 +3,12 @@ package com.example.cs4514_jlpt_exam_helper.network.response;
 public class StudyPlanSummaryResponse {
     private int completed_study_plan;
     private int total_study_plan;
+    private int fitness_score = -11111;
 
-    public StudyPlanSummaryResponse(int completedStudyPlan, int totalStudyPlan) {
+    public StudyPlanSummaryResponse(int completedStudyPlan, int totalStudyPlan, int fitness_score) {
         this.completed_study_plan = completedStudyPlan;
         this.total_study_plan = totalStudyPlan;
+        this.fitness_score = fitness_score;
     }
 
     public int getCompleted_study_plan() {
@@ -25,5 +27,11 @@ public class StudyPlanSummaryResponse {
         this.total_study_plan = total_study_plan;
     }
 
+    public int getFitness_score() {
+        return fitness_score;
+    }
 
+    public void setFitness_score(int fitness_score) {
+        this.fitness_score = fitness_score;
+    }
 }

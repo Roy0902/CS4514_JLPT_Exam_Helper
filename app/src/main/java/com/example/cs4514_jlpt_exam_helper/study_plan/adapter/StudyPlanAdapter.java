@@ -11,20 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cs4514_jlpt_exam_helper.R;
-import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
+import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 
 import java.util.List;
 
 public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.StudyPlanViewHolder> {
-    private List<DailyStudyPlan> studyPlanList;
+    private List<StudyPlanItem> studyPlanList;
     private OnItemClickListener listener;
     private Context context;
 
     public interface OnItemClickListener {
-        void onItemClick(DailyStudyPlan studyPlan);
+        void onItemClick(StudyPlanItem studyPlan);
     }
 
-    public StudyPlanAdapter(List<DailyStudyPlan> studyPlanList, Context context, OnItemClickListener listener) {
+    public StudyPlanAdapter(List<StudyPlanItem> studyPlanList, Context context, OnItemClickListener listener) {
         this.studyPlanList = studyPlanList;
         this.context = context;
         this.listener =listener;
@@ -40,7 +40,7 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
 
     @Override
     public void onBindViewHolder(@NonNull StudyPlanViewHolder holder, int position) {
-        DailyStudyPlan studyPlan = studyPlanList.get(position);
+        StudyPlanItem studyPlan = studyPlanList.get(position);
 
 
         holder.textStudyPlanNumber.setText("Day " + position);

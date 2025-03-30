@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.network.repository;
 
-import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
+import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.api.StudyPlanAPI;
@@ -36,7 +36,7 @@ public class StudyPlanRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<List<DailyStudyPlan>>> getStudyPlan(String sessionToken){
+    public Single<ResponseBean<List<StudyPlanItem>>> getStudyPlan(String sessionToken){
         StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
         return studyPlanAPI.getStudyPlan(new SessionToken(sessionToken)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

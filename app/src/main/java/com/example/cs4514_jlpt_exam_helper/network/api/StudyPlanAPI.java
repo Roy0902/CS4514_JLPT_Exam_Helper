@@ -1,6 +1,6 @@
 package com.example.cs4514_jlpt_exam_helper.network.api;
 
-import com.example.cs4514_jlpt_exam_helper.data.DailyStudyPlan;
+import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
@@ -20,7 +20,7 @@ public interface StudyPlanAPI {
     Single<ResponseBean<StudyPlanSummaryResponse>> getStudyPlanSummary(@Body SessionToken request);
 
     @POST("/study-plan/get-study-plan")
-    Single<ResponseBean<List<DailyStudyPlan>>> getStudyPlan(@Body SessionToken request);
+    Single<ResponseBean<List<StudyPlanItem>>> getStudyPlan(@Body SessionToken request);
 
     @POST("/study-plan/generate-study-plan")
     Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(@Body GenerateStudyPlanRequest request);

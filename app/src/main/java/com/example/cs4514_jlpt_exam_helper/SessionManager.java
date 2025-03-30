@@ -9,6 +9,10 @@ import com.example.cs4514_jlpt_exam_helper.data.Constant;
 
 public class SessionManager {
 
+    public SessionManager(){
+
+    }
+
     public static void setNoVerificationNeeded(Context context, boolean isVerified) {
         SharedPreferences prefs = context.getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
