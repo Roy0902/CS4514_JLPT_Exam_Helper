@@ -6,6 +6,9 @@ import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.api.StudyPlanAPI;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.StudyPlanItemRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.UpdateStudyPlanProgressRequest;
+import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 
@@ -51,6 +54,20 @@ public class StudyPlanRepository {
     public Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(GenerateStudyPlanRequest request){
         StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
         return studyPlanAPI.generateStudyPlan(request).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<LearningItemResponse>> getLearningItemByItemID(List<String> item_id){
+        StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
+        return studyPlanAPI.getLearningItemByItemID(new StudyPlanItemRequest(item_id)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<String>> updateStudyPlanProgress(String session_token, int study_plan_item_id){
+        StudyPlanAPI studyPlanAPI = RetrofitManager.getInstance().getStudyPlanAPI();
+        return studyPlanAPI
+                .updateStudyPlanProgress(new UpdateStudyPlanProgressRequest(session_token, study_plan_item_id))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

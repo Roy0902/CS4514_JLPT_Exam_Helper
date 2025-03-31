@@ -3,9 +3,9 @@ package com.example.cs4514_jlpt_exam_helper.data;
 public class StudyPlanItem {
     private int study_plan_item_id;
     private String item_id_string;
-    private boolean is_completed;
+    private int is_completed;
 
-    public StudyPlanItem(int study_plan_item_id, String item_id_string, boolean is_completed) {
+    public StudyPlanItem(int study_plan_item_id, String item_id_string, int is_completed) {
         this.study_plan_item_id = study_plan_item_id;
         this.item_id_string = item_id_string;
         this.is_completed = is_completed;
@@ -27,11 +27,11 @@ public class StudyPlanItem {
         this.item_id_string = item_id_string;
     }
 
-    public boolean isIs_completed() {
+    public int isIs_completed() {
         return is_completed;
     }
 
-    public void setIs_completed(boolean is_completed) {
+    public void setIs_completed(int is_completed) {
         this.is_completed = is_completed;
     }
 }

@@ -75,7 +75,6 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                 binding.errorConfirmPw.setText("");
             }
         });
-
     }
 
     @Override

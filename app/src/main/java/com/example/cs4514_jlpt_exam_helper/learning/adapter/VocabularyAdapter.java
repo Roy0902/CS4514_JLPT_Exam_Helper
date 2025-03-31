@@ -52,9 +52,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
         });
 
         holder.btnBookmark.setOnClickListener(v -> {
-            if (playClickListener != null) {
-                playClickListener.onPlayClick(result.getReading());
-            }
+
         });
     }
 

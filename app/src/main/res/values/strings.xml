@@ -121,6 +121,8 @@
     <string name="warning_bad_study_plan">
         The quality of the study plan is not good. It may be due to the short study periods or heavy workload.
         Please try to generate a new study plan with longer study periods and lower workload.</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old Password</string>
 
 
 </resources>

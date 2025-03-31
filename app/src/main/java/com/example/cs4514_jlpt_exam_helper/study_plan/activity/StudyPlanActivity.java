@@ -14,9 +14,15 @@ import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityStudyPlanBinding;
 import com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter;
+import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanItemListFragment;
+import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanListFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 
-public class StudyPlanActivity extends AppCompatActivity implements View.OnClickListener, StudyPlanAdapter.OnItemClickListener{
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class StudyPlanActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityStudyPlanBinding binding;
     private StudyPlanViewModel viewModel;
 
@@ -34,49 +40,78 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         setUpEventListener();
         setupViewModelObserver();
 
+
         viewModel.getStudyPlan(sessionToken);
     }
 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
+        binding.btnCompleted.setOnClickListener(this);
     }
 
     public void setupViewModelObserver(){
         viewModel.getStudyPlanReady().observe(this, isReady->{
 
-            if(isReady){
-                binding.studyPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                binding.studyPlanRecyclerView.setAdapter(new StudyPlanAdapter(viewModel.getStudyPlanList().getValue(),
-                        this, this));
-            }else{
-                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+            if(isReady) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.study_plan_list_fragment, new StudyPlanListFragment()).commit();
+                viewModel.setCurrentFragment(1);
             }
+
             hideLoadingEffect();
         });
 
+
+        viewModel.getSelectedStudyPlan().observe(this, selectedStudyPlan->{
+            if(selectedStudyPlan != null){
+                showLoadingEffect();
+                String item_id_string = selectedStudyPlan.getItem_id_string();
+                List<String> item_id_list = new ArrayList<String>(
+                        Arrays.asList(item_id_string.split(",")));
+
+                viewModel.getStudyPlanItemList(item_id_list);
+            }
+        });
+
+        viewModel.getStudyPlanItemReady().observe(this, isReady ->{
+            if(isReady){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.study_plan_list_fragment, new StudyPlanItemListFragment()).commit();
+                viewModel.setCurrentFragment(2);
+            }
+
+            hideLoadingEffect();
+        });
+
+        viewModel.getSelectedStudyPlan().observe(this, selectedStudyPlan->{
+            binding.textStudyPlan.setText("Day " + viewModel.getSelectedPosition());
+            binding.btnCompleted.setVisibility(View.VISIBLE);
+            binding.btnCompleted.setEnabled(true);
+        });
     }
 
     @Override
     public void onClick(View v){
         int id = v.getId();
         if(id == R.id.btn_back){
-            goBackDashboardPage();
+            back();
+        }else if(id == R.id.btn_completed){
+            String sessionToken = SessionManager.getSessionToken(this);
+            viewModel.updateStudyPlanProgress(sessionToken);
         }
     }
 
-    public void goBackDashboardPage(){
-        finish();
-    }
-
-    @Override
-    public void onItemClick(StudyPlanItem dailyStudyPlan) {
-
-    }
-
-    public void goItemPage(Class<?> activity, String subtopicName) {
-        Intent intent = new Intent(StudyPlanActivity.this, activity);
-        intent.putExtra("SUBTOPIC_NAME", subtopicName);
-        startActivity(intent);
+    public void back(){
+        int currentFragment = viewModel.getCurrentFragment();
+        if(currentFragment == 2){
+            binding.btnCompleted.setEnabled(false);
+            binding.btnCompleted.setVisibility(View.INVISIBLE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.study_plan_list_fragment, new StudyPlanListFragment()).commit();
+            viewModel.setCurrentFragment(1);
+        }else if(currentFragment == 1){
+            finish();
+        }
     }
 
     private void showLoadingEffect() {

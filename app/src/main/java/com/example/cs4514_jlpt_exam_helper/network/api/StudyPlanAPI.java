@@ -5,6 +5,9 @@ import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.StudyPlanItemRequest;
+import com.example.cs4514_jlpt_exam_helper.network.request.UpdateStudyPlanProgressRequest;
+import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public interface StudyPlanAPI {
 
     @POST("/study-plan/generate-study-plan")
     Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(@Body GenerateStudyPlanRequest request);
+
+    @POST("/study-plan/get-learning-item-by-item-id")
+    Single<ResponseBean<LearningItemResponse>> getLearningItemByItemID(@Body StudyPlanItemRequest request);
+
+    @POST("/study-plan/update-study-plan-progress")
+    Single<ResponseBean<String>> updateStudyPlanProgress(@Body UpdateStudyPlanProgressRequest request);
 
     @GET("/study-plan/get-jlpt-exam-date")
     Single<ResponseBean<List<JLPTExamDate>>> getJLPTExamDate();

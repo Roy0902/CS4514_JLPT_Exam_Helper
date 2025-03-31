@@ -21,7 +21,7 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
     private Context context;
 
     public interface OnItemClickListener {
-        void onItemClick(StudyPlanItem studyPlan);
+        void onItemClick(StudyPlanItem studyPlan, int position);
     }
 
     public StudyPlanAdapter(List<StudyPlanItem> studyPlanList, Context context, OnItemClickListener listener) {
@@ -45,7 +45,7 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
 
         holder.textStudyPlanNumber.setText("Day " + position);
 
-        if(studyPlan.isIs_completed()){
+        if(studyPlan.isIs_completed() > 0){
             holder.iconCompleted.setVisibility(View.VISIBLE);
         }
 
@@ -54,7 +54,7 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
             public void onClick(View v) {
 
                 if (listener != null) {
-                    listener.onItemClick(studyPlan);
+                    listener.onItemClick(studyPlan, position);
                 }
             }
         });

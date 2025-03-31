@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +33,7 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = getIntent();
         subtopicName = intent.getStringExtra("SUBTOPIC_NAME");
-        binding.textCategory.setText(subtopicName);
+        binding.textCategory.setText(subtopicName.trim());
 
         setUpEventListener();
         setupViewModelObserver();
@@ -48,6 +49,8 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
             if(grammarList != null && !grammarList.isEmpty()){
                 binding.grammarRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 binding.grammarRecyclerView.setAdapter(new GrammarAdapter(grammarList));
+            }else{
+                Toast.makeText(this, "FAILED", Toast.LENGTH_SHORT).show();
             }
 
             hideLoadingEffect();

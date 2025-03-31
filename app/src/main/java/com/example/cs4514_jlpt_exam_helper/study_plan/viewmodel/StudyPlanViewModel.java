@@ -3,11 +3,14 @@ package com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
+import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.StudyPlanRepository;
 import com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest;
+import com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse;
 import com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse;
 
 import java.time.LocalDate;
@@ -26,6 +29,7 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<Boolean> isPlanExisted = new MutableLiveData<>();
     private MutableLiveData<Boolean> examDateListReady = new MutableLiveData<>();
     private MutableLiveData<Boolean> studyPlanReady = new MutableLiveData<>();
+    private MutableLiveData<Boolean> studyPlanItemReady = new MutableLiveData<>();
 
     private MutableLiveData<String> currentLevel = new MutableLiveData<>();
     private MutableLiveData<String> targetLevel = new MutableLiveData<>();
@@ -34,14 +38,21 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<Integer> dailyStudyTime = new MutableLiveData<>();
 
     private MutableLiveData<JLPTExamDate> selectedExamDate = new MutableLiveData<>();
+    private MutableLiveData<StudyPlanItem> selectedStudyPlan = new MutableLiveData<>();
 
     private MutableLiveData<List<StudyPlanItem>> studyPlanList = new MutableLiveData<>();
+
+    private MutableLiveData<List<Grammar>> grammarItemList = new MutableLiveData<>();
+    private MutableLiveData<List<Vocabulary>> vocabularyItemList = new MutableLiveData<>();
+
 
     private List<JLPTExamDate> examDateList = new ArrayList<>();
 
     private int completedPlan;
     private int totalPlan;
     private boolean badStudyPlan;
+    private int selectedPosition;
+    private int currentFragment;
 
 
     public StudyPlanViewModel(){
@@ -159,6 +170,54 @@ public class StudyPlanViewModel extends ViewModel {
         this.studyPlanList = studyPlanList;
     }
 
+    public MutableLiveData<StudyPlanItem> getSelectedStudyPlan() {
+        return selectedStudyPlan;
+    }
+
+    public void setSelectedStudyPlan(StudyPlanItem selectedStudyPlan) {
+        this.selectedStudyPlan.setValue(selectedStudyPlan);
+    }
+
+    public MutableLiveData<Boolean> getStudyPlanItemReady() {
+        return studyPlanItemReady;
+    }
+
+    public void setStudyPlanItemReady(MutableLiveData<Boolean> studyPlanItemReady) {
+        this.studyPlanItemReady = studyPlanItemReady;
+    }
+
+    public MutableLiveData<List<Vocabulary>> getVocabularyItemList() {
+        return vocabularyItemList;
+    }
+
+    public void setVocabularyItemList(MutableLiveData<List<Vocabulary>> vocabularyItemList) {
+        this.vocabularyItemList = vocabularyItemList;
+    }
+
+    public MutableLiveData<List<Grammar>> getGrammarItemList() {
+        return grammarItemList;
+    }
+
+    public void setGrammarItemList(MutableLiveData<List<Grammar>> grammarItemList) {
+        this.grammarItemList = grammarItemList;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
+    public int getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(int currentFragment) {
+        this.currentFragment = currentFragment;
+    }
+
     public void getStudyPlanSummary(String sessionToken){
         if(sessionToken == null){
             return;
@@ -214,12 +273,12 @@ public class StudyPlanViewModel extends ViewModel {
 
             @Override
             public void onSuccess(ResponseBean<List<StudyPlanItem>> bean) {
-                //int code = bean.getCode();
-                //studyPlanList.setValue(bean.getData());
-                //studyPlanReady.setValue(true);
-                //if (code >= 200 && code <=299) {
+                int code = bean.getCode();
 
-                //}
+                if (code >= 200 && code <=299) {
+                    studyPlanList.setValue(bean.getData());
+                    studyPlanReady.setValue(true);
+                }
 
                 d.dispose();
             }
@@ -303,6 +362,47 @@ public class StudyPlanViewModel extends ViewModel {
 
     }
 
+    public void getStudyPlanItemList(List<String> itemIDList) {
+        if (itemIDList == null) {
+            return;
+        }
+
+        Single<ResponseBean<LearningItemResponse>> response = studyPlanRepository.
+                getLearningItemByItemID(itemIDList);
+        response.subscribe(new SingleObserver<ResponseBean<LearningItemResponse>>() {
+            private Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<LearningItemResponse> bean) {
+                int code = bean.getCode();
+                if (code >= 200 && code <= 299) {
+                    if (bean.getData().getGrammarList() != null) {
+                        grammarItemList.setValue(bean.getData().getGrammarList());
+                    }
+
+                    if (bean.getData().getVocabularyList() != null) {
+                        vocabularyItemList.setValue(bean.getData().getVocabularyList());
+                    }
+
+                    studyPlanItemReady.setValue(true);
+                }
+
+                d.dispose();
+            }
+
+            @Override
+
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
+    }
+
     public void formatDate(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate givenDate = LocalDate.parse(date, formatter);
@@ -310,5 +410,39 @@ public class StudyPlanViewModel extends ViewModel {
 
         long daysLeft = ChronoUnit.DAYS.between(currentDate, givenDate);
         daysLeftUntilExam.setValue((int) daysLeft);
+    }
+
+    public void updateStudyPlanProgress(String sessionToken){
+        if(sessionToken == null || selectedStudyPlan.getValue() == null){
+            return;
+        }
+
+        Single<ResponseBean<String>> response = studyPlanRepository.
+                updateStudyPlanProgress(sessionToken, selectedStudyPlan.getValue().getStudy_plan_item_id());
+        response.subscribe(new SingleObserver<ResponseBean<String>>() {
+            private Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<String> bean) {
+                int code = bean.getCode();
+                if (code >= 200 && code <= 299) {
+
+                }
+
+                d.dispose();
+            }
+
+            @Override
+
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+
+        });
     }
 }
