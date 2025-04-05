@@ -34,7 +34,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        String sessionToken = SessionManager.getSessionToken(requireActivity());
+        String sessionToken = SessionManager.getInstance().getSessionToken(requireActivity());
 
         setUpEventListener();
         setupViewModelObserver();

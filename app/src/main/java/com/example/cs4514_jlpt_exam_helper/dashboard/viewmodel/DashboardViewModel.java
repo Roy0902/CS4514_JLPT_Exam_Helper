@@ -1,14 +1,17 @@
 package com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
+import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -16,13 +19,18 @@ import io.reactivex.disposables.Disposable;
 
 public class DashboardViewModel extends ViewModel {
     private AccountRepository accountRepository;
+    private SessionManager manager;
 
     private MutableLiveData<Boolean> validToken = new MutableLiveData<>();
-    private MutableLiveData<String> firebaseToken = new MutableLiveData<>();
+    private MutableLiveData<String> toastText = new MutableLiveData<>();
 
     public DashboardViewModel(){
         if(accountRepository == null){
             accountRepository = AccountRepository.getInstance();
+        }
+
+        if(manager == null){
+            manager = SessionManager.getInstance();
         }
     }
 
@@ -34,25 +42,22 @@ public class DashboardViewModel extends ViewModel {
         this.validToken = validToken;
     }
 
-    public MutableLiveData<String> getFirebaseToken() {
-        return firebaseToken;
+    public MutableLiveData<String> getToastText() {
+        return toastText;
     }
 
-    public void setFirebaseToken(MutableLiveData<String> firebaseToken) {
-        this.firebaseToken = firebaseToken;
+    public void setToastText(MutableLiveData<String> toastText) {
+        this.toastText = toastText;
     }
 
     public void verifySessionToken(Context context){
-        String token = context.getSharedPreferences(Constant.key_session_pref, Context.MODE_PRIVATE)
-                .getString(Constant.key_session_token, Constant.error_not_found);
+        Single<ResponseBean<SessionToken>> response = accountRepository.
+                verifySessionToken(context);
 
-        if(token.equals(Constant.error_not_found)){
-            validToken.setValue(false);
+        if(manager.isNoVerificationNeeded()){
             return;
         }
 
-        Single<ResponseBean<SessionToken>> response = accountRepository.
-                verifySessionToken(new SessionToken(token));
         response.subscribe(new SingleObserver<ResponseBean<SessionToken>>() {
             Disposable d;
 
@@ -82,11 +87,22 @@ public class DashboardViewModel extends ViewModel {
         });
     }
 
-    public void updateFirebaseToken(String session_token, String firebase_token){
-        if(session_token == null || firebase_token == null){
-            return;
-        }
+    public void updateFirebaseToken(Context context){
 
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String token = task.getResult();
+                        String session_token = SessionManager.getInstance().getSessionToken(context);
+                        saveFirebaseToken(token, session_token);
+                    }else{
+                        toastText.setValue("Failed to get Firebase Token.");
+                    }
+                });
+
+    }
+
+    public void saveFirebaseToken(String firebase_token, String session_token){
         Single<ResponseBean<String>> response = accountRepository.
                 updateFirebaseToken(session_token, firebase_token);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
@@ -101,8 +117,8 @@ public class DashboardViewModel extends ViewModel {
             public void onSuccess(ResponseBean<String> bean) {
                 int code = bean.getCode();
 
-                if (code >= 200 && code <=299) {
-                    firebaseToken.setValue(bean.getData());
+                if (code > 299) {
+                    toastText.setValue("Failed to save Firebase Token.");
                 }
 
                 d.dispose();
@@ -113,6 +129,14 @@ public class DashboardViewModel extends ViewModel {
                 d.dispose();
             }
         });
+    }
 
+    public void saveSelectedLevel(Context context, String level_name){
+        SharedPreferences pref = context.getSharedPreferences(Constant.key_session_pref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(Constant.key_selected_current_level, level_name);
+        editor.apply();
+
+        toastText.setValue("Changed Level.");
     }
 }

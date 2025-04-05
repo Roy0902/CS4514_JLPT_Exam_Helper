@@ -35,7 +35,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
 
         showLoadingEffect();
 
-        String sessionToken = SessionManager.getSessionToken(this);
+        String sessionToken = SessionManager.getInstance().getSessionToken(this);
 
         setUpEventListener();
         setupViewModelObserver();
@@ -96,7 +96,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         if(id == R.id.btn_back){
             back();
         }else if(id == R.id.btn_completed){
-            String sessionToken = SessionManager.getSessionToken(this);
+            String sessionToken = SessionManager.getInstance().getSessionToken(this);
             viewModel.updateStudyPlanProgress(sessionToken);
         }
     }

@@ -25,6 +25,16 @@ public class DictionaryViewModel extends ViewModel {
         }
     }
 
+    private MutableLiveData<String> toastText = new MutableLiveData<>();
+
+    public MutableLiveData<String> getToastText() {
+        return toastText;
+    }
+
+    public void setToastText(MutableLiveData<String> toastFailedText) {
+        this.toastText = toastFailedText;
+    }
+
     public MutableLiveData<List<JishoResponse>> getResponseList() {
         return responseList;
     }

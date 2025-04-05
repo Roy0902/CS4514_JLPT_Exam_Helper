@@ -20,6 +20,9 @@ public interface AccountAPI {
     @POST("/account/sign-in")
     Single<ResponseBean<SessionToken>> signIn(@Body Account request);
 
+    @POST("/account/sign-out")
+    Single<ResponseBean<String>> signOut(@Body SessionToken request);
+
     @POST("/account/verify-session-token")
     Single<ResponseBean<SessionToken>> verifySessionToken(@Body SessionToken request);
 

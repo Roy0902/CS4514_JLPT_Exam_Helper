@@ -53,6 +53,7 @@ public class EnterEmailSignUpFragment extends Fragment implements View.OnClickLi
         int id = v.getId();
         if(id == R.id.btn_sendCode){
             binding.btnSendCode.setEnabled(false);
+            viewModel.isLoading(true);
             viewModel.getSignUpOtp(binding.etEmail.getText().toString().trim());
         }else if(id == R.id.section_signIn){
             goSignInPage();

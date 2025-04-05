@@ -20,25 +20,17 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.activity_splash);
 
-        Thread thread = new Thread(() -> {
-            try {
-                SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
-                boolean isFirstTimeUsed = pref.getBoolean(Constant.key_is_first_time_used, true);
-                String sessionToken = pref.getString(Constant.key_session_token, Constant.error_not_found);
+        SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
+        boolean isFirstTimeUsed = pref.getBoolean(Constant.key_is_first_time_used, true);
+        String sessionToken = pref.getString(Constant.key_session_token, Constant.error_not_found);
 
-                if(isFirstTimeUsed){
-                    goOnboardingPage();
-                }else if(sessionToken.equals(Constant.error_not_found)){
-                    goUserEntryPage();
-                }else{
-                    goDashboardPage();
-                }
-
-            }catch (Error e){
-                Log.d("ERROR", "ERROR: " + e.getMessage());
-            }
-        });
-        thread.start();
+        if(isFirstTimeUsed){
+            goOnboardingPage();
+        }else if(sessionToken.equals(Constant.error_not_found)){
+            goUserEntryPage();
+        }else{
+            goDashboardPage();
+        }
 
     }
 

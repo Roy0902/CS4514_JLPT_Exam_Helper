@@ -1,0 +1,2063 @@
+@startuml
+class com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter {
+- List<StudyPlanItem> studyPlanList
+- OnItemClickListener listener
+- Context context
++ StudyPlanViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(StudyPlanViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter$OnItemClickListener {
+~ void onItemClick(StudyPlanItem,int)
+}
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter$StudyPlanViewHolder {
+~ ImageView iconStatus
+~ ImageView iconCompleted
+~ TextView textStudyPlanNumber
+~ TextView textStudyPlanName
+}
+
+class com.example.cs4514_jlpt_exam_helper.forum.fragment.ReplyFragment {
+- ReplyAdapter adapter
+- ForumViewModel viewModel
+- FragmentReplyBinding binding
+- Question question
+- boolean isEnd
+- boolean isLoading
+- boolean isFirstLoad
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void switchToPostReplyFragment()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.fragment.SelectLevelFragment {
+- QuizViewModel viewModel
+- FragmentSelectLevelBinding binding
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.activity.StudyPlanActivity {
+- ActivityStudyPlanBinding binding
+- StudyPlanViewModel viewModel
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void back()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter {
+- List<JishoResponse> resultList
+- Context context
+- OnPlayClickListener playClickListener
++ DictionaryViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(DictionaryViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter$OnPlayClickListener {
+~ void onPlayClick(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter$DictionaryViewHolder {
++ TextView textWord
++ TextView textReading
++ TextView textMeaning
++ TextView textPartOfSpeech
++ ImageView btnPlay
+}
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.SettingViewModel {
+- AccountRepository repository
+- MutableLiveData<ValidationResult> validOldPassword
+- MutableLiveData<ValidationResult> validNewPassword
+- MutableLiveData<Boolean> validConfirmNewPassword
++ void changePassword(String,String,String,String)
++ boolean validPassword(String,String,String)
++ void signOut(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.viewmodel.CategoryViewModel {
+- LearningItemRepository repository
+- MutableLiveData<ArrayList<Category>> categories
+- MutableLiveData<Boolean> isReady
+- int count
++ MutableLiveData<ArrayList<Category>> getCategories()
++ void setCategories(MutableLiveData<ArrayList<Category>>)
++ MutableLiveData<Boolean> getIsReady()
++ void setIsReady(MutableLiveData<Boolean>)
++ void getUserProgress(String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Constant {
++ {static} String baseURL
++ {static} String emailRegex
++ {static} String passwordRegex
++ {static} String userNameRegex
++ {static} String key_session_pref
++ {static} String key_is_first_time_used
++ {static} String key_session_token
++ {static} String key_selected_current_level
++ {static} String key_is_verified
++ {static} String key_firebase_token
++ {static} String error_not_found
++ {static} String confirmPasswordErrorMsg
++ {static} String level_beginner
++ {static} String level_n5
++ {static} String level_n4
++ {static} String level_n3
++ {static} String level_n2
++ {static} String level_n1
++ {static} String message_sign_in_successfully
++ {static} String category_hiragana_katakana
++ {static} String category_grammar
++ {static} String category_vocabulary
+}
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.adapter.ResetPasswordViewPagerAdapter {
+- {static} int NUM_PAGES
++ Fragment createFragment(int)
++ int getItemCount()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.fragment.JLPTLevelFragment {
+- FragmentJlptLevelBinding binding
+- CategoryViewModel viewModel
+- String levelName
++ {static} JLPTLevelFragment newInstance(String)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void onItemClick(Category)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.activity.ResetPasswordActivity {
+- ActivityResetPasswordBinding binding
+- ResetPasswordViewModel viewModel
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setUpViewAdapter()
++ void onClick(View)
++ void setupViewModelObserver()
++ void backPreviousPage()
++ void setCurrentFragment(int)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Question {
+- int question_id
+- String question_title
+- String question_description
+- String user_name
+- int reply_number
++ int getQuestion_id()
++ void setQuestion_id(int)
++ String getQuestion_title()
++ void setQuestion_title(String)
++ String getQuestion_description()
++ void setQuestion_description(String)
++ String getUser_name()
++ void setUser_name(String)
++ int getReply_number()
++ void setReply_number(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.adapter.SignUpViewPagerAdapter {
+- {static} int NUM_PAGES
++ Fragment createFragment(int)
++ int getItemCount()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment {
+- FragmentHomeBinding binding
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpFragment(String)
++ void setUpEventListener()
++ void onClick(View)
++ void goChangeLevelPage()
++ void goDictionaryPage()
++ void goQuestionPage()
++ void goPracticePage()
+- void loadFragment(Fragment)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.SessionToken {
+- String email
+- String token
+- int is_revoked
++ String getEmail()
++ void setEmail(String)
++ String getToken()
++ void setToken(String)
++ int getIs_revoked()
++ void setIs_revoked(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.response.LearningItemResponse {
+- List<JapaneseCharacter> characterList
+- List<Grammar> grammarList
+- List<Vocabulary> vocabularyList
++ List<JapaneseCharacter> getCharacterList()
++ void setCharacterList(List<JapaneseCharacter>)
++ List<Grammar> getGrammarList()
++ void setGrammarList(List<Grammar>)
++ List<Vocabulary> getVocabularyList()
++ void setVocabularyList(List<Vocabulary>)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.BookmarkRequest {
+- String session_token
+- int item_id
+}
+
+class com.example.cs4514_jlpt_exam_helper.onboarding.fragment.OnboardingCommonFragment {
+- FragmentOnboardingCommonBinding binding
+- String title
+- String description
+- int imageRes
++ {static} OnboardingCommonFragment newInstance(String,String,int)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.viewmodel.JapaneseCharacterViewModel {
+- LearningItemRepository repository
+- MutableLiveData<ArrayList<JapaneseCharacter>> characterList
++ MutableLiveData<ArrayList<JapaneseCharacter>> getcharacterList()
++ void setCharacterList(MutableLiveData<ArrayList<JapaneseCharacter>>)
++ void getCharacterItemList(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository {
+- {static} LearningItemRepository repository
++ {static} LearningItemRepository getInstance()
++ Single<ResponseBean<Category>> getUserProgress(String,String)
++ Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(String,String,String)
++ Single<ResponseBean<ArrayList<JapaneseCharacter>>> getCharacterList(String)
++ Single<ResponseBean<ArrayList<Grammar>>> getGrammarList(String)
++ Single<ResponseBean<ArrayList<Vocabulary>>> getVocabularyList(String)
++ Single<ResponseBean<LearningItemResponse>> getLearningItemByLevel(String)
++ Single<ResponseBean<LearningItemResponse>> getLearningItemBySubtopic(String)
++ Single<ResponseBean<String>> updateUserProgress(String,String)
++ Single<ResponseBean<ArrayList<CategoryProgressResponse>>> getCategoryProgress(String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter {
+- List<Question> questionList
+- OnItemClickListener listener
++ QuestionViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(QuestionViewHolder,int)
++ void updateQuestionList(List<Question>)
++ void resetQuestionList()
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter$OnItemClickListener {
+~ void onItemClick(Question)
+}
+
+class com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter$QuestionViewHolder {
++ TextView textTitle
++ TextView textPostedUserName
++ TextView textAnswerCount
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.StudyPlanRepository {
+- {static} StudyPlanRepository repository
++ {static} StudyPlanRepository getInstance()
++ Single<ResponseBean<StudyPlanSummaryResponse>> getStudyPlanSummary(String)
++ Single<ResponseBean<List<StudyPlanItem>>> getStudyPlan(String)
++ Single<ResponseBean<List<JLPTExamDate>>> getJLPTExamDate()
++ Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(GenerateStudyPlanRequest)
++ Single<ResponseBean<LearningItemResponse>> getLearningItemByItemID(List<String>)
++ Single<ResponseBean<String>> updateStudyPlanProgress(String,int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EditProfileFragment {
+- FragmentEditProfileBinding binding
+- SignUpViewModel viewModel
++ {static} EditProfileFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.UserProgressRequest {
+- String subtopic_name
+- String session_token
++ String getSubtopic_name()
++ void setSubtopic_name(String)
++ String getSession_token()
++ void setSession_token(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter {
+- List<Vocabulary> vocabularyList
+- Context context
+- OnPlayClickListener playClickListener
++ VocabualryViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(VocabualryViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter$OnPlayClickListener {
+~ void onPlayClick(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter$VocabualryViewHolder {
++ TextView textWord
++ TextView textReading
++ TextView textMeaning
++ ImageView btnPlay
++ ImageView btnBookmark
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter {
+- List<JapaneseCharacter> japaneseCharacterList
+- OnItemClickListener listener
++ JapaneseViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(JapaneseViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter$OnItemClickListener {
+~ void onItemClick(JapaneseCharacter)
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter$JapaneseViewHolder {
++ TextView textHiragana
++ TextView textPronunciation
+}
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.fragment.ChangePasswordFragment {
+}
+class com.example.cs4514_jlpt_exam_helper.validator.ValidationResult {
+- boolean isValid
+- String errorMsg
++ boolean isValid()
++ void setValid(boolean)
++ String getErrorMsg()
++ void setErrorMsg(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectDailyStudyTimeFragment {
+- FragmentSelectDailyStudyTimeBinding binding
+- StudyPlanViewModel viewModel
+~ String currentLevel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void setupViewModelObserver()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.fragment.BeginnerFragment {
+- FragmentBeginnerBinding binding
+- CategoryViewModel viewModel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void onItemClick(Category)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicActivity {
+- ActivitySubtopicBinding binding
+- SubtopicViewModel viewModel
+- String categoryName
+- String levelName
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
++ void onItemClick(Subtopic)
++ void goItemPage(Class<?>,String)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.validator.UserNameValidator {
+- List<BaseValidator> validatorList
++ ValidationResult validate(String)
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.GoogleTTSAPI {
+~ Single<ResponseBean<String>> getGoogleTTSService(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter {
+- List<Subtopic> subtopics
+- OnItemClickListener listener
+- Context context
++ SubtopicViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(SubtopicViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter$OnItemClickListener {
+~ void onItemClick(Subtopic)
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter$SubtopicViewHolder {
+~ ImageView iconStatus
+~ ImageView iconCompleted
+~ TextView textSubtopicNumber
+~ TextView textSubtopicName
+}
+
+abstract class com.example.cs4514_jlpt_exam_helper.quiz.data.Question {
++ {abstract}boolean checkAnswer(String)
++ {abstract}String getQuestion()
++ {abstract}String getAnswer()
++ {abstract}List<?> getOptionList()
+}
+
+class com.example.cs4514_jlpt_exam_helper.quiz.activity.QuizActivity {
+- QuizViewModel viewModel
+- ActivityQuizBinding binding
+- String currentLevel
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager {
+- {static} RetrofitManager mInstance
+- {static} AccountAPI accountAPI
+- {static} OtpAPI otpAPI
+- {static} LearningItemAPI learningItemAPI
+- {static} JishoAPI jishoAPI
+- {static} GoogleTTSAPI googleTTSAPI
+- {static} QuestionAPI questionAPI
+- {static} StudyPlanAPI studyPlanAPI
++ {static} RetrofitManager getInstance()
++ AccountAPI getAccountAPI()
++ OtpAPI getOtpAPI()
++ LearningItemAPI getLearningItemAPI()
++ JishoAPI getJishoAPI()
++ GoogleTTSAPI getGoogleTTSAPI()
++ QuestionAPI getQuestionAPI()
++ StudyPlanAPI getStudyPlanAPI()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment {
+- FragmentStudyPlanBinding binding
+- StudyPlanViewModel viewModel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goGenerateStudyPlanPage()
++ void goStudyPlanPage()
++ void setupViewModelObserver()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Reply {
+- int question_id
+- int reply_id
+- String reply
+- String user_name
+- Timestamp reply_at
++ int getQuestion_id()
++ void setQuestion_id(int)
++ int getReply_id()
++ void setReply_id(int)
++ String getReply()
++ void setReply(String)
++ String getUser_name()
++ void setUser_name(String)
++ Timestamp getReply_at()
++ void setReply_at(Timestamp)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.SessionManager {
++ {static} void setNoVerificationNeeded(Context,boolean)
++ {static} boolean isNoVerificationNeeded(Context)
++ {static} void clearSession(Context)
++ {static} String getSessionToken(Context)
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.JishoRepository {
+- {static} JishoRepository repository
++ {static} JishoRepository getInstance()
++ Single<ResponseBean<List<JishoResponse>>> searchWord(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.activity.GrammarActivity {
+- GrammarViewModel viewModel
+- ActivityGrammarBinding binding
+- String subtopicName
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment {
+- QuizViewModel viewModel
+- FragmentQuizBinding binding
+- List<CharacterQuestion> characterQuestionList
+- List<GrammarQuestion> grammarQuestionList
+- List<VocabularyQuestion> vocabularyQuestionList
+- int progress
+- int questionNumber
+- int score
+- QuizQuestionAdapter adapter
+- MediaPlayer player
+- GoogleTTSManager manager
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setCharacterQuestion(CharacterQuestion)
++ void setGrammarQuestion(GrammarQuestion)
++ void setVocabularyQuestion(VocabularyQuestion)
++ void setQuizFragment()
++ void setQuestion()
++ void onClick(View)
++ void checkAnswer()
++ void onPlayClick(Question)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.activity.SelectLevelActivity {
+- ActivitySelectLevelBinding binding
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void changeLevel(String)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.UpdateStudyPlanProgressRequest {
+- String session_token
+- int study_plan_item_id
++ String getSession_token()
++ void setSession_token(String)
++ int getStudy_plan_item_id()
++ void setStudy_plan_item_id(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordFragment {
+- FragmentResetPasswordBinding binding
+- ResetPasswordViewModel viewModel
++ {static} EditProfileFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.StudyPlanAPI {
+~ Single<ResponseBean<StudyPlanSummaryResponse>> getStudyPlanSummary(SessionToken)
+~ Single<ResponseBean<List<StudyPlanItem>>> getStudyPlan(SessionToken)
+~ Single<ResponseBean<StudyPlanSummaryResponse>> generateStudyPlan(GenerateStudyPlanRequest)
+~ Single<ResponseBean<LearningItemResponse>> getLearningItemByItemID(StudyPlanItemRequest)
+~ Single<ResponseBean<String>> updateStudyPlanProgress(UpdateStudyPlanProgressRequest)
+~ Single<ResponseBean<List<JLPTExamDate>>> getJLPTExamDate()
+}
+
+class com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion {
+- List<JapaneseCharacter> optionList
+- String question
+- String correctAnswer
++ String getCorrectAnswer()
++ boolean checkAnswer(String)
++ String getQuestion()
++ List<JapaneseCharacter> getOptionList()
++ String getAnswer()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.UserEntryActivity {
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goSignInPage()
++ void goSignUpPage()
++ void goDashboard()
+}
+
+class com.example.cs4514_jlpt_exam_helper.dictionary.viewmodel.DictionaryViewModel {
+- JishoRepository repository
+- MutableLiveData<List<JishoResponse>> responseList
++ MutableLiveData<List<JishoResponse>> getResponseList()
++ void setResponseList(MutableLiveData<List<JishoResponse>>)
++ void searchWord(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.PostQuestionRequest {
+- String session_token
+- String question_title
+- String question_description
++ String getSession_token()
++ void setSession_token(String)
++ String getQuestion_title()
++ void setQuestion_title(String)
++ String getQuestion_description()
++ void setQuestion_description(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.response.CategoryProgressResponse {
+- String category_name
+- int completed_subtopics
+- int total_subtopics
++ String getCategory_name()
++ void setCategory_name(String)
++ int getCompleted_subtopics()
++ void setCompleted_subtopics(int)
++ int getTotal_subtopics()
++ void setTotal_subtopics(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter {
+- List<Category> categories
+- OnItemClickListener listener
+- Context context
++ CategoryViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(CategoryViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter$OnItemClickListener {
+~ void onItemClick(Category)
+}
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter$CategoryViewHolder {
+~ ImageView imageCategory
+~ TextView textCategory
+~ ProgressBar progressCategory
+~ ConstraintLayout parent
+}
+
+class com.example.cs4514_jlpt_exam_helper.GoogleTTSManager {
+- GoogleTTSRepository repository
+- {static} GoogleTTSManager manager
++ {static} GoogleTTSManager getInstance()
++ void getTTSService(String,MediaPlayer,Context)
++ void stopPlayer(MediaPlayer)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.fragment.SettingFragment {
+- SettingViewModel viewModel
+- FragmentSettingBinding binding
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void showConfirmDialog()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.data.VocabularyQuestion {
+- List<Vocabulary> optionList
+- String question
+- String correctAnswer
++ String getCorrectAnswer()
++ boolean checkAnswer(String)
++ String getQuestion()
++ List<Vocabulary> getOptionList()
++ String getAnswer()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.CategoryProgressRequest {
+- String level_name
+- String session_token
++ String getLevel_name()
++ void setLevel_name(String)
++ String getSession_token()
++ void setSession_token(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.response.JishoResponse {
+- String word
+- String reading
+- String english_definition
+- String part_of_speech
+- String jlpt
++ String getWord()
++ void setWord(String)
++ String getReading()
++ void setReading(String)
++ String getEnglish_definition()
++ void setEnglish_definition(String)
++ String getPart_of_speech()
++ void setPart_of_speech(String)
++ String getJlpt()
++ void setJlpt(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Grammar {
+- String rule
+- String explanation
++ String getRule()
++ void setRule(String)
++ String getExplanation()
++ void setExplanation(String)
++ String getQuestion()
++ String getAnswer()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.viewmodel.SubtopicViewModel {
+- LearningItemRepository repository
+- MutableLiveData<ArrayList<Subtopic>> subtopics
+- MutableLiveData<String> test
++ MutableLiveData<String> getTest()
++ void setTest(MutableLiveData<String>)
++ MutableLiveData<ArrayList<Subtopic>> getSubtopics()
++ void setSubtopics(MutableLiveData<ArrayList<Subtopic>>)
++ void getSubtopicItemList(String,String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate {
+- String exam_date
++ String getExam_date()
++ void setExam_date(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.GenerateStudyPlanRequest {
+- String current_level
+- String target_level
+- int daily_study_time
+- int days_to_exam
+- String target_goal
+- String session_token
++ String getCurrent_level()
++ void setCurrent_level(String)
++ String getTarget_level()
++ void setTarget_level(String)
++ int getDaily_study_time()
++ void setDaily_study_time(int)
++ int getDays_to_exam()
++ void setDays_to_exam(int)
++ String getTarget_goal()
++ void setTarget_goal(String)
++ String getSession_token()
++ void setSession_token(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment {
+- QuestionAdapter adapter
+- ForumViewModel viewModel
+- FragmentQuestionBinding binding
+- boolean isEnd
+- boolean isLoading
+- boolean isFirstLoad
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void switchToAskQuestionFragment()
++ void onItemClick(Question)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.DashboardViewModel {
+- AccountRepository accountRepository
+- MutableLiveData<Boolean> validToken
+- MutableLiveData<String> firebaseToken
++ MutableLiveData<Boolean> getValidToken()
++ void setValidToken(MutableLiveData<Boolean>)
++ MutableLiveData<String> getFirebaseToken()
++ void setFirebaseToken(MutableLiveData<String>)
++ void verifySessionToken(Context)
++ void updateFirebaseToken(String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.FirebaseTokenRequest {
+- String session_token
+- String firebase_token
++ String getSession_token()
++ void setSession_token(String)
++ String getFirebase_token()
++ void setFirebase_token(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Account {
+- String account_id
+- String email
+- String user_name
+- String password
++ String getAccount_id()
++ void setAccount_id(String)
++ String getUser_name()
++ void setUser_name(String)
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanItemListFragment {
+- FragmentStudyPlanItemListBinding binding
+- StudyPlanViewModel viewModel
+- VocabularyAdapter vocabularyAdapter
+- GrammarAdapter grammarAdapter
+- MediaPlayer player
+- GoogleTTSManager manager
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onPlayClick(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.onboarding.activity.OnboardingActivity {
+- ActivityOnboardingBinding binding
+- int[] imageResIDs
+- int[] titleIDs
+- int[] descriptionIDs
+# void onCreate(Bundle)
++ void setUpViewAdapter()
++ void setUpPageIndicator()
++ void setUpEventListener()
++ void onClick(View)
++ void goUserEntryPage()
++ void initializeIDs()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter {
+- List<JLPTExamDate> examDateList
+- OnItemClickListener listener
++ ExamDateViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ExamDateViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter$OnItemClickListener {
+~ void onItemClick(JLPTExamDate)
+}
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter$ExamDateViewHolder {
++ TextView optionExamDate
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.response.StudyPlanSummaryResponse {
+- int completed_study_plan
+- int total_study_plan
+- int fitness_score
++ int getCompleted_study_plan()
++ void setCompleted_study_plan(int)
++ int getTotal_study_plan()
++ void setTotal_study_plan(int)
++ int getFitness_score()
++ void setFitness_score(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.activity.GenerateStudyPlanActivity {
+- StudyPlanViewModel viewModel
+- ActivityGenerateStudyPlanBinding binding
+- String currentLevel
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter {
+- List<Reply> replyList
++ ReplyViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ReplyViewHolder,int)
++ void updateReplyList(List<Reply>)
++ void resetReplyList(Question)
++ int getItemCount()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter$ReplyViewHolder {
++ TextView textNumber
++ TextView textUserName
++ TextView textReply
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository {
+- {static} AccountRepository repository
++ {static} AccountRepository getInstance()
++ Single<ResponseBean<String>> signUp(Account)
++ Single<ResponseBean<String>> resetPassword(Account)
++ Single<ResponseBean<SessionToken>> signIn(Account)
++ Single<ResponseBean<SessionToken>> verifySessionToken(SessionToken)
++ Single<ResponseBean<String>> updateFirebaseToken(String,String)
++ void saveSessionToken(Context,String)
++ void removeSessionToken(Context)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_in.viewmodel.SignInViewModel {
+- AccountRepository repository
+- MutableLiveData<Boolean> emptyEmail
+- MutableLiveData<Boolean> emptyPw
+- MutableLiveData<Boolean> signInSuccess
+- MutableLiveData<ValidationResult> signInFailed
++ MutableLiveData<Boolean> getEmptyEmail()
++ void setEmptyEmail(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getEmptyPw()
++ void setEmptyPw(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getSignInSuccess()
++ void setSignInSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<ValidationResult> getSignInFailed()
++ void setSignInFailed(MutableLiveData<ValidationResult>)
++ void signIn(String,String,Context)
++ boolean valid(String,String)
+- boolean isEmpty(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterOtpSignUpFragment {
+- FragmentEnterOtpBinding binding
+- SignUpViewModel viewModel
+- String otpCode
+- CountDownTimer resendTimer
++ {static} EnterEmailSignUpFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
+- void startResendTimer()
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.validator.NullValidator {
++ ValidationResult validate(String)
+}
+
+abstract class com.example.cs4514_jlpt_exam_helper.data.BaseLearningItem {
++ {abstract}String getQuestion()
++ {abstract}String getAnswer()
+}
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.activity.SignUpActivity {
+- SignUpViewModel viewModel
+- ActivitySignUpBinding binding
+- ProgressBar progressBar
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setUpViewAdapter()
++ void onClick(View)
++ void setupViewModelObserver()
++ void backPreviousPage()
++ void setCurrentFragment(int)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.StudyPlanRequest {
+- String session_token
+}
+
+class com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity {
+- DictionaryViewModel viewModel
+- GoogleTTSManager manager
+- ActivityDictionaryBinding binding
+- MediaPlayer player
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
++ void onPlayClick(String)
+- void showProgressBar()
+- void hideProgressBar()
+# void onDestroy()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.ForumRepository {
+- {static} ForumRepository repository
++ {static} ForumRepository getInstance()
++ Single<ResponseBean<String>> postQuestion(String,String,String)
++ Single<ResponseBean<List<Question>>> getQuestion(int)
++ Single<ResponseBean<List<Reply>>> getReply(int,int)
++ Single<ResponseBean<String>> postReply(String,String,int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterEmailResetPasswordFragment {
+- FragmentEnterEmailBinding binding
+- ResetPasswordViewModel viewModel
++ {static} EnterEmailResetPasswordFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goSignInPage()
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.viewmodel.ResetPasswordViewModel {
+- AccountRepository accountRepository
+- OtpRepository otpRepository
+- MutableLiveData<ValidationResult> validEmail
+- MutableLiveData<ValidationResult> validOtpCode
+- MutableLiveData<ValidationResult> validUserName
+- MutableLiveData<ValidationResult> validPassword
+- MutableLiveData<Boolean> validConfirmPassword
+- MutableLiveData<Boolean> sendOtpSuccess
+- MutableLiveData<Boolean> resendOtpSuccess
+- MutableLiveData<Boolean> verifyEmailSuccess
+- MutableLiveData<Boolean> resetPasswordSuccess
+- MutableLiveData<Integer> progressIndex
+- MutableLiveData<String> emailForVerify
++ MutableLiveData<ValidationResult> getValidEmail()
++ void setValidEmail(MutableLiveData<ValidationResult>)
++ MutableLiveData<ValidationResult> getValidOtpCode()
++ void setValidOtpCode(MutableLiveData<ValidationResult>)
++ MutableLiveData<ValidationResult> getValidUserName()
++ void setValidUserName(MutableLiveData<ValidationResult>)
++ MutableLiveData<ValidationResult> getValidPassword()
++ void setValidPassword(MutableLiveData<ValidationResult>)
++ MutableLiveData<Boolean> getValidConfirmPassword()
++ void setValidConfirmPassword(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getSendOtpSuccess()
++ void setSendOtpSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getResendOtpSuccess()
++ void setResendOtpSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getVerifyEmailSuccess()
++ void setVerifyEmailSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getResetPasswordSuccess()
++ void setResetPasswordSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Integer> getProgressIndex()
++ void setProgressIndex(MutableLiveData<Integer>)
++ MutableLiveData<String> getEmailForVerify()
++ void setEmailForVerify(MutableLiveData<String>)
++ void getResetPasswordOtp(String)
++ void verifyEmail(String)
++ void resendOtp()
++ void resetPassword(String,String)
++ boolean validEmail(String)
++ boolean validPassword(String,String)
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.QuestionAPI {
+~ Single<ResponseBean<String>> postQuestion(PostQuestionRequest)
+~ Single<ResponseBean<String>> postReply(PostReplyRequest)
+~ Single<ResponseBean<List<Question>>> getQuestion(int,int)
+~ Single<ResponseBean<List<Reply>>> getReply(int,int,int)
+}
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.JishoAPI {
+~ Single<ResponseBean<List<JishoResponse>>> searchWord(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean {
+- int code
+- String message
+- T data
++ int getCode()
++ void setCode(int)
++ String getMessage()
++ void setMessage(String)
++ T getData()
++ void setData(T)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Subtopic {
+- int category_id
+- int level_id
+- String name
+- int is_completed
++ int getCategory_id()
++ void setCategory_id(int)
++ int getLevel_id()
++ void setLevel_id(int)
++ String getName()
++ void setName(String)
++ boolean isIs_completed()
++ void setIs_completed(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.GoogleTTSRepository {
+- {static} GoogleTTSRepository repository
++ {static} GoogleTTSRepository getInstance()
++ Single<ResponseBean<String>> getGoogleTTSService(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.validator.EmailValidator {
+- List<BaseValidator> validatorList
++ ValidationResult validate(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetScoreFragment {
+- FragmentSelectTargetScoreBinding binding
+- StudyPlanViewModel viewModel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void setupViewModelObserver()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity {
+- JapaneseCharacterViewModel viewModel
+- ActivityHiraganaBinding binding
+- String subtopicName
+- MediaPlayer player
+- GoogleTTSManager manager
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
++ void goSubtopicQuizPage()
+- void showLoadingEffect()
+- void hideLoadingEffect()
++ void onItemClick(JapaneseCharacter)
+# void onDestroy()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.SplashActivity {
+# void onCreate(Bundle)
+- void goOnboardingPage()
+- void goUserEntryPage()
+- void goDashboardPage()
+}
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel {
+- StudyPlanRepository studyPlanRepository
+- MutableLiveData<Boolean> isPlanExisted
+- MutableLiveData<Boolean> examDateListReady
+- MutableLiveData<Boolean> studyPlanReady
+- MutableLiveData<Boolean> studyPlanItemReady
+- MutableLiveData<String> currentLevel
+- MutableLiveData<String> targetLevel
+- MutableLiveData<Boolean> isJustPass
+- MutableLiveData<Integer> daysLeftUntilExam
+- MutableLiveData<Integer> dailyStudyTime
+- MutableLiveData<JLPTExamDate> selectedExamDate
+- MutableLiveData<StudyPlanItem> selectedStudyPlan
+- MutableLiveData<List<StudyPlanItem>> studyPlanList
+- MutableLiveData<List<Grammar>> grammarItemList
+- MutableLiveData<List<Vocabulary>> vocabularyItemList
+- List<JLPTExamDate> examDateList
+- int completedPlan
+- int totalPlan
+- boolean badStudyPlan
+- int selectedPosition
+- int currentFragment
++ MutableLiveData<Boolean> getIsPlanExisted()
++ void setIsPlanExisted(MutableLiveData<Boolean>)
++ int getCompletedPlan()
++ void setCompletedPlan(int)
++ MutableLiveData<String> getCurrentLevel()
++ void setCurrentLevel(String)
++ MutableLiveData<String> getTargetLevel()
++ MutableLiveData<Boolean> getIsJustPass()
++ List<JLPTExamDate> getExamDateList()
++ void setExamDateList(List<JLPTExamDate>)
++ MutableLiveData<Boolean> getExamDateListReady()
++ void setExamDateListReady(MutableLiveData<Boolean>)
++ MutableLiveData<JLPTExamDate> getSelectedExamDate()
++ void setSelectedExamDate(JLPTExamDate)
++ MutableLiveData<Integer> getDailyStudyTime()
++ void setDailyStudyTime(int)
++ void setIsJustPass(Boolean)
++ void setTargetLevel(String)
++ MutableLiveData<Integer> getDaysLeftUntilExam()
++ void setDaysLeftUntilExam(int)
++ int getTotalPlan()
++ void setTotalPlan(int)
++ boolean isBadStudyPlan()
++ MutableLiveData<List<StudyPlanItem>> getStudyPlanList()
++ MutableLiveData<Boolean> getStudyPlanReady()
++ void setStudyPlanReady(MutableLiveData<Boolean>)
++ void setStudyPlanList(MutableLiveData<List<StudyPlanItem>>)
++ MutableLiveData<StudyPlanItem> getSelectedStudyPlan()
++ void setSelectedStudyPlan(StudyPlanItem)
++ MutableLiveData<Boolean> getStudyPlanItemReady()
++ void setStudyPlanItemReady(MutableLiveData<Boolean>)
++ MutableLiveData<List<Vocabulary>> getVocabularyItemList()
++ void setVocabularyItemList(MutableLiveData<List<Vocabulary>>)
++ MutableLiveData<List<Grammar>> getGrammarItemList()
++ void setGrammarItemList(MutableLiveData<List<Grammar>>)
++ int getSelectedPosition()
++ void setSelectedPosition(int)
++ int getCurrentFragment()
++ void setCurrentFragment(int)
++ void getStudyPlanSummary(String)
++ void getStudyPlan(String)
++ void getJLPTExamDate()
++ void generateStudyPlan(String)
++ GenerateStudyPlanRequest createRequest(String)
++ void getStudyPlanItemList(List<String>)
++ void formatDate(String)
++ void updateStudyPlanProgress(String)
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.validator.BaseValidator {
+~ ValidationResult validate(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.sign_in.activity.SignInActivity {
+- ActivitySignInBinding binding
+- SignInViewModel viewModel
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void signIn()
++ void goSignUpPage()
++ void goResetPasswordPage()
++ void goDashboardPage()
++ void backPreviousPage()
++ void setupViewModelObserver()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetLevelFragment {
+- FragmentSelectTargetLevelBinding binding
+- StudyPlanViewModel viewModel
+~ String currentLevel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setOption()
++ void setUpEventListener()
++ void onClick(View)
++ void setupViewModelObserver()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.StudyPlanItemRequest {
+- List<String> item_id_list
++ List<String> getItem_id_list()
++ void setItem_id_list(List<String>)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.FirebaseTokenService {
+- {static} String CHANNEL_ID
++ void onNewToken(String)
+- void sendTokenToServer(String)
++ void onMessageReceived(RemoteMessage)
+- void sendNotification(String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem {
+- int study_plan_item_id
+- String item_id_string
+- int is_completed
++ int getStudy_plan_item_id()
++ void setStudy_plan_item_id(int)
++ String getItem_id_string()
++ void setItem_id_string(String)
++ int isIs_completed()
++ void setIs_completed(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.viewmodel.SignUpViewModel {
+- AccountRepository accountRepository
+- OtpRepository otpRepository
+- MutableLiveData<ValidationResult> validEmail
+- MutableLiveData<ValidationResult> validOtpCode
+- MutableLiveData<ValidationResult> validUserName
+- MutableLiveData<ValidationResult> validPassword
+- MutableLiveData<Boolean> validConfirmPassword
+- MutableLiveData<Boolean> sendOtpSuccess
+- MutableLiveData<Boolean> resendOtpSuccess
+- MutableLiveData<Boolean> verifyEmailSuccess
+- MutableLiveData<Boolean> signUpSuccess
+- MutableLiveData<Integer> progressIndex
+- MutableLiveData<String> emailForVerify
++ MutableLiveData<ValidationResult> getValidUserName()
++ void setValidUserName(MutableLiveData<ValidationResult>)
++ MutableLiveData<ValidationResult> getValidEmail()
++ void setValidEmail(MutableLiveData<ValidationResult>)
++ MutableLiveData<ValidationResult> getValidPassword()
++ void setValidPassword(MutableLiveData<ValidationResult>)
++ MutableLiveData<Boolean> getValidConfirmPassword()
++ void setValidConfirmPassword(MutableLiveData<Boolean>)
++ MutableLiveData<ValidationResult> getValidOtpCode()
++ void setValidOtpCode(MutableLiveData<ValidationResult>)
++ MutableLiveData<Boolean> getSendOtpSuccess()
++ void setSendOtpSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getResendOtpSuccess()
++ void setResendOtpSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getVerifyEmailSuccess()
++ void setVerifyEmailSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getSignUpSuccess()
++ void setSignUpSuccess(MutableLiveData<Boolean>)
++ MutableLiveData<Integer> getProgressIndex()
++ void setProgressIndex(MutableLiveData<Integer>)
++ MutableLiveData<String> getEmailForVerify()
++ void setEmailForVerify(MutableLiveData<String>)
++ void getSignUpOtp(String)
++ void verifyEmail(String)
++ void resendOtp()
++ void signUp(String,String,String)
++ boolean validEmail(String)
++ boolean validProfile(String,String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.fragment.SignUpSuccessFragment {
+- FragmentActionSuccessBinding binding
++ {static} SignUpSuccessFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goSignInPage()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter {
+- String japanese_character
+- String pronunciation
++ String getJapanese_character()
++ void setJapanese_character(String)
++ String getPronunciation()
++ void setPronunciation(String)
++ String getQuestion()
++ String getAnswer()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter {
+- List<Question> optionList
+- int selectedPosition
+- String correctAnswer
+- boolean isAnswerChecked
+- OnPlayClickListener playClickListener
++ QuizQuestionViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(QuizQuestionViewHolder,int)
++ boolean checkAnswer()
++ void changeQuestion(String,List<Question>)
++ int getItemCount()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter$OnPlayClickListener {
+~ void onPlayClick(Question)
+}
+
+class com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter$QuizQuestionViewHolder {
++ TextView textOption
++ ImageView btnPlay
+}
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanListFragment {
+- FragmentStudyPlanListBinding binding
+- StudyPlanViewModel viewModel
+- StudyPlanAdapter adapter
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onItemClick(StudyPlanItem,int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.validator.PasswordValidator {
+- List<BaseValidator> validatorList
++ ValidationResult validate(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Level {
+- String level_name
++ String getLevel_name()
++ void setLevel_name(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordSuccessFragment {
+- FragmentActionSuccessBinding binding
++ {static} ResetPasswordSuccessFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goSignInPage()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity {
+- VocabularyViewModel viewModel
+- ActivityVocabularyBinding binding
+- String subtopicName
+- MediaPlayer player
+- GoogleTTSManager manager
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
++ void onPlayClick(String)
+# void onDestroy()
++ void goSubtopicQuizPage()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterOtpResetPasswordFragment {
+- FragmentEnterOtpBinding binding
+- ResetPasswordViewModel viewModel
+- String otpCode
+- CountDownTimer resendTimer
++ {static} EnterEmailSignUpFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
+- void startResendTimer()
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicQuizActivity {
+- QuizViewModel viewModel
+- ActivitySubtopicQuizBinding binding
+- String subtopicName
+# void onCreate(Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void goBackDashboardPage()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectCurrentLevelFragment {
+- FragmentSelectCurrentLevelBinding binding
+- StudyPlanViewModel viewModel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void setupViewModelObserver()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.AccountAPI {
+~ Single<ResponseBean<String>> signUp(Account)
+~ Single<ResponseBean<String>> resetPassword(Account)
+~ Single<ResponseBean<SessionToken>> signIn(Account)
+~ Single<ResponseBean<SessionToken>> verifySessionToken(SessionToken)
+~ Single<ResponseBean<String>> updateFirebaseToken(FirebaseTokenRequest)
+}
+
+class com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel {
+- ForumRepository repository
+- MutableLiveData<Boolean> postQuestionResult
+- MutableLiveData<Boolean> postReplyResult
+- MutableLiveData<Boolean> isQuestionListLoading
+- MutableLiveData<Question> selectedQuestion
+- MutableLiveData<String> currentScreen
+- MutableLiveData<List<Question>> questionList
+- MutableLiveData<List<Reply>> replyList
+- int questionCurrentPage
+- int replyCurrentPage
++ MutableLiveData<Boolean> getPostQuestionResult()
++ void setPostQuestionResult(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getPostReplyResult()
++ void setPostReplyResult(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getIsQuestionListLoading()
++ void setIsQuestionListLoading(MutableLiveData<Boolean>)
++ MutableLiveData<List<Question>> getQuestionList()
++ MutableLiveData<List<Reply>> getReplyList()
++ MutableLiveData<Question> getSelectedQuestion()
++ void setSelectedQuestion(MutableLiveData<Question>)
++ MutableLiveData<String> getCurrentScreen()
++ void resetQuestionPage()
++ void resetReplyPage()
++ void showForum()
++ void showPostQuestion()
++ void showReply()
++ void showPostReply()
++ void getQuestion()
++ void postQuestion(String,String,String)
++ void postReply(String,String,int)
++ void getReply(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.fragment.SendReplyFragment {
+- FragmentSendReplyBinding binding
+- ForumViewModel viewModel
+- Question question
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void showConfirmDialog()
++ void showToast(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity {
+- ActivityDashboardBinding binding
+- DashboardViewModel viewModel
+# void onCreate(Bundle)
++ void setUpEventListener()
+- void updateFirebaseToken()
++ void setupViewModelObserver()
++ void goUserEntryPage()
++ void loadFragment(Fragment)
+- void showLoadingEffect()
+- void hideLoadingEffect()
+# void onDestroy()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.LearningItemAPI {
+~ Single<ResponseBean<Category>> getUserProgressByLevel(UserProgressRequest)
+~ Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(SubtopicRequest)
+~ Single<ResponseBean<String>> updateUserProgress(UserProgressRequest)
+~ Single<ResponseBean<ArrayList<CategoryProgressResponse>>> getCategoryProgress(CategoryProgressRequest)
+~ Single<ResponseBean<ArrayList<JapaneseCharacter>>> getCharacterList(String)
+~ Single<ResponseBean<ArrayList<Grammar>>> getGrammarList(String)
+~ Single<ResponseBean<ArrayList<Vocabulary>>> getVocabularyList(String)
+~ Single<ResponseBean<LearningItemResponse>> getLearningItemListByLevel(String)
+~ Single<ResponseBean<LearningItemResponse>> getLearningItemListBySubtopic(String)
+}
+
+class com.example.cs4514_jlpt_exam_helper.data.Vocabulary {
+- String word
+- String reading
+- String meaning
++ String getWord()
++ void setWord(String)
++ String getReading()
++ void setReading(String)
++ String getMeaning()
++ void setMeaning(String)
++ String getQuestion()
++ String getAnswer()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.PostReplyRequest {
+- String session_token
+- String reply_text
+- int question_id
++ String getSession_token()
++ void setSession_token(String)
++ String getReply_text()
++ void setReply_text(String)
++ int getQuestion_id()
++ void setQuestion_id(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.activity.ForumActivity {
+- ForumViewModel viewModel
+- ActivityForumBinding binding
+- QuestionFragment questionFragment
+- AskQuestionFragment askQuestionFragment
+- ReplyFragment replyFragment
+- SendReplyFragment sendReplyFragment
+# void onCreate(Bundle)
++ void setupViewModelObserver()
+- void showLoadingEffect()
+- void hideLoadingEffect()
+}
+
+
+interface com.example.cs4514_jlpt_exam_helper.network.api.OtpAPI {
+~ Single<ResponseBean<Account>> getSignUpOtp(Account)
+~ Single<ResponseBean<Account>> resendOtp(Account)
+~ Single<ResponseBean<Account>> getResetPasswordOtp(Account)
+~ Single<ResponseBean<Account>> verifyEmail(Otp)
+}
+
+class com.example.cs4514_jlpt_exam_helper.validator.FormatValidator {
+- String formatType
+- String regex
+- String errorMsg
++ ValidationResult validate(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Otp {
+- String email
+- String otp_code
+- boolean is_used
++ String getEmail()
++ void setEmail(String)
++ String getOtp_code()
++ void setOtp_code(String)
++ boolean isIs_used()
++ void setIs_used(boolean)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion {
+- List<Grammar> optionList
+- String question
+- String correctAnswer
++ String getAnswer()
++ boolean checkAnswer(String)
++ String getQuestion()
++ List<Grammar> getOptionList()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter {
+- List<Grammar> grammarList
++ GrammarViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(GrammarViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter$GrammarViewHolder {
++ TextView textRule
++ TextView textExplanation
+}
+
+class com.example.cs4514_jlpt_exam_helper.network.repository.OtpRepository {
+- {static} OtpRepository repository
++ {static} OtpRepository getInstance()
++ Single<ResponseBean<Account>> getSignUpOtp(Account)
++ Single<ResponseBean<Account>> verifyEmail(Otp)
++ Single<ResponseBean<Account>> resendOtp(Account)
++ Single<ResponseBean<Account>> getResetPasswordOtp(Account)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.onboarding.adapter.OnboardingViewPagerAdapter {
+- Context context
+- int[] imageResIDs
+- int[] titleIDs
+- int[] descriptionsIDs
++ Fragment createFragment(int)
++ int getItemCount()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterEmailSignUpFragment {
+- FragmentEnterEmailBinding binding
+- SignUpViewModel viewModel
++ {static} EnterEmailSignUpFragment newInstance()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void onClick(View)
++ void goSignInPage()
++ void initViewModelObserver()
++ void onDestroyView()
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.viewmodel.VocabularyViewModel {
+- LearningItemRepository repository
+- MutableLiveData<ArrayList<Vocabulary>> vocabularyList
++ MutableLiveData<ArrayList<Vocabulary>> getVocabularyList()
++ void setVocabularyList(MutableLiveData<ArrayList<Vocabulary>>)
++ void getVocabularyItemList(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.data.Category {
+- String category_name
+- String level_name
+- int completed_subtopics
+- int total_subtopics
+- int imageResId
+- int colorResId
++ String getCategory_name()
++ void setCategory_name(String)
++ int getImageResId()
++ void setImageResId(int)
++ int getColorResId()
++ void setColorResId(int)
++ String getLevel_name()
++ void setLevel_name(String)
++ int getCompleted_subtopics()
++ void setCompleted_subtopics(int)
++ int getTotal_subtopics()
++ void setTotal_subtopics(int)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel {
+- LearningItemRepository repository
+- MutableLiveData<String> selectedLevel
+- MutableLiveData<Integer> questionListNumber
+- MutableLiveData<List<CharacterQuestion>> characterQuestionList
+- MutableLiveData<List<GrammarQuestion>> grammarQuestionList
+- MutableLiveData<List<VocabularyQuestion>> vocabularyQuestionList
+- MutableLiveData<Boolean> isQuestionReady
+- MutableLiveData<Boolean> isQuizCompleted
+- boolean isLoading
+- int score
+- int totalQuestions
++ MutableLiveData<String> getSelectedLevel()
++ void setSelectedLevel(String)
++ MutableLiveData<List<CharacterQuestion>> getCharacterQuestionList()
++ void setCharacterQuestionList(MutableLiveData<List<CharacterQuestion>>)
++ MutableLiveData<List<GrammarQuestion>> getGrammarQuestionList()
++ void setGrammarQuestionList(MutableLiveData<List<GrammarQuestion>>)
++ MutableLiveData<Boolean> getIsQuestionReady()
++ void setIsQuestionReady(MutableLiveData<Boolean>)
++ MutableLiveData<Boolean> getIsQuizCompleted()
++ void setIsQuizCompleted(boolean)
++ MutableLiveData<List<VocabularyQuestion>> getVocabularyQuestionList()
++ void setVocabularyQuestionList(MutableLiveData<List<VocabularyQuestion>>)
++ int getScore()
++ void setScore(int)
++ int getTotalScore()
++ boolean isPass()
++ void getLearningItem()
++ void getLearningItem(String)
++ List<CharacterQuestion> generateCharacterQuestion(List<JapaneseCharacter>)
++ List<GrammarQuestion> generateGrammarQuestion(List<Grammar>)
++ List<VocabularyQuestion> generateVocabularyQuestion(List<Vocabulary>)
++ void updateUserProgress(String,String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.learning.viewmodel.GrammarViewModel {
+- LearningItemRepository repository
+- MutableLiveData<ArrayList<Grammar>> grammarList
++ MutableLiveData<ArrayList<Grammar>> getGrammarList()
++ void setGrammarList(MutableLiveData<ArrayList<Grammar>>)
++ void getGrammarItemList(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.forum.fragment.AskQuestionFragment {
+- FragmentAskQuestionBinding binding
+- ForumViewModel viewModel
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void setUpEventListener()
++ void setupViewModelObserver()
++ void onClick(View)
++ void showConfirmDialog()
++ void showToast(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectExamDateFragment {
+- FragmentSelectExamDateBinding binding
+- StudyPlanViewModel viewModel
+- ExamDateAdapter adapter
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onItemClick(JLPTExamDate)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizResultFragment {
+- QuizViewModel viewModel
+- FragmentQuizResultBinding binding
+- int score
+- int totalQuestions
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
++ void onClick(View)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.network.request.SubtopicRequest {
+- String category_name
+- String level_name
+- String session_token
++ String getCategory_name()
++ void setCategory_name(String)
++ String getLevel_name()
++ void setLevel_name(String)
++ String getSession_token()
++ void setSession_token(String)
+}
+
+
+class com.example.cs4514_jlpt_exam_helper.validator.LengthValidator {
+- int minLength
+- int maxLength
++ ValidationResult validate(String)
+}
+
+
+
+
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter +.. com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter +.. com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter$StudyPlanViewHolder
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.study_plan.adapter.StudyPlanAdapter$StudyPlanViewHolder
+com.example.cs4514_jlpt_exam_helper.forum.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.forum.fragment.ReplyFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.forum.fragment.ReplyFragment
+com.example.cs4514_jlpt_exam_helper.quiz.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.quiz.fragment.SelectLevelFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.quiz.fragment.SelectLevelFragment
+com.example.cs4514_jlpt_exam_helper.study_plan.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.activity.StudyPlanActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.study_plan.activity.StudyPlanActivity
+com.example.cs4514_jlpt_exam_helper.dictionary.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter
+com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter +.. com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter$OnPlayClickListener
+com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter +.. com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter$DictionaryViewHolder
+com.example.cs4514_jlpt_exam_helper.dictionary.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.dictionary.adapter.DictionaryAdapter$DictionaryViewHolder
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.SettingViewModel
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.learning.viewmodel.CategoryViewModel
+androidx.viewpager2.adapter.FragmentStateAdapter <|-- com.example.cs4514_jlpt_exam_helper.reset_password.adapter.ResetPasswordViewPagerAdapter
+com.example.cs4514_jlpt_exam_helper.learning.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.fragment.JLPTLevelFragment
+com.example.cs4514_jlpt_exam_helper.learning.fragment.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.fragment.JLPTLevelFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.learning.fragment.JLPTLevelFragment
+com.example.cs4514_jlpt_exam_helper.reset_password.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.reset_password.activity.ResetPasswordActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.reset_password.activity.ResetPasswordActivity
+java.io.Serializable <|.. com.example.cs4514_jlpt_exam_helper.data.Question
+androidx.viewpager2.adapter.FragmentStateAdapter <|-- com.example.cs4514_jlpt_exam_helper.sign_up.adapter.SignUpViewPagerAdapter
+com.example.cs4514_jlpt_exam_helper.learning.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.onboarding.fragment.OnboardingCommonFragment
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.learning.viewmodel.JapaneseCharacterViewModel
+com.example.cs4514_jlpt_exam_helper.forum.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter
+com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter +.. com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter +.. com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter$QuestionViewHolder
+com.example.cs4514_jlpt_exam_helper.forum.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.forum.adapter.QuestionAdapter$QuestionViewHolder
+com.example.cs4514_jlpt_exam_helper.sign_up.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EditProfileFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EditProfileFragment
+com.example.cs4514_jlpt_exam_helper.learning.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter
+com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter$OnPlayClickListener
+com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter$VocabualryViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.VocabularyAdapter$VocabualryViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter
+com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter$JapaneseViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.JapaneseCharacterAdapter$JapaneseViewHolder
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectDailyStudyTimeFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectDailyStudyTimeFragment
+com.example.cs4514_jlpt_exam_helper.learning.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.fragment.BeginnerFragment
+com.example.cs4514_jlpt_exam_helper.learning.fragment.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.fragment.BeginnerFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.learning.fragment.BeginnerFragment
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicActivity
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicActivity
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.UserNameValidator
+com.example.cs4514_jlpt_exam_helper.learning.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter
+com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter$SubtopicViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.SubtopicsAdapter$SubtopicViewHolder
+com.example.cs4514_jlpt_exam_helper.quiz.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.quiz.activity.QuizActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.quiz.activity.QuizActivity
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment
+java.io.Serializable <|.. com.example.cs4514_jlpt_exam_helper.data.Reply
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.GrammarActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.learning.activity.GrammarActivity
+com.example.cs4514_jlpt_exam_helper.quiz.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment
+com.example.cs4514_jlpt_exam_helper.quiz.fragment.OnPlayClickListener <|.. com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment
+com.example.cs4514_jlpt_exam_helper.dashboard.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.dashboard.activity.SelectLevelActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.dashboard.activity.SelectLevelActivity
+com.example.cs4514_jlpt_exam_helper.reset_password.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordFragment
+com.example.cs4514_jlpt_exam_helper.quiz.data.Question <|-- com.example.cs4514_jlpt_exam_helper.quiz.data.CharacterQuestion
+com.example.cs4514_jlpt_exam_helper.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.UserEntryActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.UserEntryActivity
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.dictionary.viewmodel.DictionaryViewModel
+com.example.cs4514_jlpt_exam_helper.learning.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter
+com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter$CategoryViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.CategoriesAdapter$CategoryViewHolder
+com.example.cs4514_jlpt_exam_helper.dashboard.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.dashboard.fragment.SettingFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.dashboard.fragment.SettingFragment
+com.example.cs4514_jlpt_exam_helper.quiz.data.Question <|-- com.example.cs4514_jlpt_exam_helper.quiz.data.VocabularyQuestion
+com.example.cs4514_jlpt_exam_helper.data.BaseLearningItem <|-- com.example.cs4514_jlpt_exam_helper.data.Grammar
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.learning.viewmodel.SubtopicViewModel
+com.example.cs4514_jlpt_exam_helper.forum.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment
+com.example.cs4514_jlpt_exam_helper.forum.fragment.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.DashboardViewModel
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnPlayClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanItemListFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanItemListFragment
+com.example.cs4514_jlpt_exam_helper.onboarding.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.onboarding.activity.OnboardingActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.onboarding.activity.OnboardingActivity
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter +.. com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter$OnItemClickListener
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter +.. com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter$ExamDateViewHolder
+com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.study_plan.adapter.ExamDateAdapter$ExamDateViewHolder
+com.example.cs4514_jlpt_exam_helper.study_plan.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.activity.GenerateStudyPlanActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.study_plan.activity.GenerateStudyPlanActivity
+com.example.cs4514_jlpt_exam_helper.forum.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter
+com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter +.. com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter$ReplyViewHolder
+com.example.cs4514_jlpt_exam_helper.forum.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.forum.adapter.ReplyAdapter$ReplyViewHolder
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.sign_in.viewmodel.SignInViewModel
+com.example.cs4514_jlpt_exam_helper.sign_up.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterOtpSignUpFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterOtpSignUpFragment
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.NullValidator
+com.example.cs4514_jlpt_exam_helper.sign_up.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_up.activity.SignUpActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.sign_up.activity.SignUpActivity
+com.example.cs4514_jlpt_exam_helper.dictionary.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity
+com.example.cs4514_jlpt_exam_helper.dictionary.activity.OnPlayClickListener <|.. com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.dictionary.activity.DictionaryActivity
+com.example.cs4514_jlpt_exam_helper.reset_password.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterEmailResetPasswordFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterEmailResetPasswordFragment
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.reset_password.viewmodel.ResetPasswordViewModel
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.EmailValidator
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetScoreFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetScoreFragment
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.learning.activity.HiraganaActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.SplashActivity
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel
+com.example.cs4514_jlpt_exam_helper.sign_in.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_in.activity.SignInActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.sign_in.activity.SignInActivity
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetLevelFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectTargetLevelFragment
+com.google.firebase.messaging.FirebaseMessagingService <|-- com.example.cs4514_jlpt_exam_helper.FirebaseTokenService
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.sign_up.viewmodel.SignUpViewModel
+com.example.cs4514_jlpt_exam_helper.sign_up.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_up.fragment.SignUpSuccessFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.sign_up.fragment.SignUpSuccessFragment
+com.example.cs4514_jlpt_exam_helper.data.BaseLearningItem <|-- com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter
+com.example.cs4514_jlpt_exam_helper.quiz.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter
+com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter +.. com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter$OnPlayClickListener
+com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter +.. com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter$QuizQuestionViewHolder
+com.example.cs4514_jlpt_exam_helper.quiz.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.quiz.adapter.QuizQuestionAdapter$QuizQuestionViewHolder
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanListFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanListFragment
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.PasswordValidator
+com.example.cs4514_jlpt_exam_helper.reset_password.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordSuccessFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.reset_password.fragment.ResetPasswordSuccessFragment
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnPlayClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.learning.activity.VocabularyActivity
+com.example.cs4514_jlpt_exam_helper.reset_password.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterOtpResetPasswordFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.reset_password.fragment.EnterOtpResetPasswordFragment
+com.example.cs4514_jlpt_exam_helper.learning.activity.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicQuizActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.learning.activity.SubtopicQuizActivity
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectCurrentLevelFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectCurrentLevelFragment
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel
+com.example.cs4514_jlpt_exam_helper.forum.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.forum.fragment.SendReplyFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.forum.fragment.SendReplyFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity
+com.example.cs4514_jlpt_exam_helper.data.BaseLearningItem <|-- com.example.cs4514_jlpt_exam_helper.data.Vocabulary
+androidx.fragment.app.FragmentActivity <|-- com.example.cs4514_jlpt_exam_helper.forum.activity.ForumActivity
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.FormatValidator
+com.example.cs4514_jlpt_exam_helper.quiz.data.Question <|-- com.example.cs4514_jlpt_exam_helper.quiz.data.GrammarQuestion
+com.example.cs4514_jlpt_exam_helper.learning.adapter.Adapter <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter
+com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter +.. com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter$GrammarViewHolder
+com.example.cs4514_jlpt_exam_helper.learning.adapter.ViewHolder <|-- com.example.cs4514_jlpt_exam_helper.learning.adapter.GrammarAdapter$GrammarViewHolder
+androidx.viewpager2.adapter.FragmentStateAdapter <|-- com.example.cs4514_jlpt_exam_helper.onboarding.adapter.OnboardingViewPagerAdapter
+com.example.cs4514_jlpt_exam_helper.sign_up.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterEmailSignUpFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.sign_up.fragment.EnterEmailSignUpFragment
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.learning.viewmodel.VocabularyViewModel
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel
+androidx.lifecycle.ViewModel <|-- com.example.cs4514_jlpt_exam_helper.learning.viewmodel.GrammarViewModel
+com.example.cs4514_jlpt_exam_helper.forum.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.forum.fragment.AskQuestionFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.forum.fragment.AskQuestionFragment
+com.example.cs4514_jlpt_exam_helper.study_plan.fragment.OnItemClickListener <|.. com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectExamDateFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectExamDateFragment
+com.example.cs4514_jlpt_exam_helper.quiz.fragment.OnClickListener <|.. com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizResultFragment
+androidx.fragment.app.Fragment <|-- com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizResultFragment
+com.example.cs4514_jlpt_exam_helper.validator.BaseValidator <|.. com.example.cs4514_jlpt_exam_helper.validator.LengthValidator
+@enduml

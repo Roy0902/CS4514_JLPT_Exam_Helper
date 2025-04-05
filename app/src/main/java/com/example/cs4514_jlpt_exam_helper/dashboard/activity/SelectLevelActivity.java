@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,15 +22,18 @@ import com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment;
 
 public class SelectLevelActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivitySelectLevelBinding binding;
+    private DashboardViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySelectLevelBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
         setContentView(binding.getRoot());
 
         showLoadingEffect();
         setUpEventListener();
+        setupViewModelObserver();
         hideLoadingEffect();
     }
 
@@ -62,14 +66,19 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void changeLevel(String level_name){
-        SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(Constant.key_selected_current_level, level_name);
-        editor.apply();
+        viewModel.saveSelectedLevel(this, level_name);
 
         Intent intent = new Intent(SelectLevelActivity.this, DashboardActivity.class);
         startActivity(intent);
+    }
 
+
+    public void setupViewModelObserver(){
+        viewModel.getToastText().observe(
+                this, text->{
+                    hideLoadingEffect();
+                    showToast(text);
+                });
     }
 
     private void showLoadingEffect() {
@@ -82,4 +91,7 @@ public class SelectLevelActivity extends AppCompatActivity implements View.OnCli
         binding.progressBar.setVisibility(View.GONE);
     }
 
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
 }

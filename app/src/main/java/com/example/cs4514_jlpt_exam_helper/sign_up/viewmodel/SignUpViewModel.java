@@ -39,6 +39,8 @@ public class SignUpViewModel extends ViewModel {
 
     private MutableLiveData<String> emailForVerify = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> loading = new MutableLiveData<>();
+
     public SignUpViewModel(){
         if(accountRepository == null){
             accountRepository = AccountRepository.getInstance();
@@ -46,6 +48,14 @@ public class SignUpViewModel extends ViewModel {
         if(otpRepository == null){
             otpRepository = OtpRepository.getInstance();
         }
+    }
+
+    public void isLoading(Boolean loading){
+        this.loading.setValue(loading);
+    }
+
+    public MutableLiveData<Boolean> getLoading() {
+        return loading;
     }
 
     public MutableLiveData<ValidationResult> getValidUserName() {

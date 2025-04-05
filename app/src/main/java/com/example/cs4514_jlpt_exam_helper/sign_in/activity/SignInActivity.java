@@ -54,6 +54,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void signIn(){
+        showLoadingEffect();
         binding.btnSignIn.setEnabled(false);
         String email = binding.etEmail.getText().toString().trim();
         String pw = binding.etPassword.getText().toString().trim();
@@ -81,6 +82,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     public void setupViewModelObserver() {
         viewModel.getEmptyEmail().observe(this, emptyEmail -> {
+            hideLoadingEffect();
             if (emptyEmail) {
                 binding.errorEmail.setVisibility(View.VISIBLE);
                 binding.btnSignIn.setEnabled(true);
@@ -91,6 +93,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         viewModel.getEmptyPw().observe(this, emptyPw -> {
+            hideLoadingEffect();
             if (emptyPw) {
                 binding.errorPassword.setVisibility(View.VISIBLE);
                 binding.btnSignIn.setEnabled(true);
@@ -100,13 +103,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         viewModel.getSignInFailed().observe(this, signInFailed -> {
+            hideLoadingEffect();
             binding.errorSignInFail.setText(signInFailed.getErrorMsg());
             binding.errorSignInFail.setVisibility(View.VISIBLE);
             binding.btnSignIn.setEnabled(true);
         });
 
         viewModel.getSignInSuccess().observe(this, message -> {
-            Toast.makeText(this, "Sign In Successfully.", Toast.LENGTH_SHORT).show();
+            showToast("Sign In Successfully.");
             binding.errorSignInFail.setText("");
             binding.errorSignInFail.setVisibility(View.INVISIBLE);
             goDashboardPage();
@@ -122,4 +126,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         binding.overlayView.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.GONE);
     }
+
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -123,6 +123,11 @@
         Please try to generate a new study plan with longer study periods and lower workload.</string>
     <string name="new_password">New password</string>
     <string name="old_password">Old Password</string>
+    <string name="your_study_plan_is_generating_it_may_takes_up_to_minutes_for_generation">Your study plan is generating. It may takes up to minutes for generation.</string>
+    <string name="change_password">Change Password</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="setting">Setting</string>
+    <string name="current_password">Current Password</string>
 
 
 </resources>

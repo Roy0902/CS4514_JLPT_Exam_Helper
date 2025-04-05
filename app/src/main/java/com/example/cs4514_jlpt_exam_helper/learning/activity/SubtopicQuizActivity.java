@@ -62,7 +62,7 @@ public class SubtopicQuizActivity extends AppCompatActivity implements View.OnCl
             if(isQuizCompleted){
                 if(viewModel.isPass()) {
                     viewModel.updateUserProgress(
-                            subtopicName, SessionManager.getSessionToken(this));
+                            subtopicName, SessionManager.getInstance().getSessionToken(this));
                 }
 
                 getSupportFragmentManager().beginTransaction()

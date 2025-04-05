@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
 import com.example.cs4514_jlpt_exam_helper.UserEntryActivity;
+import com.example.cs4514_jlpt_exam_helper.dashboard.fragment.SettingFragment;
 import com.example.cs4514_jlpt_exam_helper.dashboard.viewmodel.DashboardViewModel;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityDashboardBinding;
@@ -30,6 +31,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         viewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
         showLoadingEffect();
@@ -37,21 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         setUpEventListener();
         setupViewModelObserver();
 
-        Thread thread = new Thread(() -> {
-            try {
-                if (!SessionManager.isNoVerificationNeeded(DashboardActivity.this)) {
-                    viewModel.verifySessionToken(DashboardActivity.this);
-                }else{
-                    updateFirebaseToken();
-                    hideLoadingEffect();
-                }
-
-
-            }catch (Error e){
-                Log.d("ERROR", "ERROR: " + e.getMessage());
-            }
-        });
-        thread.start();
+        viewModel.verifySessionToken(this);
     }
 
 
@@ -67,7 +55,7 @@ public class DashboardActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_plans) {
                 selectedFragment = new StudyPlanFragment();
             } else if (itemId == R.id.nav_settings) {
-
+                selectedFragment = new SettingFragment();
             }
 
             if (selectedFragment != null) {
@@ -79,39 +67,21 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
-    private void updateFirebaseToken(){
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String token = task.getResult();
-                        String session_token = SessionManager.getSessionToken(this);
-                        viewModel.updateFirebaseToken(session_token, token);
-                    }else {
-                        Toast.makeText(this, "FAILED", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     public void setupViewModelObserver(){
         viewModel.getValidToken().observe(this, validToken -> {
             hideLoadingEffect();
-            Toast.makeText(this, "RETURNED", Toast.LENGTH_SHORT).show();
             if(!validToken){
+                showToast("Sign In Session Expired.");
                 goUserEntryPage();
             }else{
-                SessionManager.setNoVerificationNeeded(this, true);
-                updateFirebaseToken();
+                viewModel.updateFirebaseToken(this);
             }
         });
 
-        viewModel.getFirebaseToken().observe(this, firebaseToken -> {
-            if(firebaseToken != null && firebaseToken.length() > 0) {
-                getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE).
-                        edit().
-                        putString(Constant.key_firebase_token, firebaseToken).
-                        apply();
-            }
-
+        viewModel.getToastText().observe(
+        this, text->{
+            hideLoadingEffect();
+            showToast(text);
         });
 
     }
@@ -138,9 +108,7 @@ public class DashboardActivity extends AppCompatActivity {
         binding.progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SessionManager.clearSession(this);
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

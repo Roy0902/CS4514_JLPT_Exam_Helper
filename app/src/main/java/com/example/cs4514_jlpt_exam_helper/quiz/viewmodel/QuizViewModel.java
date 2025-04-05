@@ -28,21 +28,105 @@ public class QuizViewModel extends ViewModel {
     private MutableLiveData<String> selectedLevel = new MutableLiveData<>();
     private MutableLiveData<Integer> questionListNumber = new MutableLiveData<>();
 
-    private MutableLiveData<List<CharacterQuestion>> characterQuestionList = new MutableLiveData<>();
-    private MutableLiveData<List<GrammarQuestion>> grammarQuestionList = new MutableLiveData<>();
-    private MutableLiveData<List<VocabularyQuestion>> vocabularyQuestionList = new MutableLiveData<>();
+    private List<CharacterQuestion> characterQuestionList;
+    private List<GrammarQuestion> grammarQuestionList;
+    private List<VocabularyQuestion> vocabularyQuestionList;
 
     private MutableLiveData<Boolean> isQuestionReady = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> isQuizCompleted = new MutableLiveData<>(false);
     private boolean isLoading = false;
-    private int score = 0;
+
+    private MutableLiveData<CharacterQuestion> currentCharacterQuestion = new MutableLiveData<>();
+    private MutableLiveData<GrammarQuestion> currentGrammarQuestion = new MutableLiveData<>();
+    private MutableLiveData<VocabularyQuestion> currentVocabularyQuestion = new MutableLiveData<>();
+    private MutableLiveData<Boolean> updateProgress = new MutableLiveData<>();;
+
+
+    private int currentQuestion = 0;
     private int totalQuestions = 0;
+    private int score = 0;
 
 
     public QuizViewModel(){
         if(repository == null){
             repository = LearningItemRepository.getInstance();
         }
+
+        characterQuestionList = new ArrayList<>();
+        grammarQuestionList= new ArrayList<>();
+        vocabularyQuestionList= new ArrayList<>();
+    }
+
+    public MutableLiveData<Boolean> getUpdateProgress() {
+        return updateProgress;
+    }
+
+    public void setUpdateProgress(MutableLiveData<Boolean> updateProgress) {
+        this.updateProgress = updateProgress;
+    }
+
+    public void setSelectedLevel(MutableLiveData<String> selectedLevel) {
+        this.selectedLevel = selectedLevel;
+    }
+
+    public MutableLiveData<Integer> getQuestionListNumber() {
+        return questionListNumber;
+    }
+
+    public void setQuestionListNumber(MutableLiveData<Integer> questionListNumber) {
+        this.questionListNumber = questionListNumber;
+    }
+
+    public void setIsQuizCompleted(MutableLiveData<Boolean> isQuizCompleted) {
+        this.isQuizCompleted = isQuizCompleted;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public MutableLiveData<CharacterQuestion> getCurrentCharacterQuestion() {
+        return currentCharacterQuestion;
+    }
+
+    public void setCurrentCharacterQuestion(MutableLiveData<CharacterQuestion> currentCharacterQuestion) {
+        this.currentCharacterQuestion = currentCharacterQuestion;
+    }
+
+    public MutableLiveData<GrammarQuestion> getCurrentGrammarQuestion() {
+        return currentGrammarQuestion;
+    }
+
+    public void setCurrentGrammarQuestion(MutableLiveData<GrammarQuestion> currentGrammarQuestion) {
+        this.currentGrammarQuestion = currentGrammarQuestion;
+    }
+
+    public MutableLiveData<VocabularyQuestion> getCurrentVocabularyQuestion() {
+        return currentVocabularyQuestion;
+    }
+
+    public void setCurrentVocabularyQuestion(MutableLiveData<VocabularyQuestion> currentVocabularyQuestion) {
+        this.currentVocabularyQuestion = currentVocabularyQuestion;
+    }
+
+    public int getCurrentQuestion() {
+        return currentQuestion;
+    }
+
+    public void setCurrentQuestion(int currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+    public int getTotalQuestions() {
+        return totalQuestions;
+    }
+
+    public void setTotalQuestions(int totalQuestions) {
+        this.totalQuestions = totalQuestions;
     }
 
     public MutableLiveData<String> getSelectedLevel() {
@@ -54,22 +138,6 @@ public class QuizViewModel extends ViewModel {
         if(!isLoading && !isQuestionReady.getValue()){
             getLearningItem();
         }
-    }
-
-    public MutableLiveData<List<CharacterQuestion>> getCharacterQuestionList() {
-        return characterQuestionList;
-    }
-
-    public void setCharacterQuestionList(MutableLiveData<List<CharacterQuestion>> characterQuestionList) {
-        this.characterQuestionList = characterQuestionList;
-    }
-
-    public MutableLiveData<List<GrammarQuestion>> getGrammarQuestionList() {
-        return grammarQuestionList;
-    }
-
-    public void setGrammarQuestionList(MutableLiveData<List<GrammarQuestion>> grammarQuestionList) {
-        this.grammarQuestionList = grammarQuestionList;
     }
 
     public MutableLiveData<Boolean> getIsQuestionReady() {
@@ -88,14 +156,6 @@ public class QuizViewModel extends ViewModel {
         this.isQuizCompleted.setValue(isQuizCompleted);
     }
 
-    public MutableLiveData<List<VocabularyQuestion>> getVocabularyQuestionList() {
-        return vocabularyQuestionList;
-    }
-
-    public void setVocabularyQuestionList(MutableLiveData<List<VocabularyQuestion>> vocabularyQuestionList) {
-        this.vocabularyQuestionList = vocabularyQuestionList;
-    }
-
     public int getScore() {
         return score;
     }
@@ -108,11 +168,39 @@ public class QuizViewModel extends ViewModel {
         return totalQuestions;
     }
 
+    public List<CharacterQuestion> getCharacterQuestionList() {
+        return characterQuestionList;
+    }
+
+    public void setCharacterQuestionList(List<CharacterQuestion> characterQuestionList) {
+        this.characterQuestionList = characterQuestionList;
+    }
+
+    public List<GrammarQuestion> getGrammarQuestionList() {
+        return grammarQuestionList;
+    }
+
+    public void setGrammarQuestionList(List<GrammarQuestion> grammarQuestionList) {
+        this.grammarQuestionList = grammarQuestionList;
+    }
+
+    public List<VocabularyQuestion> getVocabularyQuestionList() {
+        return vocabularyQuestionList;
+    }
+
+    public void setVocabularyQuestionList(List<VocabularyQuestion> vocabularyQuestionList) {
+        this.vocabularyQuestionList = vocabularyQuestionList;
+    }
+
     public boolean isPass(){
         if (totalQuestions <= 0) {
             return false;
         }
         return score >= totalQuestions / 2;
+    }
+
+    public void addScore(){
+        score++;
     }
 
     public void getLearningItem(){
@@ -122,7 +210,8 @@ public class QuizViewModel extends ViewModel {
 
         isLoading = true;
 
-        Single<ResponseBean<LearningItemResponse>> response = repository.getLearningItemByLevel(selectedLevel.getValue());
+        Single<ResponseBean<LearningItemResponse>> response = repository.
+                getLearningItemByLevel(selectedLevel.getValue());
         response.subscribe(new SingleObserver<ResponseBean<LearningItemResponse>>() {
             private Disposable d;
 
@@ -135,24 +224,27 @@ public class QuizViewModel extends ViewModel {
             public void onSuccess(ResponseBean<LearningItemResponse> bean) {
                 int code = bean.getCode();
                 if (code >= 200 && code <= 299) {
-                    if(bean.getData().getCharacterList() != null){
-                        characterQuestionList.setValue(generateCharacterQuestion(
-                                bean.getData().getCharacterList()));
-                        totalQuestions += characterQuestionList.getValue().size();
+                    if(bean.getData().getCharacterList() != null
+                            && bean.getData().getCharacterList().size() > 0){
+                        characterQuestionList = generateCharacterQuestion(
+                                bean.getData().getCharacterList());
+                        totalQuestions += characterQuestionList.size();
                     }
 
-                    if(bean.getData().getGrammarList() != null){
-                        grammarQuestionList.setValue(generateGrammarQuestion(
-                                bean.getData().getGrammarList()));
+                    if(bean.getData().getGrammarList() != null
+                            && bean.getData().getGrammarList().size() > 0){
+                        grammarQuestionList = generateGrammarQuestion(
+                                bean.getData().getGrammarList());
 
-                        totalQuestions += grammarQuestionList.getValue().size();
+                        totalQuestions += grammarQuestionList.size();
                     }
 
-                    if(bean.getData().getVocabularyList() != null){
-                        grammarQuestionList.setValue(generateGrammarQuestion(
-                                bean.getData().getGrammarList()));
+                    if(bean.getData().getVocabularyList() != null
+                            && bean.getData().getVocabularyList().size() > 0){
+                        vocabularyQuestionList = generateVocabularyQuestion(
+                                bean.getData().getVocabularyList());
 
-                        totalQuestions += grammarQuestionList.getValue().size();
+                        totalQuestions += grammarQuestionList.size();
                     }
 
                     isQuestionReady.setValue(true);
@@ -192,23 +284,23 @@ public class QuizViewModel extends ViewModel {
                 int code = bean.getCode();
                 if (code >= 200 && code <= 299) {
                     if(bean.getData().getCharacterList() != null){
-                        characterQuestionList.setValue(generateCharacterQuestion(
-                                bean.getData().getCharacterList()));
-                        totalQuestions += characterQuestionList.getValue().size();
+                        characterQuestionList = generateCharacterQuestion(
+                                bean.getData().getCharacterList());
+                        totalQuestions += characterQuestionList.size();
                     }
 
                     if(bean.getData().getGrammarList() != null){
-                        grammarQuestionList.setValue(generateGrammarQuestion(
-                                bean.getData().getGrammarList()));
+                        grammarQuestionList = generateGrammarQuestion(
+                                bean.getData().getGrammarList());
 
-                        totalQuestions += grammarQuestionList.getValue().size();
+                        totalQuestions += grammarQuestionList.size();
                     }
 
                     if(bean.getData().getVocabularyList() != null){
-                        vocabularyQuestionList.setValue(generateVocabularyQuestion(
-                                bean.getData().getVocabularyList()));
+                        vocabularyQuestionList = generateVocabularyQuestion(
+                                bean.getData().getVocabularyList());
 
-                        totalQuestions += vocabularyQuestionList.getValue().size();
+                        totalQuestions += vocabularyQuestionList.size();
                     }
 
                     isQuestionReady.setValue(true);
@@ -317,10 +409,6 @@ public class QuizViewModel extends ViewModel {
 
             @Override
             public void onSuccess(ResponseBean<String> bean) {
-                int code = bean.getCode();
-                if (code >= 200 && code <= 299) {
-
-                }
 
                 d.dispose();
             }
@@ -331,5 +419,23 @@ public class QuizViewModel extends ViewModel {
                 d.dispose();
             }
         });
+    }
+
+    public void setQuestion(){
+        updateProgress.setValue(false);
+
+        if(totalQuestions == currentQuestion){
+            setIsQuizCompleted(true);
+        }else if(currentQuestion < characterQuestionList.size()){
+            currentCharacterQuestion.setValue(characterQuestionList.get(currentQuestion));
+        }else if(currentQuestion - characterQuestionList.size() < grammarQuestionList.size() ){
+            currentGrammarQuestion.setValue(grammarQuestionList.get(totalQuestions - characterQuestionList.size() - 1));
+        }else{
+            int index = totalQuestions- characterQuestionList.size() - grammarQuestionList.size() - 1;
+            currentVocabularyQuestion.setValue(vocabularyQuestionList.get(index));
+        }
+
+        currentQuestion++;
+        updateProgress.setValue(true);
     }
 }

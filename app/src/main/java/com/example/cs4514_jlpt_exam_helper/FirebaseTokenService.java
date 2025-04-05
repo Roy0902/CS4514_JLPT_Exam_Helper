@@ -28,7 +28,7 @@ public class FirebaseTokenService extends FirebaseMessagingService {
     }
 
     private void sendTokenToServer(String token) {
-        String session_token = SessionManager.getSessionToken(this);
+        String session_token = SessionManager.getInstance().getSessionToken(this);
         AccountRepository repository = AccountRepository.getInstance();
         repository.updateFirebaseToken(session_token, token);
     }
@@ -44,34 +44,32 @@ public class FirebaseTokenService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String body) {
-        Intent intent = new Intent(this, DictionaryActivity.class);
+        Intent intent = new Intent(this, DashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
-        // Get NotificationManager
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Create Notification Channel (required for Android 8.0+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "TEST",
                     "FCM Notifications",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
+
             channel.setDescription("Notifications from FCM");
             notificationManager.createNotificationChannel(channel);
         }
 
-        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "TEST")
                 .setContentTitle(title)
                 .setContentText(body)
-                .setAutoCancel(true) // Dismiss when tapped
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
 
-        // Show the notification
         notificationManager.notify(1, builder.build());
     }
 }

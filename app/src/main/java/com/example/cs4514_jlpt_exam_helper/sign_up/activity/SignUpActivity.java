@@ -27,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
         progressBar = binding.progressBar;
+        showLoadingEffect();
 
         setUpEventListener();
         setUpViewAdapter();
@@ -53,6 +54,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     public void setupViewModelObserver(){
         viewModel.getProgressIndex().observe(this, progressIndex -> {
+            hideLoadingEffect();
             if(progressIndex == 1){
                 binding.linearProgressBar.setProgress(33);
                 binding.textStepCounter.setText(R.string.step_counter_2_3);
@@ -66,16 +68,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         viewModel.getSendOtpSuccess().observe(this, sendOtpSuccess ->{
+            hideLoadingEffect();
             binding.btnBack.setVisibility(View.GONE);
             setCurrentFragment(1);
         });
 
         viewModel.getVerifyEmailSuccess().observe(this, sendOtpSuccess ->{
+            hideLoadingEffect();
             setCurrentFragment(2);
         });
 
         viewModel.getSignUpSuccess().observe(this, signUpSuccess ->{
+            hideLoadingEffect();
             setCurrentFragment(3);
+        });
+
+        viewModel.getLoading().observe(this, loading->{
+            if(loading){
+                showLoadingEffect();
+            }
         });
     }
 

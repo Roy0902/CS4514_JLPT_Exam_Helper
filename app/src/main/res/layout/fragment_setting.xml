@@ -5,31 +5,197 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_change_password"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/top_navigation_bar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/background_top_navigation"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/setting"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/section_change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/gradient_2"
-        android:text="@string/sign_in"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/top_navigation_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_changePasswordDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:text="@string/reset_password_description"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_old_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:hint="@string/current_password"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_input"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/custom_ic_lock"
+                android:drawablePadding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_changePasswordDescription"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_old_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:breakStrategy="simple"
+                android:ellipsize="end"
+                android:hyphenationFrequency="normal"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/red_1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@id/et_old_password"
+                app:layout_constraintTop_toBottomOf="@id/et_old_password" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_new_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:hint="@string/new_password"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_input"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/custom_ic_lock"
+                android:drawablePadding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_old_password"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_new_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:breakStrategy="simple"
+                android:ellipsize="end"
+                android:hyphenationFrequency="normal"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/red_1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@id/et_new_password"
+                app:layout_constraintTop_toBottomOf="@id/et_new_password" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_confirm_new_Pw"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:hint="@string/confirm_password"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_input"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/custom_ic_lock"
+                android:drawablePadding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_new_password"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_confirm_new_Pw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text=""
+                android:textColor="@color/red_1"
+                app:layout_constraintStart_toStartOf="@id/et_confirm_new_Pw"
+                app:layout_constraintTop_toBottomOf="@id/et_confirm_new_Pw"/>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_change_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/gradient_3"
+                android:text="@string/change_password"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/error_confirm_new_Pw"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_signOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/gradient_2"
-        android:text="@string/sign_in"
+        android:text="@string/sign_out"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/btn_change_password"
+        app:layout_constraintTop_toBottomOf="@id/section_change_password"
         app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

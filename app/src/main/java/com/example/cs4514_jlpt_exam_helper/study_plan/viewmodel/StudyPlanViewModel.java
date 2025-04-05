@@ -36,6 +36,7 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<Boolean> isJustPass = new MutableLiveData<>();
     private MutableLiveData<Integer> daysLeftUntilExam = new MutableLiveData<>();
     private MutableLiveData<Integer> dailyStudyTime = new MutableLiveData<>();
+    private MutableLiveData<Boolean> processEnd = new MutableLiveData<>();
 
     private MutableLiveData<JLPTExamDate> selectedExamDate = new MutableLiveData<>();
     private MutableLiveData<StudyPlanItem> selectedStudyPlan = new MutableLiveData<>();
@@ -218,6 +219,14 @@ public class StudyPlanViewModel extends ViewModel {
         this.currentFragment = currentFragment;
     }
 
+    public MutableLiveData<Boolean> getProcessEnd() {
+        return processEnd;
+    }
+
+    public void setProcessEnd(MutableLiveData<Boolean> processEnd) {
+        this.processEnd = processEnd;
+    }
+
     public void getStudyPlanSummary(String sessionToken){
         if(sessionToken == null){
             return;
@@ -333,6 +342,7 @@ public class StudyPlanViewModel extends ViewModel {
             @Override
             public void onSubscribe(Disposable d) {
                 this.d = d;
+                processEnd.setValue(true);
             }
 
             @Override

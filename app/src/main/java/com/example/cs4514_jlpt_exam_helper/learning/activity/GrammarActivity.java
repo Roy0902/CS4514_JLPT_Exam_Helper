@@ -42,6 +42,7 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
+        binding.btnCompleted.setOnClickListener(this);
     }
 
     public void setupViewModelObserver(){
@@ -55,6 +56,11 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
 
             hideLoadingEffect();
         });
+
+        viewModel.getUpdateSuccess().observe(this, isSuccess ->{
+            showToast("Your progress is updated.");
+            finish();
+        });
     }
 
     @Override
@@ -62,6 +68,8 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
         int id = v.getId();
         if(id == R.id.btn_back){
             goBackDashboardPage();
+        }else if(id == R.id.btn_completed){
+            viewModel.updateUserProgress(this, subtopicName);
         }
     }
 
@@ -78,5 +86,10 @@ public class GrammarActivity extends AppCompatActivity implements View.OnClickLi
         binding.overlayView.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.GONE);
     }
+
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

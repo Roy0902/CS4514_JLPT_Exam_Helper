@@ -20,20 +20,10 @@ public class UserEntryActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_entry);
 
-        Thread thread = new Thread(() -> {
-            try {
-                SharedPreferences pref = getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE);
-                String token = pref.getString(Constant.key_session_token, Constant.error_not_found);
-                if(!token.equals(Constant.error_not_found)){
-                    goDashboard();
-                }
-
-            }catch (Error e){
-                Log.d("ERROR", "ERROR: " + e.getMessage());
-            }
-        });
-        thread.start();
-
+        String token = SessionManager.getInstance().getSessionToken(this);
+        if(!token.equals(Constant.error_not_found)){
+            goDashboard();
+        }
 
         setUpEventListener();
     }
@@ -41,7 +31,6 @@ public class UserEntryActivity extends AppCompatActivity implements View.OnClick
     public void setUpEventListener(){
         findViewById(R.id.btn_signIn).setOnClickListener(this);
         findViewById(R.id.btn_signUp).setOnClickListener(this);
-        findViewById(R.id.btn_guest).setOnClickListener(this);
     }
 
     @Override
@@ -51,8 +40,6 @@ public class UserEntryActivity extends AppCompatActivity implements View.OnClick
             goSignInPage();
         else if(id == R.id.btn_signUp)
             goSignUpPage();
-        else if(id == R.id.btn_guest)
-            goDashboard();
 
     }
 

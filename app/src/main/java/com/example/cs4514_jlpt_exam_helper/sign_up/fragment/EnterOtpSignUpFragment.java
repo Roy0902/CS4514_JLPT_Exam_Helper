@@ -63,8 +63,10 @@ public class EnterOtpSignUpFragment extends Fragment implements View.OnClickList
         int id = v.getId();
         if(id == R.id.btn_verify_email){
             binding.btnVerifyEmail.setEnabled(false);
+            viewModel.isLoading(true);
             viewModel.verifyEmail(otpCode);
         }else if (id == R.id.btn_resend_otp){
+            viewModel.isLoading(true);
             viewModel.resendOtp();
             startResendTimer();
         }

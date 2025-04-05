@@ -49,7 +49,7 @@ public class BeginnerFragment extends Fragment implements View.OnClickListener, 
         thread.start();
 
         setupViewModelObserver();
-        String session_token = SessionManager.getSessionToken(requireActivity());
+        String session_token = SessionManager.getInstance().getSessionToken(requireActivity());
         viewModel.getUserProgress("Beginner", session_token);
     }
 

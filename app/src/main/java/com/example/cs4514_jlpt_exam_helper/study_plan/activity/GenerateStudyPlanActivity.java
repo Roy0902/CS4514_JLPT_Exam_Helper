@@ -16,6 +16,7 @@ import com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizFragment;
 import com.example.cs4514_jlpt_exam_helper.quiz.fragment.QuizResultFragment;
 import com.example.cs4514_jlpt_exam_helper.quiz.fragment.SelectLevelFragment;
 import com.example.cs4514_jlpt_exam_helper.quiz.viewmodel.QuizViewModel;
+import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.ProcessEndFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectCurrentLevelFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectDailyStudyTimeFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.SelectExamDateFragment;
@@ -78,9 +79,16 @@ public class GenerateStudyPlanActivity extends AppCompatActivity implements View
 
         viewModel.getDailyStudyTime().observe(this, dailyStudyTime ->{
             if(dailyStudyTime > 0){
-                String session_token = SessionManager.getSessionToken(this);
-                Toast.makeText(this, "Start.", Toast.LENGTH_SHORT).show();
+                String session_token = SessionManager.getInstance().getSessionToken(this);
+                Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
                 viewModel.generateStudyPlan(session_token);
+            }
+        });
+
+        viewModel.getProcessEnd().observe(this, processEnd -> {
+            if(processEnd){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_generate_study_plan, new ProcessEndFragment()).commit();
             }
         });
     }

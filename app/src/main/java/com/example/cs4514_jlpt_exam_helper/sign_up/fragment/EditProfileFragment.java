@@ -50,6 +50,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     public void onClick(View v){
         int id = v.getId();
         if(id == R.id.btn_signUp){
+            viewModel.isLoading(true);
             String userName = binding.etUserName.getText().toString().trim();
             String password = binding.etPassword.getText().toString().trim();
             String confirmPassword = binding.etConfirmPw.getText().toString().trim();

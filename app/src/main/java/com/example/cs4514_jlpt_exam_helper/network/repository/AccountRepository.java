@@ -3,6 +3,8 @@ package com.example.cs4514_jlpt_exam_helper.network.repository;
 import android.content.Context;
 
 import com.example.cs4514_jlpt_exam_helper.FirebaseTokenService;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.dashboard.activity.DashboardActivity;
 import com.example.cs4514_jlpt_exam_helper.data.Account;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
@@ -18,8 +20,12 @@ import io.reactivex.schedulers.Schedulers;
 public class AccountRepository {
 
     private static AccountRepository repository;
+    private SessionManager sessionManager;
 
     public AccountRepository(){
+        if(sessionManager == null){
+            sessionManager = SessionManager.getInstance();
+        }
 
     }
 
@@ -49,9 +55,21 @@ public class AccountRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<SessionToken>> verifySessionToken(SessionToken sessionToken){
+    public Single<ResponseBean<SessionToken>> verifySessionToken(Context context){
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
-        return accountAPI.verifySessionToken(sessionToken).subscribeOn(Schedulers.io())
+        String sessionToken = sessionManager.getSessionToken(context);
+
+        //return accountAPI.verifySessionToken(new SessionToken(sessionToken)).subscribeOn(Schedulers.io())
+        //        .observeOn(AndroidSchedulers.mainThread());
+
+        if (sessionToken.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<SessionToken>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
+        return accountAPI.verifySessionToken(new SessionToken(sessionToken))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -62,15 +80,20 @@ public class AccountRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Single<ResponseBean<String>> signOut (String session_token){
+        AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
+        return accountAPI.signOut(new SessionToken(session_token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public void saveSessionToken(Context context, String sessionToken){
-        context.getSharedPreferences(Constant.key_session_pref, Context.MODE_PRIVATE).
-                edit().putString(Constant.key_session_token, sessionToken).apply();
+        sessionManager.updateSessionToken(context, sessionToken);
 
     }
 
     public void removeSessionToken(Context context){
-        context.getSharedPreferences(Constant.key_session_pref, Context.MODE_PRIVATE).
-                edit().remove(Constant.key_session_token).apply();
+        sessionManager.clearSession(context);
 
     }
 }
