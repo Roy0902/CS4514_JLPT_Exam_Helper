@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -35,13 +36,11 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
 
         showLoadingEffect();
 
-        String sessionToken = SessionManager.getInstance().getSessionToken(this);
-
         setUpEventListener();
         setupViewModelObserver();
 
 
-        viewModel.getStudyPlan(sessionToken);
+        viewModel.getStudyPlan(this);
     }
 
     public void setUpEventListener(){
@@ -53,9 +52,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         viewModel.getStudyPlanReady().observe(this, isReady->{
 
             if(isReady) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.study_plan_list_fragment, new StudyPlanListFragment()).commit();
-                viewModel.setCurrentFragment(1);
+                loadFragment(new StudyPlanListFragment(), 1);
             }
 
             hideLoadingEffect();
@@ -75,9 +72,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
 
         viewModel.getStudyPlanItemReady().observe(this, isReady ->{
             if(isReady){
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.study_plan_list_fragment, new StudyPlanItemListFragment()).commit();
-                viewModel.setCurrentFragment(2);
+                loadFragment(new StudyPlanItemListFragment(), 2);
             }
 
             hideLoadingEffect();
@@ -87,6 +82,13 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
             binding.textStudyPlan.setText("Day " + viewModel.getSelectedPosition());
             binding.btnCompleted.setVisibility(View.VISIBLE);
             binding.btnCompleted.setEnabled(true);
+        });
+
+        viewModel.getUpdateProgressSuccess().observe(this, isSuccess ->{
+            if(isSuccess){
+                viewModel.getStudyPlan(this);
+                loadFragment(new StudyPlanListFragment(), 1);
+            }
         });
     }
 
@@ -122,5 +124,11 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     private void hideLoadingEffect() {
         binding.overlayView.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void loadFragment(Fragment fragment, int currentFragment){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.study_plan_list_fragment, fragment).commit();
+        viewModel.setCurrentFragment(currentFragment);
     }
 }

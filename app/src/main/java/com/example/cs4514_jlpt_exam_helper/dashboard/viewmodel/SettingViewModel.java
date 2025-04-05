@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.AccountRepository;
@@ -24,6 +25,8 @@ public class SettingViewModel extends ViewModel {
     private MutableLiveData<Boolean> validConfirmNewPassword = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> signOutSuccess = new MutableLiveData<>();
+    private MutableLiveData<Boolean> changePasswordSuccess = new MutableLiveData<>();
+    private MutableLiveData<String> changePasswordFailedMessage = new MutableLiveData<>();
 
     public SettingViewModel(){
         if(repository == null){
@@ -63,14 +66,61 @@ public class SettingViewModel extends ViewModel {
         this.validConfirmNewPassword = validConfirmNewPassword;
     }
 
-    public void changePassword(String oldPassword, String newPassword, String confirmNewPassword) {
+    public MutableLiveData<Boolean> getChangePasswordSuccess() {
+        return changePasswordSuccess;
+    }
+
+    public void setChangePasswordSuccess(MutableLiveData<Boolean> changePasswordSuccess) {
+        this.changePasswordSuccess = changePasswordSuccess;
+    }
+
+    public MutableLiveData<String> getChangePasswordFailedMessage() {
+        return changePasswordFailedMessage;
+    }
+
+    public void setChangePasswordFailedMessage(MutableLiveData<String> changePasswordFailedMessage) {
+        this.changePasswordFailedMessage = changePasswordFailedMessage;
+    }
+
+    public void changePassword(Context context, String oldPassword, String newPassword, String confirmNewPassword) {
         if (oldPassword == null || newPassword == null || confirmNewPassword == null) {
+            return;
+        }else if(!validPassword(oldPassword, newPassword, confirmNewPassword)){
             return;
         }
 
-        if(!validPassword(oldPassword, newPassword, confirmNewPassword)){
+        String session_token = SessionManager.getInstance().getSessionToken(context);
+        if(session_token.equals(Constant.error_not_found)){
             return;
         }
+
+        Single<ResponseBean<String>> response = repository.changePassword(session_token, oldPassword, newPassword);
+        response.subscribe(new SingleObserver<ResponseBean<String>>() {
+            Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<String> bean) {
+                int code = bean.getCode();
+
+                if (code >= 200 && code <=299) {
+                    changePasswordSuccess.setValue(true);
+                }else{
+                    changePasswordFailedMessage.setValue(bean.getMessage());
+                }
+
+                d.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
 
     }
 
@@ -87,6 +137,9 @@ public class SettingViewModel extends ViewModel {
 
     public void signOut(Context context){
         String session_token = SessionManager.getInstance().getSessionToken(context);
+        if(session_token.equals(Constant.error_not_found)){
+            return;
+        }
 
         Single<ResponseBean<String>> response = repository.signOut(session_token);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {

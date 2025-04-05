@@ -1,8 +1,12 @@
 package com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 import com.example.cs4514_jlpt_exam_helper.data.JLPTExamDate;
@@ -36,7 +40,6 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<Boolean> isJustPass = new MutableLiveData<>();
     private MutableLiveData<Integer> daysLeftUntilExam = new MutableLiveData<>();
     private MutableLiveData<Integer> dailyStudyTime = new MutableLiveData<>();
-    private MutableLiveData<Boolean> processEnd = new MutableLiveData<>();
 
     private MutableLiveData<JLPTExamDate> selectedExamDate = new MutableLiveData<>();
     private MutableLiveData<StudyPlanItem> selectedStudyPlan = new MutableLiveData<>();
@@ -46,6 +49,8 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<List<Grammar>> grammarItemList = new MutableLiveData<>();
     private MutableLiveData<List<Vocabulary>> vocabularyItemList = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> processEnd = new MutableLiveData<>();
+    private MutableLiveData<Boolean> updateProgressSuccess = new MutableLiveData<>();
 
     private List<JLPTExamDate> examDateList = new ArrayList<>();
 
@@ -227,8 +232,17 @@ public class StudyPlanViewModel extends ViewModel {
         this.processEnd = processEnd;
     }
 
-    public void getStudyPlanSummary(String sessionToken){
-        if(sessionToken == null){
+    public MutableLiveData<Boolean> getUpdateProgressSuccess() {
+        return updateProgressSuccess;
+    }
+
+    public void setUpdateProgressSuccess(MutableLiveData<Boolean> updateProgressSuccess) {
+        this.updateProgressSuccess = updateProgressSuccess;
+    }
+
+    public void getStudyPlanSummary(Context context){
+        String sessionToken = SessionManager.getInstance().getSessionToken(context);
+        if(sessionToken.equals(Constant.error_not_found)){
             return;
         }
 
@@ -266,8 +280,9 @@ public class StudyPlanViewModel extends ViewModel {
         });
     }
 
-    public void getStudyPlan(String sessionToken){
-        if(sessionToken == null){
+    public void getStudyPlan(Context context){
+        String sessionToken = SessionManager.getInstance().getSessionToken(context);
+        if(sessionToken.equals(Constant.error_not_found)){
             return;
         }
 
@@ -441,7 +456,7 @@ public class StudyPlanViewModel extends ViewModel {
             public void onSuccess(ResponseBean<String> bean) {
                 int code = bean.getCode();
                 if (code >= 200 && code <= 299) {
-
+                    updateProgressSuccess.setValue(true);
                 }
 
                 d.dispose();

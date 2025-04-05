@@ -95,6 +95,20 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+
+        viewModel.getChangePasswordSuccess().observe(getViewLifecycleOwner(), isSuccess->{
+            if(isSuccess){
+                showToast("Password is changed successfully.");
+                clearInput();
+            }
+        });
+
+        viewModel.getChangePasswordFailedMessage().observe(getViewLifecycleOwner(), message->{
+            binding.textChangePasswordDescription.setVisibility(View.GONE);
+            binding.errorChangePasswordFail.setVisibility(View.VISIBLE);
+            binding.errorChangePasswordFail.setText(message);
+            clearInput();
+        });
     }
 
     @Override
@@ -108,11 +122,19 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     }
 
     public void changePassword(){
+        binding.errorChangePasswordFail.setVisibility(View.GONE);
+        binding.textChangePasswordDescription.setVisibility(View.VISIBLE);
         String oldPassword = binding.etOldPassword.getText().toString().trim();
         String newPassword = binding.etNewPassword.getText().toString().trim();
         String confirmNewPassword = binding.etConfirmNewPw.getText().toString().trim();
 
-        viewModel.changePassword(oldPassword, newPassword, confirmNewPassword);
+        viewModel.changePassword(requireActivity(), oldPassword, newPassword, confirmNewPassword);
+    }
+
+    public void clearInput(){
+        binding.etOldPassword.setText("");
+        binding.etNewPassword.setText("");
+        binding.etConfirmNewPw.setText("");
     }
 
     public void showConfirmDialog() {

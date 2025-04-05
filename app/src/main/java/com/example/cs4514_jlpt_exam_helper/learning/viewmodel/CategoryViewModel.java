@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cs4514_jlpt_exam_helper.R;
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository;
 import com.example.cs4514_jlpt_exam_helper.data.Category;
@@ -46,8 +48,13 @@ public class CategoryViewModel extends ViewModel {
         this.isReady = isReady;
     }
 
-    public void getUserProgress(String level_name, String session_token){
-        if(level_name == null || session_token == null){
+    public void getUserProgress(String level_name, Context context){
+        if(level_name == null){
+            return;
+        }
+
+        String sessionToken = SessionManager.getInstance().getSessionToken(context);
+        if(sessionToken.equals(Constant.error_not_found)){
             return;
         }
 

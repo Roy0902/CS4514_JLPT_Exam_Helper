@@ -104,6 +104,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         viewModel.getSignInFailed().observe(this, signInFailed -> {
             hideLoadingEffect();
+            clearPassword();
             binding.errorSignInFail.setText(signInFailed.getErrorMsg());
             binding.errorSignInFail.setVisibility(View.VISIBLE);
             binding.btnSignIn.setEnabled(true);
@@ -115,6 +116,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             binding.errorSignInFail.setVisibility(View.INVISIBLE);
             goDashboardPage();
         });
+    }
+
+    public void clearPassword(){
+        binding.etPassword.setText("");
     }
 
     private void showLoadingEffect() {

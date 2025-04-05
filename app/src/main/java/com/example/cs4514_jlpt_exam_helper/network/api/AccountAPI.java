@@ -3,6 +3,7 @@ package com.example.cs4514_jlpt_exam_helper.network.api;
 import com.example.cs4514_jlpt_exam_helper.data.Account;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
+import com.example.cs4514_jlpt_exam_helper.network.request.ChangePasswordRequest;
 import com.example.cs4514_jlpt_exam_helper.network.request.FirebaseTokenRequest;
 
 import io.reactivex.Single;
@@ -16,6 +17,9 @@ public interface AccountAPI {
 
     @POST("/account/reset-password")
     Single<ResponseBean<String>> resetPassword(@Body Account request);
+
+    @POST("/account/change-password")
+    Single<ResponseBean<String>> changePassword(@Body ChangePasswordRequest request);
 
     @POST("/account/sign-in")
     Single<ResponseBean<SessionToken>> signIn(@Body Account request);

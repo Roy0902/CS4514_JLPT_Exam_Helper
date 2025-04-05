@@ -39,7 +39,7 @@ public class StudyPlanFragment extends Fragment implements View.OnClickListener{
         setUpEventListener();
         setupViewModelObserver();
 
-        viewModel.getStudyPlanSummary(sessionToken);
+        viewModel.getStudyPlanSummary(requireActivity());
     }
 
     public void setUpEventListener(){

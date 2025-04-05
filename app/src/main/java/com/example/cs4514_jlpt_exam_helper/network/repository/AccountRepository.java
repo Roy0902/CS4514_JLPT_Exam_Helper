@@ -9,6 +9,7 @@ import com.example.cs4514_jlpt_exam_helper.data.Account;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.data.SessionToken;
 import com.example.cs4514_jlpt_exam_helper.network.api.AccountAPI;
+import com.example.cs4514_jlpt_exam_helper.network.request.ChangePasswordRequest;
 import com.example.cs4514_jlpt_exam_helper.network.request.FirebaseTokenRequest;
 import com.example.cs4514_jlpt_exam_helper.network.retrofit.RetrofitManager;
 import com.example.cs4514_jlpt_exam_helper.data.Constant;
@@ -76,6 +77,13 @@ public class AccountRepository {
     public Single<ResponseBean<String>> updateFirebaseToken (String session_token, String firebase_token){
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
         return accountAPI.updateFirebaseToken(new FirebaseTokenRequest(session_token, firebase_token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Single<ResponseBean<String>> changePassword (String session_token, String old_password, String new_password){
+        AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
+        return accountAPI.changePassword(new ChangePasswordRequest(session_token, old_password, new_password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
