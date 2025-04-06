@@ -32,6 +32,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setUpEventListener();
         setUpViewAdapter();
         setupViewModelObserver();
+
+        hideLoadingEffect();
     }
 
     public void setUpEventListener(){
@@ -86,6 +88,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         viewModel.getLoading().observe(this, loading->{
             if(loading){
                 showLoadingEffect();
+            }else{
+                hideLoadingEffect();
             }
         });
     }

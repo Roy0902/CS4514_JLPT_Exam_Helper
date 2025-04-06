@@ -52,6 +52,7 @@ public class EnterEmailResetPasswordFragment extends Fragment implements View.On
     public void onClick(View v){
         int id = v.getId();
         if(id == R.id.btn_sendCode){
+            viewModel.setIsLoading(true);
             binding.btnSendCode.setEnabled(false);
             viewModel.getResetPasswordOtp(binding.etEmail.getText().toString().trim());
         }else if(id == R.id.section_signIn){
@@ -67,6 +68,7 @@ public class EnterEmailResetPasswordFragment extends Fragment implements View.On
     public void initViewModelObserver() {
         viewModel.getValidEmail().observe(requireActivity(), validEmail -> {
             if (!validEmail.isValid()) {
+                viewModel.setIsLoading(false);
                 binding.errorEmail.setText(validEmail.getErrorMsg());
                 binding.btnSendCode.setEnabled(true);
             } else {

@@ -33,6 +33,8 @@ public class ResetPasswordViewModel extends ViewModel {
     private MutableLiveData<Boolean> verifyEmailSuccess = new MutableLiveData<>();
     private MutableLiveData<Boolean> resetPasswordSuccess = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+
     private MutableLiveData<Integer> progressIndex = new MutableLiveData<>();
 
     private MutableLiveData<String> emailForVerify = new MutableLiveData<>();
@@ -133,6 +135,14 @@ public class ResetPasswordViewModel extends ViewModel {
 
     public void setEmailForVerify(MutableLiveData<String> emailForVerify) {
         this.emailForVerify = emailForVerify;
+    }
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public void setIsLoading(boolean isLoading) {
+        this.isLoading.setValue(isLoading);
     }
 
     public void getResetPasswordOtp(String email){

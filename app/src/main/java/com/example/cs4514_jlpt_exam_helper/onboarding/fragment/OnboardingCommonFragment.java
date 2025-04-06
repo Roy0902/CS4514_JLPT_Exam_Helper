@@ -49,7 +49,6 @@ public class OnboardingCommonFragment extends Fragment {
 
         binding.imageOnboarding.setImageResource(imageRes);
         binding.textTitle.setText(title);
-        binding.textDescription.setText(description);
     }
 
     @Override

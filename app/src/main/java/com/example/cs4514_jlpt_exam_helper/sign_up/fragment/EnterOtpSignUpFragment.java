@@ -95,6 +95,7 @@ public class EnterOtpSignUpFragment extends Fragment implements View.OnClickList
 
     public void initViewModelObserver() {
         viewModel.getValidOtpCode().observe(requireActivity(), validOtpCode -> {
+            viewModel.isLoading(false);
             if (!validOtpCode.isValid()) {
                 binding.btnVerifyEmail.setEnabled(true);
                 binding.errorOtp.setVisibility(View.VISIBLE);

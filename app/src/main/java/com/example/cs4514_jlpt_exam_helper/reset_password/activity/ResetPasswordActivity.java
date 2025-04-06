@@ -50,12 +50,15 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     public void setupViewModelObserver(){
         viewModel.getProgressIndex().observe(this, progressIndex -> {
             if(progressIndex == 1){
+                hideLoadingEffect();
                 binding.linearProgressBar.setProgress(33);
                 binding.textStepCounter.setText(R.string.step_counter_2_3);
             }else if(progressIndex == 2){
+                hideLoadingEffect();
                 binding.linearProgressBar.setProgress(66);
                 binding.textStepCounter.setText(R.string.step_counter_3_3);
             }else if(progressIndex == 3){
+                hideLoadingEffect();
                 binding.linearProgressBar.setProgress(100);
                 binding.textStepCounter.setVisibility(View.GONE);
             }
@@ -72,6 +75,14 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
         viewModel.getResetPasswordSuccess().observe(this, resetPasswordSuccess -> {
             setCurrentFragment(3);
+        });
+
+        viewModel.getIsLoading().observe(this, loading -> {
+            if(loading){
+                showLoadingEffect();
+            }else{
+                hideLoadingEffect();
+            }
         });
     }
 

@@ -68,6 +68,7 @@ public class EnterEmailSignUpFragment extends Fragment implements View.OnClickLi
     public void initViewModelObserver() {
         viewModel.getValidEmail().observe(requireActivity(), validEmail -> {
             if (!validEmail.isValid()) {
+                viewModel.isLoading(false);
                 binding.errorEmail.setVisibility(View.VISIBLE);
                 binding.errorEmail.setText(validEmail.getErrorMsg());
                 binding.btnSendCode.setEnabled(true);

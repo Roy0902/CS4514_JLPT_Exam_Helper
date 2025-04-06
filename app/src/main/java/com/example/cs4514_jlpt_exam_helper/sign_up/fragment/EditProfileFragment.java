@@ -61,6 +61,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     public void initViewModelObserver() {
         viewModel.getValidUserName().observe(requireActivity(), validUserName -> {
             if (!validUserName.isValid()) {
+                viewModel.isLoading(false);
                 binding.errorUserName.setVisibility(View.VISIBLE);
                 binding.errorUserName.setText(validUserName.getErrorMsg());
             } else {
@@ -71,6 +72,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
         viewModel.getValidPassword().observe(requireActivity(), validPassword -> {
             if (!validPassword.isValid()) {
+                viewModel.isLoading(false);
                 binding.errorPassword.setVisibility(View.VISIBLE);
                 binding.errorPassword.setText(validPassword.getErrorMsg());
             } else {
@@ -80,7 +82,9 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         });
 
         viewModel.getValidConfirmPassword().observe(requireActivity(), validConfirmPassword -> {
+
             if (!validConfirmPassword) {
+                viewModel.isLoading(false);
                 binding.errorConfirmPw.setVisibility(View.VISIBLE);
                 binding.errorConfirmPw.setText(Constant.confirmPasswordErrorMsg);
             } else {
