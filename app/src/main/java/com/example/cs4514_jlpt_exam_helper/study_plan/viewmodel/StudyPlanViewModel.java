@@ -50,6 +50,7 @@ public class StudyPlanViewModel extends ViewModel {
     private MutableLiveData<List<Vocabulary>> vocabularyItemList = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> processEnd = new MutableLiveData<>();
+    private MutableLiveData<Boolean> sortStudyPlan = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> updateProgressSuccess = new MutableLiveData<>();
 
     private List<JLPTExamDate> examDateList = new ArrayList<>();
@@ -240,6 +241,22 @@ public class StudyPlanViewModel extends ViewModel {
         this.updateProgressSuccess = updateProgressSuccess;
     }
 
+    public MutableLiveData<Boolean> getSortStudyPlan() {
+        return sortStudyPlan;
+    }
+
+    public void setSortStudyPlan() {
+        if(sortStudyPlan.getValue()){
+            sortStudyPlan.setValue(false);
+        }else{
+            sortStudyPlan.setValue(true);
+        }
+    }
+
+    public void setSortStudyPlan(boolean isSort) {
+        sortStudyPlan.setValue(isSort);
+    }
+
     public void getStudyPlanSummary(Context context){
         String sessionToken = SessionManager.getInstance().getSessionToken(context);
         if(sessionToken.equals(Constant.error_not_found)){
@@ -281,12 +298,8 @@ public class StudyPlanViewModel extends ViewModel {
     }
 
     public void getStudyPlan(Context context){
-        String sessionToken = SessionManager.getInstance().getSessionToken(context);
-        if(sessionToken.equals(Constant.error_not_found)){
-            return;
-        }
 
-        Single<ResponseBean<List<StudyPlanItem>>> response = studyPlanRepository.getStudyPlan(sessionToken);
+        Single<ResponseBean<List<StudyPlanItem>>> response = studyPlanRepository.getStudyPlan(context);
         response.subscribe(new SingleObserver<ResponseBean<List<StudyPlanItem>>>() {
             Disposable d;
 
@@ -300,7 +313,12 @@ public class StudyPlanViewModel extends ViewModel {
                 int code = bean.getCode();
 
                 if (code >= 200 && code <=299) {
-                    studyPlanList.setValue(bean.getData());
+                    List<StudyPlanItem> tempList = bean.getData();
+                    for(StudyPlanItem s: tempList){
+                        s.setPosition(-1);
+                    }
+
+                    studyPlanList.setValue(tempList);
                     studyPlanReady.setValue(true);
                 }
 
@@ -347,7 +365,12 @@ public class StudyPlanViewModel extends ViewModel {
         });
     }
 
-    public void generateStudyPlan(String session_token){
+    public void generateStudyPlan(Context context){
+        String session_token = SessionManager.getInstance().getSessionToken(context);
+        if(session_token.equals(Constant.error_not_found)){
+            return;
+        }
+
         GenerateStudyPlanRequest request = createRequest(session_token);
 
         Single<ResponseBean<StudyPlanSummaryResponse>> response = studyPlanRepository.generateStudyPlan(request);
@@ -437,13 +460,13 @@ public class StudyPlanViewModel extends ViewModel {
         daysLeftUntilExam.setValue((int) daysLeft);
     }
 
-    public void updateStudyPlanProgress(String sessionToken){
-        if(sessionToken == null || selectedStudyPlan.getValue() == null){
+    public void updateStudyPlanProgress(Context context){
+        if(selectedStudyPlan.getValue() == null){
             return;
         }
 
         Single<ResponseBean<String>> response = studyPlanRepository.
-                updateStudyPlanProgress(sessionToken, selectedStudyPlan.getValue().getStudy_plan_item_id());
+                updateStudyPlanProgress(context, selectedStudyPlan.getValue().getStudy_plan_item_id());
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             private Disposable d;
 

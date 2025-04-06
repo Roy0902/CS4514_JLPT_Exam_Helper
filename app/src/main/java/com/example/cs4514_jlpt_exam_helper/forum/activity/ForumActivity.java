@@ -3,6 +3,7 @@ package com.example.cs4514_jlpt_exam_helper.forum.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 
 import androidx.fragment.app.FragmentActivity;
@@ -14,6 +15,7 @@ import com.example.cs4514_jlpt_exam_helper.databinding.ActivityForumBinding;
 import com.example.cs4514_jlpt_exam_helper.forum.fragment.AskQuestionFragment;
 import com.example.cs4514_jlpt_exam_helper.forum.fragment.QuestionFragment;
 import com.example.cs4514_jlpt_exam_helper.forum.fragment.ReplyFragment;
+import com.example.cs4514_jlpt_exam_helper.forum.fragment.SearchQuestionFragment;
 import com.example.cs4514_jlpt_exam_helper.forum.fragment.SendReplyFragment;
 import com.example.cs4514_jlpt_exam_helper.forum.viewmodel.ForumViewModel;
 
@@ -24,6 +26,7 @@ public class ForumActivity extends FragmentActivity {
     private QuestionFragment questionFragment;
     private AskQuestionFragment askQuestionFragment;
     private ReplyFragment replyFragment;
+    private SearchQuestionFragment searchQuestionFragment;
     private SendReplyFragment sendReplyFragment;
 
     @Override
@@ -39,6 +42,7 @@ public class ForumActivity extends FragmentActivity {
         askQuestionFragment = new AskQuestionFragment();
         replyFragment = new ReplyFragment();
         sendReplyFragment = new SendReplyFragment();
+        searchQuestionFragment = new SearchQuestionFragment();
 
         setupViewModelObserver();
 
@@ -48,6 +52,7 @@ public class ForumActivity extends FragmentActivity {
             transaction.add(R.id.fragment_question, askQuestionFragment, "POST_QUESTION");
             transaction.add(R.id.fragment_question, replyFragment, "REPLY");
             transaction.add(R.id.fragment_question, sendReplyFragment, "POST_REPLY");
+            transaction.add(R.id.fragment_question, searchQuestionFragment, "SEARCH_QUESTION");
             transaction.hide(askQuestionFragment);
             transaction.hide(replyFragment);
             transaction.commit();
@@ -59,13 +64,15 @@ public class ForumActivity extends FragmentActivity {
         viewModel.getCurrentScreen().observe(this, currentScreen -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (currentScreen == null || currentScreen.equals("QUESTION")) {
-                transaction.show(questionFragment).hide(askQuestionFragment).hide(replyFragment).hide(sendReplyFragment);
+                transaction.show(questionFragment).hide(askQuestionFragment).hide(replyFragment).hide(sendReplyFragment).hide(searchQuestionFragment);
             }else if (currentScreen.equals("POST_QUESTION")) {
-                transaction.show(askQuestionFragment).hide(replyFragment).hide(questionFragment).hide(sendReplyFragment);
+                transaction.show(askQuestionFragment).hide(replyFragment).hide(questionFragment).hide(sendReplyFragment).hide(searchQuestionFragment);
             }else if (currentScreen.equals("REPLY")) {
-                transaction.show(replyFragment).hide(askQuestionFragment).hide(questionFragment).hide(sendReplyFragment);
+                transaction.show(replyFragment).hide(askQuestionFragment).hide(questionFragment).hide(sendReplyFragment).hide(searchQuestionFragment);
             }else if (currentScreen.equals("POST_REPLY")) {
-                transaction.show(sendReplyFragment).hide(askQuestionFragment).hide(questionFragment).hide(replyFragment);
+                transaction.show(sendReplyFragment).hide(askQuestionFragment).hide(questionFragment).hide(replyFragment).hide(searchQuestionFragment);
+            }else if (currentScreen.equals("SEARCH_QUESTION")) {
+                transaction.show(searchQuestionFragment).hide(sendReplyFragment).hide(askQuestionFragment).hide(questionFragment).hide(replyFragment);
             }
 
             try {
@@ -75,6 +82,10 @@ public class ForumActivity extends FragmentActivity {
             }
 
             hideLoadingEffect();
+        });
+
+        viewModel.getToastText().observe(this, text->{
+            showToast(text);
         });
     }
 
@@ -86,6 +97,10 @@ public class ForumActivity extends FragmentActivity {
     private void hideLoadingEffect() {
         binding.overlayView.setVisibility(View.GONE);
         binding.progressBar.setVisibility(View.GONE);
+    }
+
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
 }

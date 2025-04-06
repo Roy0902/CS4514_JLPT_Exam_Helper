@@ -50,7 +50,7 @@ public class BeginnerFragment extends Fragment implements View.OnClickListener, 
 
         setupViewModelObserver();
         String session_token = SessionManager.getInstance().getSessionToken(requireActivity());
-        viewModel.getUserProgress("Beginner", session_token);
+        viewModel.getUserProgress("Beginner", requireActivity());
     }
 
     public void setUpEventListener(){

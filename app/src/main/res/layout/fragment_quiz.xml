@@ -44,7 +44,7 @@
                 android:layout_marginHorizontal="15dp"
                 android:gravity="center"
                 android:textColor="@color/blue_1"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 android:lines="2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_speaker"

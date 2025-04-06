@@ -81,7 +81,7 @@ public class GenerateStudyPlanActivity extends AppCompatActivity implements View
             if(dailyStudyTime > 0){
                 String session_token = SessionManager.getInstance().getSessionToken(this);
                 Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
-                viewModel.generateStudyPlan(session_token);
+                viewModel.generateStudyPlan(this);
             }
         });
 

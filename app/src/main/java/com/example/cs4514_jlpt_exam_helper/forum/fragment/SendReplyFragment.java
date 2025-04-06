@@ -91,12 +91,9 @@ public class SendReplyFragment extends Fragment implements View.OnClickListener{
         builder.setMessage("Are you sure you want to post this reply?\n\n");
 
         builder.setPositiveButton("Yes", (dialog, which) -> {
-            String session_token = requireActivity().getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE)
-                    .getString(Constant.key_session_token, Constant.error_not_found);
-            showToast(session_token);
             showToast(reply);
             showToast(Integer.toString(question.getQuestion_id()));
-            viewModel.postReply(session_token, reply, question.getQuestion_id());
+            viewModel.postReply(requireActivity(), reply, question.getQuestion_id());
 
         });
 

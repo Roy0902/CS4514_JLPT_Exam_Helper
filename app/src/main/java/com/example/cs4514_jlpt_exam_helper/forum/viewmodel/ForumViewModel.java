@@ -1,8 +1,12 @@
 package com.example.cs4514_jlpt_exam_helper.forum.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Question;
 import com.example.cs4514_jlpt_exam_helper.data.Reply;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
@@ -26,7 +30,10 @@ public class ForumViewModel extends ViewModel {
     private final MutableLiveData<String> currentScreen = new MutableLiveData<>();
 
     private final MutableLiveData<List<Question>> questionList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Question>> filteredQuestionList = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<Reply>> replyList = new MutableLiveData<>(new ArrayList<>());
+
+    private final MutableLiveData<String> toastText = new MutableLiveData<>();
 
     private int questionCurrentPage = 1;
     private int replyCurrentPage = 1;
@@ -77,8 +84,16 @@ public class ForumViewModel extends ViewModel {
         this.selectedQuestion = selectedQuestion;
     }
 
+    public MutableLiveData<String> getToastText() {
+        return toastText;
+    }
+
     public MutableLiveData<String> getCurrentScreen() {
         return currentScreen;
+    }
+
+    public MutableLiveData<List<Question>> getFilteredQuestionList() {
+        return filteredQuestionList;
     }
 
     public void resetQuestionPage(){
@@ -105,6 +120,10 @@ public class ForumViewModel extends ViewModel {
 
     public void showPostReply() {
         currentScreen.setValue("POST_REPLY");
+    }
+
+    public void showSearchQuestion() {
+        currentScreen.setValue("SEARCH_QUESTION");
     }
 
     public void getQuestion(){
@@ -143,9 +162,10 @@ public class ForumViewModel extends ViewModel {
         });
     }
 
-    public void postQuestion(String session_token, String question_title, String question_description){
+    public void postQuestion(Context context, String question_title, String question_description){
 
-        Single<ResponseBean<String>> response =  repository.postQuestion(session_token, question_title, question_description);
+
+        Single<ResponseBean<String>> response =  repository.postQuestion(context, question_title, question_description);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             private Disposable d;
 
@@ -172,9 +192,9 @@ public class ForumViewModel extends ViewModel {
         });
     }
 
-    public void postReply(String session_token, String reply, int question_id){
+    public void postReply(Context context, String reply, int question_id){
 
-        Single<ResponseBean<String>> response =  repository.postReply(session_token, reply, question_id);
+        Single<ResponseBean<String>> response =  repository.postReply(context, reply, question_id);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             private Disposable d;
 
@@ -225,6 +245,41 @@ public class ForumViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
+                d.dispose();
+            }
+        });
+    }
+
+    public void searchQuestion(String keyword){
+        if(isQuestionListLoading == null || isQuestionListLoading.getValue()){
+            return;
+        }
+
+        isQuestionListLoading.setValue(true);
+
+        Single<ResponseBean<List<Question>>> response =  repository.searchQuestion(keyword);
+        response.subscribe(new SingleObserver<ResponseBean<List<Question>>>() {
+            private Disposable d;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.d = d;
+            }
+
+            @Override
+            public void onSuccess(ResponseBean<List<Question>> bean) {
+                int code = bean.getCode();
+                if(code >= 200 && code <=299){
+                    filteredQuestionList.setValue(bean.getData());
+                }
+
+                isQuestionListLoading.setValue(false);
+                d.dispose();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                isQuestionListLoading.setValue(false);
                 d.dispose();
             }
         });

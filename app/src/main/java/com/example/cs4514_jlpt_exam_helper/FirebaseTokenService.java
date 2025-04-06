@@ -28,9 +28,8 @@ public class FirebaseTokenService extends FirebaseMessagingService {
     }
 
     private void sendTokenToServer(String token) {
-        String session_token = SessionManager.getInstance().getSessionToken(this);
         AccountRepository repository = AccountRepository.getInstance();
-        repository.updateFirebaseToken(session_token, token);
+        repository.updateFirebaseToken(this, token);
     }
 
     @Override

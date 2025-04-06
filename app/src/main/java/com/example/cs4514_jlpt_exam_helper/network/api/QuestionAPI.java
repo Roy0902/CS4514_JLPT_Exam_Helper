@@ -29,4 +29,7 @@ public interface QuestionAPI {
 
     @GET("/forum/get-reply")
     Single<ResponseBean<List<Reply>>> getReply(@Query("page") int page, @Query("limit") int limit, @Query("question_id") int questionId);
+
+    @GET("/forum/search-question")
+    Single<ResponseBean<List<Question>>> searchQuestion(@Query("keyword") String keyword);
 }

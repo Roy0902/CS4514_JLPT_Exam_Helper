@@ -1,7 +1,7 @@
 package com.example.cs4514_jlpt_exam_helper.data;
 
 public class Constant {
-    public final static String baseURL = "http://192.168.50.145:8080/";
+    public final static String baseURL = "https://optimum-monitor-453102-d6.de.r.appspot.com/";
     //  "http://192.168.50.146:8080/"
     //  "https://optimum-monitor-453102-d6.de.r.appspot.com/"
     //  "http://192.168.50.215:8080/"

@@ -13,10 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cs4514_jlpt_exam_helper.R;
 import com.example.cs4514_jlpt_exam_helper.data.StudyPlanItem;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.StudyPlanViewHolder> {
     private List<StudyPlanItem> studyPlanList;
+    private List<StudyPlanItem> originalStudyPlanList;
+    private Map<StudyPlanItem, Integer> initialStudyPlanList;
     private OnItemClickListener listener;
     private Context context;
 
@@ -25,9 +31,15 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
     }
 
     public StudyPlanAdapter(List<StudyPlanItem> studyPlanList, Context context, OnItemClickListener listener) {
-        this.studyPlanList = studyPlanList;
+        this.originalStudyPlanList = new ArrayList<>(studyPlanList);
+        this.studyPlanList = new ArrayList<>(studyPlanList);
         this.context = context;
-        this.listener =listener;
+        this.listener = listener;
+
+        this.initialStudyPlanList = new HashMap<>();
+        for (int i = 0; i < originalStudyPlanList.size(); i++) {
+            initialStudyPlanList.put(originalStudyPlanList.get(i), i);
+        }
     }
 
     @NonNull
@@ -42,11 +54,13 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
     public void onBindViewHolder(@NonNull StudyPlanViewHolder holder, int position) {
         StudyPlanItem studyPlan = studyPlanList.get(position);
 
-
-        holder.textStudyPlanNumber.setText("Day " + position);
+        int displayPosition = initialStudyPlanList.get(studyPlan) + 1;
+        holder.textStudyPlanNumber.setText("Day " + displayPosition);
 
         if(studyPlan.isIs_completed() > 0){
             holder.iconCompleted.setVisibility(View.VISIBLE);
+        }else{
+            holder.iconCompleted.setVisibility(View.INVISIBLE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +72,16 @@ public class StudyPlanAdapter extends RecyclerView.Adapter<StudyPlanAdapter.Stud
                 }
             }
         });
+    }
+
+    public void sort(){
+        studyPlanList.sort(Comparator.comparing(StudyPlanItem::isIs_completed));
+        notifyDataSetChanged();
+    }
+
+    public void reset(){
+        studyPlanList.sort(Comparator.comparing(StudyPlanItem::getStudy_plan_item_id));
+        notifyDataSetChanged();
     }
 
     @Override

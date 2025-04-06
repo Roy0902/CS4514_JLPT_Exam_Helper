@@ -1,5 +1,9 @@
 package com.example.cs4514_jlpt_exam_helper.network.repository;
 
+import android.content.Context;
+
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
@@ -22,9 +26,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LearningItemRepository {
     private static LearningItemRepository repository;
+    private SessionManager sessionManager;
 
     public LearningItemRepository(){
-
+        if(sessionManager == null){
+            sessionManager = SessionManager.getInstance();
+        }
     }
 
     public static LearningItemRepository getInstance(){
@@ -35,14 +42,30 @@ public class LearningItemRepository {
         return repository;
     }
 
-    public Single<ResponseBean<Category>> getUserProgress(String level, String sessionToken){
+    public Single<ResponseBean<Category>> getUserProgress(String level, Context context){
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<Category>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
-        return learningItemAPI.getUserProgressByLevel(new UserProgressRequest(level, sessionToken))
+        return learningItemAPI.getUserProgressByLevel(new UserProgressRequest(level, session_token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(String category_name, String level_name, String session_token){
+    public Single<ResponseBean<ArrayList<Subtopic>>> getSubtopicList(Context context, String category_name, String level_name){
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<ArrayList<Subtopic>>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
         return learningItemAPI.getSubtopicList(new SubtopicRequest(category_name, level_name, session_token))
                 .subscribeOn(Schedulers.io())
@@ -84,14 +107,30 @@ public class LearningItemRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<String>> updateUserProgress(String subtopic_name, String session_token){
+    public Single<ResponseBean<String>> updateUserProgress(Context context, String subtopic_name){
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<String>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
         return learningItemAPI.updateUserProgress(new UserProgressRequest(subtopic_name, session_token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<ArrayList<CategoryProgressResponse>>> getCategoryProgress(String level_name, String session_token){
+    public Single<ResponseBean<ArrayList<CategoryProgressResponse>>> getCategoryProgress(Context context, String level_name){
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<ArrayList<CategoryProgressResponse>>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         LearningItemAPI learningItemAPI = RetrofitManager.getInstance().getLearningItemAPI();
         return learningItemAPI.getCategoryProgress(new CategoryProgressRequest(level_name, session_token))
                 .subscribeOn(Schedulers.io())

@@ -1,9 +1,12 @@
 package com.example.cs4514_jlpt_exam_helper.forum.fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -52,6 +55,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
         binding.btnCreateQuestion.setOnClickListener(this);
+        binding.btnSearch.setOnClickListener(this);
 
         binding.questionContainer.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -83,6 +87,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
                 binding.lineBreak.setVisibility(View.GONE);
             }
         });
+
     }
 
     public void setupViewModelObserver(){
@@ -107,11 +112,17 @@ public class QuestionFragment extends Fragment implements View.OnClickListener, 
             requireActivity().finish();
         }else if(id == R.id.btn_create_question){
             switchToAskQuestionFragment();
+        }else if(id == R.id.btn_search){
+            switchToSearchQuestionFragment();
         }
     }
-
+    
     public void switchToAskQuestionFragment(){
         viewModel.showPostQuestion();
+    }
+
+    public void switchToSearchQuestionFragment(){
+        viewModel.showSearchQuestion();
     }
 
     @Override

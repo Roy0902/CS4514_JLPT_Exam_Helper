@@ -36,6 +36,10 @@ public class SelectLevelFragment extends Fragment implements View.OnClickListene
     public void setUpEventListener(){
         binding.optionBeginner.setOnClickListener(this);
         binding.optionN5.setOnClickListener(this);
+        binding.optionN4.setOnClickListener(this);
+        binding.optionN3.setOnClickListener(this);
+        binding.optionN2.setOnClickListener(this);
+        binding.optionN1.setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +49,14 @@ public class SelectLevelFragment extends Fragment implements View.OnClickListene
             viewModel.setSelectedLevel(Constant.level_beginner);
         }else if(id == R.id.option_N5){
             viewModel.setSelectedLevel(Constant.level_n5);
+        }else if(id == R.id.option_N4){
+            viewModel.setSelectedLevel(Constant.level_n4);
+        }else if(id == R.id.option_N3){
+            viewModel.setSelectedLevel(Constant.level_n3);
+        }else if(id == R.id.option_N2){
+            viewModel.setSelectedLevel(Constant.level_n2);
+        }else if(id == R.id.option_N1){
+            viewModel.setSelectedLevel(Constant.level_n1);
         }
     }
 

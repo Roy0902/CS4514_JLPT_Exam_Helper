@@ -63,7 +63,7 @@ public class JLPTLevelFragment extends Fragment implements View.OnClickListener,
 
         setupViewModelObserver();
         String session_token = SessionManager.getInstance().getSessionToken(requireActivity());
-        viewModel.getUserProgress(levelName, session_token);
+        viewModel.getUserProgress(levelName, requireActivity());
     }
 
     public void setUpEventListener(){

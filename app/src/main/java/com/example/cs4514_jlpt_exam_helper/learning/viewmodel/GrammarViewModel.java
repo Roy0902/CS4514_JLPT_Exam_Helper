@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository;
@@ -84,10 +85,8 @@ public class GrammarViewModel extends ViewModel {
             return;
         }
 
-        String sessionToken = SessionManager.getInstance().getSessionToken(context);
-
         Single<ResponseBean<String>> response = repository.
-                updateUserProgress(subtopicName, sessionToken);
+                updateUserProgress(context, subtopicName);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             private Disposable d;
 

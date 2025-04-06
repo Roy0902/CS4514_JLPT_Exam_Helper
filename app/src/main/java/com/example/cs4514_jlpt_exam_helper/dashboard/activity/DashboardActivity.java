@@ -20,6 +20,7 @@ import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.databinding.ActivityDashboardBinding;
 import com.example.cs4514_jlpt_exam_helper.learning.fragment.HomeFragment;
 import com.example.cs4514_jlpt_exam_helper.study_plan.fragment.StudyPlanFragment;
+import com.example.cs4514_jlpt_exam_helper.study_plan.viewmodel.StudyPlanViewModel;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class DashboardActivity extends AppCompatActivity {

@@ -89,12 +89,8 @@ public class SettingViewModel extends ViewModel {
             return;
         }
 
-        String session_token = SessionManager.getInstance().getSessionToken(context);
-        if(session_token.equals(Constant.error_not_found)){
-            return;
-        }
 
-        Single<ResponseBean<String>> response = repository.changePassword(session_token, oldPassword, newPassword);
+        Single<ResponseBean<String>> response = repository.changePassword(context, oldPassword, newPassword);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             Disposable d;
 
@@ -136,12 +132,7 @@ public class SettingViewModel extends ViewModel {
     }
 
     public void signOut(Context context){
-        String session_token = SessionManager.getInstance().getSessionToken(context);
-        if(session_token.equals(Constant.error_not_found)){
-            return;
-        }
-
-        Single<ResponseBean<String>> response = repository.signOut(session_token);
+        Single<ResponseBean<String>> response = repository.signOut(context);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             Disposable d;
 

@@ -46,6 +46,7 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     public void setUpEventListener(){
         binding.btnBack.setOnClickListener(this);
         binding.btnCompleted.setOnClickListener(this);
+        binding.btnSort.setOnClickListener(this);
     }
 
     public void setupViewModelObserver(){
@@ -79,6 +80,8 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         });
 
         viewModel.getSelectedStudyPlan().observe(this, selectedStudyPlan->{
+            binding.btnSort.setVisibility(View.GONE);
+            binding.btnSort.setEnabled(false);
             binding.textStudyPlan.setText("Day " + viewModel.getSelectedPosition());
             binding.btnCompleted.setVisibility(View.VISIBLE);
             binding.btnCompleted.setEnabled(true);
@@ -87,7 +90,20 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         viewModel.getUpdateProgressSuccess().observe(this, isSuccess ->{
             if(isSuccess){
                 viewModel.getStudyPlan(this);
+                binding.btnSort.setVisibility(View.VISIBLE);
+                binding.textStudyPlan.setText("Study Plan");
+                binding.btnSort.setEnabled(true);
+                viewModel.setSortStudyPlan(false);
+                showToast("Update Study Plan Progress Successfully!");
                 loadFragment(new StudyPlanListFragment(), 1);
+            }
+        });
+
+        viewModel.getSortStudyPlan().observe(this, isSorted->{
+            if(isSorted){
+                binding.btnSort.setActivated(true);
+            }else{
+                binding.btnSort.setActivated(false);
             }
         });
     }
@@ -98,8 +114,9 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         if(id == R.id.btn_back){
             back();
         }else if(id == R.id.btn_completed){
-            String sessionToken = SessionManager.getInstance().getSessionToken(this);
-            viewModel.updateStudyPlanProgress(sessionToken);
+            viewModel.updateStudyPlanProgress(this);
+        }else if(id == R.id.btn_sort){
+            viewModel.setSortStudyPlan();
         }
     }
 
@@ -108,6 +125,8 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
         if(currentFragment == 2){
             binding.btnCompleted.setEnabled(false);
             binding.btnCompleted.setVisibility(View.INVISIBLE);
+            binding.btnSort.setVisibility(View.VISIBLE);
+            binding.btnSort.setEnabled(true);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.study_plan_list_fragment, new StudyPlanListFragment()).commit();
             viewModel.setCurrentFragment(1);
@@ -127,8 +146,12 @@ public class StudyPlanActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void loadFragment(Fragment fragment, int currentFragment){
+        viewModel.setCurrentFragment(currentFragment);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.study_plan_list_fragment, fragment).commit();
-        viewModel.setCurrentFragment(currentFragment);
+    }
+
+    public void showToast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

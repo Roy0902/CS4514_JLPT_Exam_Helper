@@ -15,6 +15,7 @@ import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
     private List<Question> questionList;
+    private List<Question> filteredQuestionList;
     private OnItemClickListener listener;
 
     public QuestionAdapter(List<Question> questionList, OnItemClickListener listener) {
@@ -58,6 +59,11 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     public void resetQuestionList(){
         questionList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public void search(){
+        filteredQuestionList = new ArrayList<>();
         notifyDataSetChanged();
     }
 

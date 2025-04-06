@@ -74,21 +74,39 @@ public class AccountRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<String>> updateFirebaseToken (String session_token, String firebase_token){
+    public Single<ResponseBean<String>> updateFirebaseToken (Context context,String firebase_token){
+        String session_token = sessionManager.getSessionToken(context);
+
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
         return accountAPI.updateFirebaseToken(new FirebaseTokenRequest(session_token, firebase_token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<String>> changePassword (String session_token, String old_password, String new_password){
+    public Single<ResponseBean<String>> changePassword (Context context, String old_password, String new_password){
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<String>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         return accountAPI.changePassword(new ChangePasswordRequest(session_token, old_password, new_password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<ResponseBean<String>> signOut (String session_token){
+    public Single<ResponseBean<String>> signOut (Context context){
+        String session_token = sessionManager.getSessionToken(context);
+
+        if (session_token.equals(Constant.error_not_found)) {
+            return Single.just(new ResponseBean<String>(400, "No Session Token", null))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
         AccountAPI accountAPI = RetrofitManager.getInstance().getAccountAPI();
         return accountAPI.signOut(new SessionToken(session_token))
                 .subscribeOn(Schedulers.io())

@@ -93,8 +93,7 @@ public class DashboardViewModel extends ViewModel {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         String token = task.getResult();
-                        String session_token = SessionManager.getInstance().getSessionToken(context);
-                        saveFirebaseToken(token, session_token);
+                        saveFirebaseToken(token, context);
                     }else{
                         toastText.setValue("Failed to get Firebase Token.");
                     }
@@ -102,9 +101,9 @@ public class DashboardViewModel extends ViewModel {
 
     }
 
-    public void saveFirebaseToken(String firebase_token, String session_token){
+    public void saveFirebaseToken(String firebase_token, Context context){
         Single<ResponseBean<String>> response = accountRepository.
-                updateFirebaseToken(session_token, firebase_token);
+                updateFirebaseToken(context, firebase_token);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             Disposable d;
 

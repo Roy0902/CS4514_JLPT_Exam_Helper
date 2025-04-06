@@ -1,5 +1,7 @@
 package com.example.cs4514_jlpt_exam_helper.learning.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -53,13 +55,8 @@ public class CategoryViewModel extends ViewModel {
             return;
         }
 
-        String sessionToken = SessionManager.getInstance().getSessionToken(context);
-        if(sessionToken.equals(Constant.error_not_found)){
-            return;
-        }
-
         Single<ResponseBean<ArrayList<CategoryProgressResponse>>> response = repository.
-                getCategoryProgress(level_name, session_token);
+                getCategoryProgress(context, level_name);
         response.subscribe(new SingleObserver<ResponseBean<ArrayList<CategoryProgressResponse>>>() {
             Disposable d;
 

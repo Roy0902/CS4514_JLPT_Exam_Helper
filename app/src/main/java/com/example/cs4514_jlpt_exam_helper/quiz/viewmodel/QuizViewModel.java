@@ -1,8 +1,12 @@
 package com.example.cs4514_jlpt_exam_helper.quiz.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.data.Grammar;
 import com.example.cs4514_jlpt_exam_helper.data.JapaneseCharacter;
 import com.example.cs4514_jlpt_exam_helper.data.Vocabulary;
@@ -244,7 +248,7 @@ public class QuizViewModel extends ViewModel {
                         vocabularyQuestionList = generateVocabularyQuestion(
                                 bean.getData().getVocabularyList());
 
-                        totalQuestions += grammarQuestionList.size();
+                        totalQuestions += vocabularyQuestionList.size();
                     }
 
                     isQuestionReady.setValue(true);
@@ -371,7 +375,7 @@ public class QuizViewModel extends ViewModel {
         Collections.shuffle(learningItemList);
         ArrayList<VocabularyQuestion> questionList = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             int correct_answer_index = new Random().nextInt(learningItemList.size());
             Vocabulary correctAnswer = learningItemList.get(correct_answer_index);
 
@@ -392,13 +396,14 @@ public class QuizViewModel extends ViewModel {
     }
 
 
-    public void updateUserProgress(String subtopicName, String sessionToken){
-        if(sessionToken == null || subtopicName == null){
+    public void updateUserProgress(String subtopicName, Context context){
+        if(subtopicName == null){
             return;
         }
 
+
         Single<ResponseBean<String>> response = repository.
-                updateUserProgress(subtopicName, sessionToken);
+                updateUserProgress(context, subtopicName);
         response.subscribe(new SingleObserver<ResponseBean<String>>() {
             private Disposable d;
 
@@ -429,9 +434,9 @@ public class QuizViewModel extends ViewModel {
         }else if(currentQuestion < characterQuestionList.size()){
             currentCharacterQuestion.setValue(characterQuestionList.get(currentQuestion));
         }else if(currentQuestion - characterQuestionList.size() < grammarQuestionList.size() ){
-            currentGrammarQuestion.setValue(grammarQuestionList.get(totalQuestions - characterQuestionList.size() - 1));
+            currentGrammarQuestion.setValue(grammarQuestionList.get(currentQuestion - characterQuestionList.size()));
         }else{
-            int index = totalQuestions- characterQuestionList.size() - grammarQuestionList.size() - 1;
+            int index = currentQuestion- characterQuestionList.size() - grammarQuestionList.size();
             currentVocabularyQuestion.setValue(vocabularyQuestionList.get(index));
         }
 

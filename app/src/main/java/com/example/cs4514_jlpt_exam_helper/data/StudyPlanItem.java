@@ -2,6 +2,7 @@ package com.example.cs4514_jlpt_exam_helper.data;
 
 public class StudyPlanItem {
     private int study_plan_item_id;
+    private int position;
     private String item_id_string;
     private int is_completed;
 
@@ -33,5 +34,13 @@ public class StudyPlanItem {
 
     public void setIs_completed(int is_completed) {
         this.is_completed = is_completed;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

@@ -47,7 +47,7 @@ public class SubtopicActivity extends AppCompatActivity implements View.OnClickL
 
         setUpEventListener();
         setupViewModelObserver();
-        viewModel.getSubtopicItemList(categoryName, levelName, sessionToken);
+        viewModel.getSubtopicItemList(this, categoryName, levelName);
     }
 
     public void setUpEventListener(){

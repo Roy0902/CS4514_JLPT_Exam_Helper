@@ -1,8 +1,12 @@
 package com.example.cs4514_jlpt_exam_helper.learning.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.cs4514_jlpt_exam_helper.SessionManager;
+import com.example.cs4514_jlpt_exam_helper.data.Constant;
 import com.example.cs4514_jlpt_exam_helper.network.bean.ResponseBean;
 import com.example.cs4514_jlpt_exam_helper.network.repository.LearningItemRepository;
 import com.example.cs4514_jlpt_exam_helper.data.Subtopic;
@@ -41,13 +45,13 @@ public class SubtopicViewModel extends ViewModel {
         this.subtopics = subtopics;
     }
 
-    public void getSubtopicItemList(String categoryName, String levelName, String sessionToken){
-        if(categoryName == null || levelName == null || sessionToken == null){
+    public void getSubtopicItemList(Context context, String categoryName, String levelName){
+        if(categoryName == null || levelName == null){
             return;
         }
 
         Single<ResponseBean<ArrayList<Subtopic>>> response = repository.
-                getSubtopicList(categoryName, levelName, sessionToken);
+                getSubtopicList(context, categoryName, levelName);
         response.subscribe(new SingleObserver<ResponseBean<ArrayList<Subtopic>>>() {
             Disposable d;
 

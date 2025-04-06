@@ -84,7 +84,7 @@ public class AskQuestionFragment extends Fragment implements View.OnClickListene
         builder.setPositiveButton("Yes", (dialog, which) -> {
             String session_token = requireActivity().getSharedPreferences(Constant.key_session_pref, MODE_PRIVATE)
                     .getString(Constant.key_session_token, Constant.error_not_found);
-            viewModel.postQuestion(session_token, question_title, question_description);
+            viewModel.postQuestion(requireActivity(), question_title, question_description);
 
         });
 
